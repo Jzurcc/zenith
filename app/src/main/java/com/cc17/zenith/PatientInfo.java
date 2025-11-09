@@ -27,10 +27,10 @@ public class PatientInfo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_patient_info, container, false);
-//        ImageButton sex = view.findViewById(R.id.sex);
-//        sex.setOnClickListener(v -> {
-//            Toast.makeText(getActivity(), "Secret Toast: yes", Toast.LENGTH_SHORT).show();
-//        });
+        ImageButton sex = view.findViewById(R.id.sex);
+        sex.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), "Secret Toast: yes", Toast.LENGTH_SHORT).show();
+        });
         return view;
     }
 }

@@ -28,16 +28,16 @@ public class diseasetrends extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_diseasetrends, container, false);
 
-//        ImageButton dengue = view.findViewById(R.id.dengue);
-//        ImageButton influenza = view.findViewById(R.id.influenza);
-//
-//        dengue.setOnClickListener(v -> {
-//            Toast.makeText(getActivity(), "ERROR 404: Disease Page not found!", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        influenza.setOnClickListener(v -> {
-//            Toast.makeText(getActivity(), "ERROR 404: Disease Page not found!", Toast.LENGTH_SHORT).show();
-//        });
+        ImageButton dengue = view.findViewById(R.id.dengue);
+        ImageButton influenza = view.findViewById(R.id.influenza);
+
+        dengue.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), "ERROR 404: Disease Page not found!", Toast.LENGTH_SHORT).show();
+        });
+
+        influenza.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), "ERROR 404: Disease Page not found!", Toast.LENGTH_SHORT).show();
+        });
 
         ImageButton tuberculosis = view.findViewById(R.id.tuberculosis);
         tuberculosis.setOnClickListener(v -> {

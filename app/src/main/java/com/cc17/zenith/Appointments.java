@@ -19,22 +19,22 @@ public class Appointments extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_appointments, container, false);
-//        ImageView julian = view.findViewById(R.id.julian);
-//        ImageView camille = view.findViewById(R.id.camille);
-//        ImageView angela1 = view.findViewById(R.id.angela1);
-//        ImageView angela2 = view.findViewById(R.id.angela2);
-//        julian.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
-//        });
-//        camille.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
-//        });
-//        angela1.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
-//        });
-//        angela2.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
-//        });
+        ImageView julian = view.findViewById(R.id.julian);
+        ImageView camille = view.findViewById(R.id.camille);
+        ImageView angela1 = view.findViewById(R.id.angela1);
+        ImageView angela2 = view.findViewById(R.id.angela2);
+        julian.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
+        });
+        camille.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
+        });
+        angela1.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
+        });
+        angela2.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "ERROR 404: Appointment not found!", Toast.LENGTH_SHORT).show();
+        });
 
         return view;
     }
