@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24sp"
+            android:background="@drawable/bottom_divider"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="21sp">
+
+            <ImageButton
+                android:id="@+id/toolbar_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@color/transparent"
+                android:contentDescription="@string/none"
+                android:src="@drawable/round_menu_24"
+                tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_toEndOf="@id/toolbar_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/dashboard"
+                    android:textColor="@color/caribbean"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/toolbar_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/overview"
+                    android:textColor="@color/moonstone"
+                    android:textSize="16sp"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/top_divider"
+            android:elevation="0dp"
+            android:translationZ="0dp"
+            app:elevation="0dp"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_menu"
+            tools:ignore="VisualLintBottomNav" />
+
+        <Button
+            android:id="@+id/qr_code"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="@string/none"
+            android:elevation="12dp"
+            android:textColor="@color/moonstone"
+            android:translationZ="12dp"
+            app:backgroundTint="@null"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/caribbean"
+        app:itemTextColor="@color/caribbean"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/nav_menu"
+        app:itemBackground="@color/transparent"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

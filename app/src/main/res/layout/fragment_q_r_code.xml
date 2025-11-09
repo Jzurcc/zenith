@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/caribbean"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="50dp">
+
+            <ImageButton
+                android:background="@drawable/home"
+                android:id="@+id/imageView35"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:adjustViewBounds="true"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:adjustViewBounds="true"
+                android:id="@+id/imageView36"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_flash_off_24" />
+
+            <ImageButton
+                android:adjustViewBounds="true"
+                android:id="@+id/imageView37"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/round_grid_on_24" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView34"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qr_background"
+            android:adjustViewBounds="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/caribbean"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/camera" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Default state (unselected) -->
+    <item android:drawable="@color/accent" android:state_checked="false"/>
+    <!-- Selected state - set to transparent or a subtle drawable if desired -->
+    <item android:drawable="@color/moonstone" android:state_checked="true"/>
+</selector>

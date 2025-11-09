@@ -1,0 +1,1232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".PatientInfo">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:contentDescription="@string/none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabTextAppearance="@style/AppTabTextAppearance"
+                app:tabSelectedTextAppearance="@style/SelectedAppTabTextAppearance">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Basic"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabItem2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Health" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabItem3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Summary" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp">
+
+                <TextView style="@style/Text"
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Updated by Dr. Jane Smith on 10/10/2025, 9:22 AM"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/coral"
+                    android:layout_gravity="center"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/imageView29"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/patient_icons" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="13dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="200dp">
+
+                <ImageView
+                    android:id="@+id/imageView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="95dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/info_image"
+                    android:layout_above="@id/field11"
+                    android:layout_alignEnd="@id/field11"
+                    android:layout_alignStart="@id/field11"/>
+
+                <LinearLayout android:id="@+id/field1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="first name *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/editTextText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:text="Julian"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field2"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/field1">
+
+                    <TextView
+                        android:text="middle name"
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/caribbean"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:text="Ramos"
+                        android:id="@+id/editTextText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:layout_below="@id/field1"
+                    android:layout_alignStart="@id/field1">
+
+                    <TextView
+                        android:text="last name *"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/caribbean"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:text="Alvarez"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/field3"
+                    android:layout_alignTop="@id/field3">
+
+                    <TextView
+                        android:text="preferred name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/caribbean"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:hint="preferred name"
+                        android:textColorHint="@color/accent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field3"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="date of birth *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="date"
+                        android:paddingHorizontal="7dp"
+                        android:text="12/21/1979"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field5"
+                    android:layout_toEndOf="@id/field3"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="country of birth *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Philippines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+<!--                START-->
+
+                <LinearLayout
+                    android:id="@+id/field7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:layout_below="@id/field5"
+                    android:layout_alignStart="@id/field1">
+
+                    <TextView
+                        android:text="city of birth *"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/caribbean"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:text="Baguio City"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/field7"
+                    android:layout_alignTop="@id/field7">
+
+                    <TextView
+                        android:text="province of birth *"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/caribbean"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:text="Benguet"
+                        android:textColorHint="@color/accent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field7"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="martial status *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:text="Married"
+                        android:textColor="@color/text"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field9"
+                    android:layout_toEndOf="@id/field3"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="race / ethnicity *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:text="Ilocano"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:id="@+id/field11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field5"
+                    android:layout_toEndOf="@id/field2"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sex *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/sex"
+                        android:layout_width="110dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/sex_on"
+                        android:contentDescription="@string/none"
+                        android:clickable="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field7"
+                    android:layout_toEndOf="@id/field2"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FIN *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="1005-63251"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field9"
+                    android:layout_toEndOf="@id/field2"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MRN *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="200365448"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field9"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="occupation"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Architect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field14"
+                    android:layout_alignTop="@id/field14"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="employer"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Visionarch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field15"
+                    android:layout_alignTop="@id/field15"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="highest education *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="College Graduate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field14"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="religion"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Christian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="7"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field17"
+                    android:layout_alignTop="@id/field17"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="religious, cultural, ethnic preferences"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="N/A"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="15"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field18"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="organ donor"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/button2"
+                        android:layout_width="110dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/yes"
+                        android:contentDescription="@string/none" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field19"
+                    android:layout_marginStart="10dp"
+                    android:layout_alignTop="@id/field19"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:text="language record #"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="3"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="English"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <EditText
+                            android:id="@+id/editTextText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="3"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="1977232"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field19"
+                    android:layout_toEndOf="@id/field2"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="has a living will"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/button3"
+                        android:layout_width="110dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/yes"
+                        android:contentDescription="@string/none" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field21"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="email *"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="julianalvarez@gmail.com"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="14"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field22"
+                    android:layout_toEndOf="@id/field22"
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="personal email"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/button4"
+                        android:layout_width="110dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/yes"
+                        android:contentDescription="@string/none" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field22"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="address line 1*"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="142 Holy Ghost Hill Ext. Rd."
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="11"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field23"
+                    android:layout_alignTop="@id/field23"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="city"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Baguio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="5"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field24"
+                    android:layout_alignTop="@id/field24"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="province"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Benguet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="5"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field23"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="address line 2"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="julianalvarez@gmail.com"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="11"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field27"
+                    android:layout_alignTop="@id/field27"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="zipcode"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="2600"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="5"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/field28"
+                    android:layout_alignTop="@id/field28"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="region"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="CAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="5"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field27"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="country"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:text="Philippines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="14"
+                        android:fontFamily="@font/inter"
+                        android:inputType="text"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:id="@+id/field31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/field30"
+                    android:layout_toEndOf="@id/field30"
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="same mail address"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/button5"
+                        android:layout_width="110dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/yes"
+                        android:contentDescription="@string/none" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field31"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="primary phone"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/mobile1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="6"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="mobile"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/mobile1"
+                            android:id="@+id/editTextText4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="9"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="(63+) 927 910 7392"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field32"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="secondary phone"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/mobile2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="6"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="telephone"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/mobile2"
+                            android:id="@+id/editTextText5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:background="@drawable/rounded_outline"
+                            android:ems="9"
+                            android:fontFamily="@font/inter"
+                            android:inputType="text"
+                            android:paddingHorizontal="7dp"
+                            android:text="(214) 723-9001"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/accent"
+                            android:textSize="13sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/field34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/field33"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="remarks"
+                        android:textColor="@color/caribbean"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:gravity="top|start"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="@drawable/rounded_outline"
+                        android:ems="14"
+                        android:fontFamily="@font/inter"
+                        android:inputType="textMultiLine"
+                        android:paddingHorizontal="7dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="85dp"
+                    android:adjustViewBounds="true"
+                    android:layout_below="@id/field31"
+                    android:layout_toEndOf="@id/field32"
+                    android:layout_alignEnd="@id/field31"
+                    android:layout_alignStart="@id/field31"
+                    android:src="@drawable/qr_button"
+                    android:layout_marginTop="13dp"/>
+
+
+            </RelativeLayout>
+
+            <!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/view_pager"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
+
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

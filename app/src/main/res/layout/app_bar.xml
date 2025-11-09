@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_divider"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="21sp"
+    android:layout_marginTop="24sp">
+
+    <ImageButton
+        android:id="@+id/toolbar_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/transparent"
+        android:contentDescription="@string/none"
+        android:src="@drawable/round_menu_24"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@id/toolbar_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:text="@string/dashboard"
+            android:textColor="@color/caribbean"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/toolbar_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:text="@string/overview"
+            android:textColor="@color/moonstone"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

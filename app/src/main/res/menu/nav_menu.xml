@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/patient_info"
+            android:title="@string/patient_information"/>
+        <item
+            android:id="@+id/ai_assistant"
+            android:title="@string/zenith_ai_assistant"/>
+        <item
+            android:id="@+id/appointments"
+            android:title="@string/zenith_appointments"/>
+        <item
+            android:id="@+id/documents"
+            android:title="@string/zenith_documents"/>
+        <item
+            android:id="@+id/medication"
+            android:title="@string/zenith_medication"/>
+        <item
+            android:id="@+id/ocr_scanner"
+            android:title="@string/zenith_ocr_scanner"/>
+        <item
+            android:id="@+id/prescriptions"
+            android:title="@string/zenith_prescriptions"/>
+
+        <item
+            android:id="@+id/charting"
+            android:title="@string/zenith_charting"/>
+
+        <item
+            android:id="@+id/overview"
+            android:title="Overview"/>
+
+        <item
+            android:id="@+id/data_recon"
+            android:title="Data Reconciliation"/>
+        <item
+            android:id="@+id/allergies"
+            android:title="Allergies"/>
+        <item
+            android:id="@+id/tasks"
+            android:title="Tasks"/>
+        <item
+            android:id="@+id/billing"
+            android:title="Billing"/>
+        <item
+            android:id="@+id/mar"
+            android:title="MAR"/>
+        <item
+            android:id="@+id/clinical_notes"
+            android:title="Clinical Notes"/>
+        <item
+            android:id="@+id/flowsheet"
+            android:title="Flowsheet"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Log Out"/>
+    </group>
+
+</menu>

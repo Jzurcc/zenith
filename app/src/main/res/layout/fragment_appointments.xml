@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Appointments">
+
+    <ScrollView
+        android:contentDescription="@string/none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="120dp">
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:src="@drawable/calendar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monday • October 19"
+                    android:textColor="@color/caribbean"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/round_arrow_drop_down_24"
+                    android:adjustViewBounds="true"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_appointments"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <ImageView
+                android:id="@+id/julian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/appointment1"
+                android:layout_marginHorizontal="15dp"
+                android:adjustViewBounds="true"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/camille"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/appointment2"
+                android:layout_marginBottom="20dp"/>
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/angela1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/appointment3"
+                android:layout_marginBottom="20dp"/>
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/angela2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="120dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/appointment3" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

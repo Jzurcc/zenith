@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Zenith</string>
+    <string name="none">none</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="overview">Overview</string>
+    <string name="jane_smith">Dr. Jane Smith</string>
+    <string name="number">(+63) 931 625 1305</string>
+    <string name="home">Home</string>
+    <string name="disease_trends">Disease Trends</string>
+    <string name="ehr">EHR</string>
+    <string name="profile">Profile</string>
+    <string name="view"><u>View</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="patient_information">Patient Information</string>
+    <string name="zenith_ai_assistant">ZENITH AI Assistant</string>
+    <string name="zenith_appointments">ZENITH Appointments</string>
+    <string name="zenith_documents">ZENITH Documents</string>
+    <string name="zenith_medication">ZENITH Medication</string>
+    <string name="zenith_ocr_scanner">ZENITH OCR Scanner</string>
+    <string name="zenith_prescriptions">ZENITH Prescriptions</string>
+    <string name="zenith_charting">ZENITH Charting</string>
+</resources>

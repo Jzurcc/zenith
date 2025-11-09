@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ehr">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView15"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/patient_picture" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="DOB: 12/21/1979"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Weight: 167 lbs."
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/inter"
+                            android:text="Age: 46 years"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="MRN: 20036548"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="POB: Philippines"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Sex: Male"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal"
+                            android:layout_gravity="start">
+
+                            <TextView
+                                android:id="@+id/textView18"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:text="Allergies: "
+                                android:textColor="@color/text"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView19"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:text="@string/view"
+                                android:textColor="@color/moonstone"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/imageView17"
+                                android:layout_width="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="2dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/open" />
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="FIN: 1005-63251"
+                            android:textColor="@color/text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginVertical="10dp">
+
+                <TextView
+                    android:id="@+id/textView21"
+                    style="@style/Header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Alvares, Julian Ramos"
+                    android:textColor="@color/caribbean"
+                    android:textSize="22sp"/>
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Patient Info"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/caribbean"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/imageView19"
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="15dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="110dp"
+                    android:layout_height="38dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/med_list"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="110dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="15dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/calendar_button"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/add"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="15dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/print"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginHorizontal="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/med_table" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="20dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="15dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton10"
+                    android:layout_width="160dp"
+                    android:layout_height="38dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/show_more"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/imageButton11"
+                    android:layout_width="200dp"
+                    android:layout_height="38dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/generate_qr"
+                    android:contentDescription="@string/none"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_marginHorizontal="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/instructions"
+                android:layout_marginBottom="120dp"/>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
