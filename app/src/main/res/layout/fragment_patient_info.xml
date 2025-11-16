@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +26,8 @@
                     android:id="@+id/tabItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Basic"/>
+                    android:text="Basic"
+                    tools:ignore="HardcodedText" />
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabItem2"
@@ -68,7 +70,8 @@
                     android:layout_height="20dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/patient_icons" />
+                    android:src="@drawable/patient_icons"
+                    android:contentDescription="Patient Icons"/>
 
             </LinearLayout>
 
@@ -88,7 +91,8 @@
                     android:src="@drawable/info_image"
                     android:layout_above="@id/field11"
                     android:layout_alignEnd="@id/field11"
-                    android:layout_alignStart="@id/field11"/>
+                    android:layout_alignStart="@id/field11"
+                    android:contentDescription="Profile Image"/>
 
                 <LinearLayout android:id="@+id/field1"
                     android:layout_width="wrap_content"
@@ -105,8 +109,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/editTextText"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_first_name" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -138,8 +141,7 @@
 
                     <EditText
                         android:text="Ramos"
-                        android:id="@+id/editTextText2"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_middle_name" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -148,7 +150,7 @@
                         android:paddingHorizontal="7dp"
                         android:textColor="@color/text"
                         android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        tools:ignore="LabelFor,TouchTargetSizeCheck" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -170,7 +172,7 @@
 
                     <EditText
                         android:text="Alvarez"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_last_name" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -201,7 +203,7 @@
 
                     <EditText
                         android:hint="preferred name"
-                        android:textColorHint="@color/accent"
+                        android:id="@+id/et_preferred_name" android:textColorHint="@color/accent"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
@@ -232,7 +234,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_dob" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -264,7 +266,7 @@
 
                     <EditText
                         android:text="Philippines"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_country_birth" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -276,8 +278,6 @@
                         android:textSize="13sp"
                         tools:ignore="TouchTargetSizeCheck" />
                 </LinearLayout>
-
-<!--                START-->
 
                 <LinearLayout
                     android:id="@+id/field7"
@@ -298,7 +298,7 @@
 
                     <EditText
                         android:text="Baguio City"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_city_birth" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -329,7 +329,7 @@
 
                     <EditText
                         android:text="Benguet"
-                        android:textColorHint="@color/accent"
+                        android:id="@+id/et_province_birth" android:textColorHint="@color/accent"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
@@ -360,7 +360,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_marital_status" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -391,7 +391,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_race_ethnicity" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -451,7 +451,7 @@
 
                     <EditText
                         android:text="1005-63251"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_fin" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -483,7 +483,7 @@
 
                     <EditText
                         android:text="200365448"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_mrn" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -514,7 +514,7 @@
 
                     <EditText
                         android:text="Architect"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_occupation" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -546,7 +546,7 @@
 
                     <EditText
                         android:text="Visionarch"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_employer" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -578,7 +578,7 @@
 
                     <EditText
                         android:text="College Graduate"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_education" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -609,7 +609,7 @@
 
                     <EditText
                         android:text="Christian"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_religion" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="7"
@@ -641,7 +641,7 @@
 
                     <EditText
                         android:text="N/A"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_preferences" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="15"
@@ -700,7 +700,7 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:layout_width="wrap_content"
+                            android:id="@+id/et_lang_record" android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:background="@drawable/rounded_outline"
                             android:ems="3"
@@ -719,8 +719,7 @@
                             android:layout_weight="1" />
 
                         <EditText
-                            android:id="@+id/editTextText3"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/et_lang_record_no" android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:layout_weight="1"
                             android:background="@drawable/rounded_outline"
@@ -780,7 +779,7 @@
 
                     <EditText
                         android:text="julianalvarez@gmail.com"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_email" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="14"
@@ -836,7 +835,7 @@
 
                     <EditText
                         android:text="142 Holy Ghost Hill Ext. Rd."
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_address_line1" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="11"
@@ -868,7 +867,7 @@
 
                     <EditText
                         android:text="Baguio"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_city_address" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="5"
@@ -900,7 +899,7 @@
 
                     <EditText
                         android:text="Benguet"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_province_address" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="5"
@@ -931,7 +930,7 @@
 
                     <EditText
                         android:text="julianalvarez@gmail.com"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_address_line2" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="11"
@@ -963,7 +962,7 @@
 
                     <EditText
                         android:text="2600"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_zipcode" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="5"
@@ -995,7 +994,7 @@
 
                     <EditText
                         android:text="CAR"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_region" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="5"
@@ -1026,7 +1025,7 @@
 
                     <EditText
                         android:text="Philippines"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_country" android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="14"
@@ -1103,8 +1102,7 @@
                         <EditText
                             android:layout_marginStart="5dp"
                             android:layout_toEndOf="@id/mobile1"
-                            android:id="@+id/editTextText4"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/et_primary_phone" android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:background="@drawable/rounded_outline"
                             android:ems="9"
@@ -1113,7 +1111,6 @@
                             android:paddingHorizontal="7dp"
                             android:text="(63+) 927 910 7392"
                             android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
                             android:textSize="13sp"
                             tools:ignore="TouchTargetSizeCheck" />
                     </RelativeLayout>
@@ -1158,19 +1155,18 @@
                         <EditText
                             android:layout_marginStart="5dp"
                             android:layout_toEndOf="@id/mobile2"
-                            android:id="@+id/editTextText5"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/et_secondary_phone" android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:background="@drawable/rounded_outline"
                             android:ems="9"
                             android:fontFamily="@font/inter"
+                            android:importantForAutofill="no"
                             android:inputType="text"
                             android:paddingHorizontal="7dp"
                             android:text="(214) 723-9001"
                             android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
                             android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
+                            tools:ignore="TextFields,TouchTargetSizeCheck" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -1193,7 +1189,7 @@
 
                     <EditText
                         android:gravity="top|start"
-                        android:layout_width="match_parent"
+                        android:id="@+id/et_remarks" android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:background="@drawable/rounded_outline"
                         android:ems="14"
@@ -1216,16 +1212,11 @@
                     android:layout_alignEnd="@id/field31"
                     android:layout_alignStart="@id/field31"
                     android:src="@drawable/qr_button"
-                    android:layout_marginTop="13dp"/>
+                    android:layout_marginTop="13dp"
+                    android:contentDescription="QR Code"/>
 
 
             </RelativeLayout>
-
-            <!--            <androidx.viewpager2.widget.ViewPager2-->
-<!--                android:id="@+id/view_pager"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"/>-->
-
 
         </LinearLayout>
     </ScrollView>
