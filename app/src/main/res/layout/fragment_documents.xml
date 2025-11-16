@@ -16,21 +16,100 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/imageView28"
+            <!--
+            *** START: Dynamic Patient Info Header (Replaces ImageView28) ***
+            This structure is based on the reference image's layout.
+            -->
+            <LinearLayout
+                android:id="@+id/patient_info_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/document_info"
-                android:adjustViewBounds="true"
+                android:orientation="horizontal"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="25dp" />
+                android:layout_marginTop="25dp"
+                android:paddingBottom="10dp"
+                android:gravity="center_vertical">
 
+                <!-- Profile Picture (Rounded) -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:id="@+id/patient_profile_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/alvarez_profile"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Patient Profile" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Patient Details -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/patient_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alvarez, Julian R."
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/patient_age_mrn_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Age: 46 years"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Allergies:"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/patient_allergies_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="View"
+                            android:textSize="14sp"
+                            android:textColor="@color/accent"
+                            android:textStyle="bold"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/patient_mrn_fin_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MRN: 200365448   FIN: 1005-63251"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- *** END: Dynamic Patient Info Header *** -->
+
+
+            <!-- Change Patient / Edit Patient Info Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="10dp">
-
+                <!-- Change Patient Button (ID: imageButton3) -->
                 <ImageButton
                     android:id="@+id/imageButton3"
                     android:layout_width="135dp"
@@ -39,23 +118,24 @@
                     android:background="@drawable/change_patient"
                     android:contentDescription="@string/none"
                     tools:ignore="TouchTargetSizeCheck" />
-
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
-
+                <!-- Edit Patient Info Button (ID: imageButton4) - Now Clickable -->
                 <ImageButton
                     android:id="@+id/imageButton4"
                     android:layout_width="135dp"
                     android:layout_height="35dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/edit_patient_info"
-                    android:contentDescription="@string/none"
-                    tools:ignore="TouchTargetSizeCheck" />
-
+                    android:contentDescription="Edit Patient Info"
+                    tools:ignore="TouchTargetSizeCheck"
+                    android:clickable="true"
+                    android:focusable="true"/>
             </LinearLayout>
 
+            <!-- Separator -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -63,13 +143,14 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginHorizontal="10dp"/>
 
+            <!-- QR Sync / OCR / New Document Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="10dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
-
+                <!-- QR Sync Button (ID: imageButton8) -->
                 <ImageButton
                     android:id="@+id/imageButton8"
                     android:layout_width="50dp"
@@ -80,7 +161,7 @@
                     android:contentDescription="@string/none"
                     tools:ignore="TouchTargetSizeCheck"
                     android:layout_marginEnd="10dp"/>
-
+                <!-- OCR Button (ID: imageButton5) -->
                 <ImageButton
                     android:id="@+id/imageButton5"
                     android:layout_width="80dp"
@@ -89,12 +170,11 @@
                     android:background="@drawable/ocr_button"
                     android:contentDescription="@string/none"
                     tools:ignore="TouchTargetSizeCheck" />
-
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
-
+                <!-- New Document Button (ID: imageButton6) -->
                 <ImageButton
                     android:id="@+id/imageButton6"
                     android:layout_width="160dp"
@@ -103,27 +183,284 @@
                     android:background="@drawable/new_document"
                     android:contentDescription="@string/none"
                     tools:ignore="TouchTargetSizeCheck" />
-
             </LinearLayout>
 
+            <!-- Search Bar / Document Tabs -->
             <ImageView
                 android:id="@+id/imageView31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/big_search"
-                android:adjustViewBounds="true"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/big_search" />
 
-            <ImageView
-                android:id="@+id/imageView33"
+            <!-- Document List Container -->
+            <LinearLayout
+                android:id="@+id/document_list_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginHorizontal="10dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/documents"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginBottom="30dp">
 
+                <!-- 1. MRI Scan Item -->
+                <LinearLayout
+                    android:id="@+id/document_mri_scan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Rounded Thumbnail -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/mri_scan_thumbnail"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="MRI Scan Thumbnail" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Document Details -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MRI Scan - Brain"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10/12/2025"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+
+                <!-- 2. Blood Work Item -->
+                <LinearLayout
+                    android:id="@+id/document_lab_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Rounded Thumbnail -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lab_results_thumbnail"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Lab Results Thumbnail" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Document Details -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Work Lab Results"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10/10/2025"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+
+                <!-- 3. Visit Note Item -->
+                <LinearLayout
+                    android:id="@+id/document_visit_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Placeholder for the thumbnail area -->
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@android:color/transparent"/>
+
+                    <!-- Document Details -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Visit Note"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10/9/2025"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+
+                <!-- 4. Discharge Summary Item -->
+                <LinearLayout
+                    android:id="@+id/document_discharge_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Rounded Thumbnail -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/discharge_summary_thumbnail"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Discharge Summary Thumbnail" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Document Details -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Discharge Summary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8/26/2025"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+
+                <!-- 5. Prescription Summary Item -->
+                <LinearLayout
+                    android:id="@+id/document_prescription_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Rounded Thumbnail -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/prescription_summary_thumbnail"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Prescription Summary Thumbnail" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Document Details -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prescription Summary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8/24/2025"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+            </LinearLayout>
+            <!-- End of Document List Container -->
 
         </LinearLayout>
     </ScrollView>
