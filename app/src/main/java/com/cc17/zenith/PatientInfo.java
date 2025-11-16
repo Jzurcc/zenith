@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PatientInfo extends Fragment {
@@ -39,9 +38,7 @@ public class PatientInfo extends Fragment {
 
         // The 'sex' button listener you originally provided
         ImageButton sex = view.findViewById(R.id.sex);
-        sex.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "Sex selection toggled", Toast.LENGTH_SHORT).show();
-        });
+        sex.setOnClickListener(v -> Toast.makeText(getActivity(), "Sex selection toggled", Toast.LENGTH_SHORT).show());
 
         // Other ImageButtons
         view.findViewById(R.id.button2).setOnClickListener(v -> Toast.makeText(getActivity(), "Organ Donor status toggled", Toast.LENGTH_SHORT).show());

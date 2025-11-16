@@ -9,7 +9,8 @@
     <ScrollView
         android:contentDescription="@string/none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +44,8 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/alvarez_profile"
                         android:scaleType="centerCrop"
-                        android:contentDescription="Patient Profile" />
+                        android:contentDescription="Patient Profile"
+                        tools:ignore="HardcodedText" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Patient Details -->
@@ -61,7 +63,8 @@
                         android:text="Alvarez, Julian R."
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -72,23 +75,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Age: 46 years"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:text="Allergies:"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
+
                         <TextView
                             android:id="@+id/patient_allergies_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="View"
-                            android:textSize="14sp"
-                            android:textColor="@color/accent"
-                            android:textStyle="bold"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:focusable="true"
+                            android:text="View"
+                            android:textColor="#78909C"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
                     </LinearLayout>
 
                     <TextView
@@ -96,7 +103,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MRN: 200365448   FIN: 1005-63251"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -117,11 +125,12 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/change_patient"
                     android:contentDescription="@string/none"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    tools:ignore="InefficientWeight" />
                 <!-- Edit Patient Info Button (ID: imageButton4) - Now Clickable -->
                 <ImageButton
                     android:id="@+id/imageButton4"
@@ -130,7 +139,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/edit_patient_info"
                     android:contentDescription="Edit Patient Info"
-                    tools:ignore="TouchTargetSizeCheck"
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck"
                     android:clickable="true"
                     android:focusable="true"/>
             </LinearLayout>
@@ -182,7 +191,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/new_document"
                     android:contentDescription="@string/none"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
             </LinearLayout>
 
             <!-- Search Bar / Document Tabs -->
@@ -193,7 +202,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="20dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/big_search" />
+                android:src="@drawable/big_search"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
 
             <!-- Document List Container -->
             <LinearLayout
@@ -227,7 +237,8 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/mri_scan_thumbnail"
                             android:scaleType="centerCrop"
-                            android:contentDescription="MRI Scan Thumbnail" />
+                            android:contentDescription="MRI Scan Thumbnail"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Document Details -->
@@ -245,13 +256,16 @@
                             android:text="MRI Scan - Brain"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            tools:ignore="HardcodedText" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10/12/2025"
+                            android:textColor="#757575"
                             android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -280,7 +294,8 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/lab_results_thumbnail"
                             android:scaleType="centerCrop"
-                            android:contentDescription="Lab Results Thumbnail" />
+                            android:contentDescription="Lab Results Thumbnail"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Document Details -->
@@ -298,13 +313,16 @@
                             android:text="Blood Work Lab Results"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            tools:ignore="HardcodedText" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10/10/2025"
+                            android:textColor="#757575"
                             android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -342,13 +360,16 @@
                             android:text="Visit Note"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            tools:ignore="HardcodedText" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10/9/2025"
+                            android:textColor="#757575"
                             android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -377,7 +398,8 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/discharge_summary_thumbnail"
                             android:scaleType="centerCrop"
-                            android:contentDescription="Discharge Summary Thumbnail" />
+                            android:contentDescription="Discharge Summary Thumbnail"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Document Details -->
@@ -395,13 +417,16 @@
                             android:text="Discharge Summary"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            tools:ignore="HardcodedText" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="8/26/2025"
+                            android:textColor="#757575"
                             android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -430,7 +455,8 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/prescription_summary_thumbnail"
                             android:scaleType="centerCrop"
-                            android:contentDescription="Prescription Summary Thumbnail" />
+                            android:contentDescription="Prescription Summary Thumbnail"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Document Details -->
@@ -448,13 +474,15 @@
                             android:text="Prescription Summary"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            tools:ignore="HardcodedText" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="8/24/2025"
                             android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            android:textColor="@android:color/darker_gray"
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 

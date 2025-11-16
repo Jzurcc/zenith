@@ -71,9 +71,7 @@ public class Documents extends Fragment {
         });
 
         // Change Patient Button (ImageButton3)
-        fragmentView.findViewById(R.id.imageButton3).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Change Patient flow initiated", Toast.LENGTH_SHORT).show();
-        });
+        fragmentView.findViewById(R.id.imageButton3).setOnClickListener(v -> Toast.makeText(getContext(), "Change Patient flow initiated", Toast.LENGTH_SHORT).show());
 
 
         // --- Document List Click Listeners ---
@@ -92,14 +90,10 @@ public class Documents extends Fragment {
 
         // 4. Discharge Summary Item
         LinearLayout dischargeLayout = fragmentView.findViewById(R.id.document_discharge_summary);
-        dischargeLayout.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Opening Discharge Summary Document for viewing/editing", Toast.LENGTH_SHORT).show();
-        });
+        dischargeLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Discharge Summary Document for viewing/editing", Toast.LENGTH_SHORT).show());
 
         // 5. Prescription Summary Item
         LinearLayout prescriptionLayout = fragmentView.findViewById(R.id.document_prescription_summary);
-        prescriptionLayout.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Opening Prescription Summary Document for viewing/editing", Toast.LENGTH_SHORT).show();
-        });
+        prescriptionLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Prescription Summary Document for viewing/editing", Toast.LENGTH_SHORT).show());
     }
 }
