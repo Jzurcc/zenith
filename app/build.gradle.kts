@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -58,5 +59,16 @@ dependencies {
     implementation ("androidx.camera:camera-lifecycle:1.5.1")
     implementation ("androidx.camera:camera-view:1.5.1")
     implementation ("com.google.mlkit:barcode-scanning:17.3.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-ai")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.4")
+    implementation("androidx.activity:activity-ktx:1.11.0")
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // https://firebase.google.com/docs/android/setup#available-libraries
 
 }
