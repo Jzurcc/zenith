@@ -1,7 +1,6 @@
 package com.cc17.zenith
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +26,7 @@ class ChatViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d("ChatViewModel", "Calling Gemini API...")
-                val response = generativeModel.generateContent(message)
+                val response = generativeModel.generateContent("You are a healthcare AI assistant chatbot, message like it's a text. Prompt: $message")
 
                 response.text?.let { botResponse ->
                     currentMessages.add(ChatMessage(botResponse, false))

@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class Chatbot : AppCompatActivity() {
 
@@ -24,6 +26,12 @@ class Chatbot : AppCompatActivity() {
     private lateinit var backButton: ImageButton
     private lateinit var sendButton: ImageButton
     private lateinit var chatInput: TextInputEditText
+    private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var chatAdapter: ChatAdapter
+    private lateinit var patient_records: Button
+    private lateinit var prescription_stats: Button
+    private lateinit var follow_ups: Button
+    private lateinit var referral_suggestions: Button
     private val chatViewModel: ChatViewModel by viewModels()
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -52,12 +60,35 @@ class Chatbot : AppCompatActivity() {
         backButton = findViewById(R.id.back)
         sendButton = findViewById(R.id.send_button)
         chatInput = findViewById(R.id.chat_input_edittext)
+        chatRecyclerView = findViewById(R.id.chat_recyclerview)
+        setupRecyclerView()
+
+        // tip buttons
+        patient_records = findViewById(R.id.patient_records)
+        prescription_stats = findViewById(R.id.prescription_stats)
+        follow_ups = findViewById(R.id.follow_ups)
+        referral_suggestions = findViewById(R.id.referral_suggestions)
+
+        patient_records.setOnClickListener {
+            chatInput.setText("Find patient record ")
+        }
+
+        prescription_stats.setOnClickListener {
+            chatInput.setText("What are the prescription stats of ")
+        }
+
+        follow_ups.setOnClickListener {
+            chatInput.setText("Provide upcoming follow-ups")
+        }
+
+        referral_suggestions.setOnClickListener {
+            chatInput.setText("Provide referral suggestions for ")
+        }
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-
 
         sendButton.setOnClickListener {
             handleSendAction()
@@ -71,6 +102,25 @@ class Chatbot : AppCompatActivity() {
             }
             return@setOnEditorActionListener false
         }
+
+        chatViewModel.messageList.observe(this) { newList ->
+            // This code runs every time the message list in ViewModel changes.
+
+            // 1. Update the adapter's data
+            chatAdapter.updateMessages(newList)
+
+            // 2. Scroll to the bottom to show the new message
+            chatRecyclerView.scrollToPosition(newList.size - 1)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        chatAdapter = ChatAdapter(emptyList())
+
+        val layoutManager = LinearLayoutManager(this)
+
+        chatRecyclerView.adapter = chatAdapter
+        chatRecyclerView.layoutManager = layoutManager
     }
 
     private fun handleSendAction() {
