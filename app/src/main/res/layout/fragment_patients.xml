@@ -1,254 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".patients">
 
-    <ScrollView
-        android:contentDescription="@string/none"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical">
+
+        <SearchView
+            android:id="@+id/patient_search_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/search_bar_background"
+            app:iconifiedByDefault="false"
+            android:queryHint="Search Patients" />
+
+        <ImageButton
+            android:id="@+id/filter_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_filter"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/patient_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="130dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/imageView16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="25dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="Search Bar"
-                android:src="@drawable/search_bar"
-                tools:ignore="HardcodedText" />
-
-            <LinearLayout
-                android:id="@+id/patient_list_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="130dp">
-
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:id="@+id/patient_alvarez"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="125dp"
-                        android:layout_height="122dp"
-                        android:contentDescription="Julian Alvarez Profile Image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/alvarez_profile"
-                        tools:ignore="HardcodedText" />
-
-                    <LinearLayout
-                        android:layout_width="262dp"
-                        android:layout_height="132dp"
-                        android:layout_marginStart="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Alvarez, Julian R."
-                            android:textColor="@android:color/black"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Male, 46\nID No.: 6202158\nMobile No.: 0965 0568 555"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:id="@+id/patient_bautista"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
-                        android:contentDescription="Angela Bautista Profile Image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/bautista_profile" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bautista, Angela M."
-                            android:textColor="@android:color/black"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Female, 41\nID No.: 6203174\nMobile No.: 0917 2256 432"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:id="@+id/patient_cruz"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
-                        android:contentDescription="Michael Cruz Profile Image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/cruz_profile" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cruz, Michael J."
-                            android:textColor="@android:color/black"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Male, 42\nID No.: 6204180\nMobile No.: 0995 8457 210"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:id="@+id/patient_delarosa"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
-                        android:contentDescription="Camille Dela Rosa Profile Image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/dela_rosa_profile" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dela Rosa, Camille A."
-                            android:textColor="@android:color/black"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Female, 27\nID No.: 6202198\nMobile No.: 0921 7789 654"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:id="@+id/patient_espinoza"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
-                        android:contentDescription="Angela Bautista Profile Image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/espinoza_profile" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Espinoza, Carlo V."
-                            android:textColor="@android:color/black"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Female, 41\nID No.: 6203174\nMobile No.: 0917 2256 432"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-    </ScrollView>
-</FrameLayout>
+</LinearLayout>

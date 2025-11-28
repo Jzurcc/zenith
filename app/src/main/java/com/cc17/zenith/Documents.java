@@ -1,16 +1,31 @@
 package com.cc17.zenith;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class Documents extends Fragment {
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener {
+
+    private DocumentAdapter documentAdapter;
+    private List<Document> documents;
 
     // Define an interface to communicate navigation events back to the hosting activity
     // NOTE: This assumes your Activity implements this interface to handle Fragment switching.
@@ -41,8 +56,13 @@ public class Documents extends Fragment {
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.setTexts("ZENITH Documents", "Digitize Healthcare");
 
-        // --- Set up Click Listeners for Interactive Documents and Header Buttons ---
-        setupDocumentClickListeners(view);
+        setupRecyclerView(view);
+        setupSearchAndFilter(view);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            populatePatientHeader(view, arguments);
+        }
     }
 
     @Override
@@ -52,48 +72,117 @@ public class Documents extends Fragment {
         return inflater.inflate(R.layout.fragment_documents, container, false);
     }
 
-    /**
-     * Finds and sets up the click listeners for the document list items and header buttons.
-     */
-    private void setupDocumentClickListeners(View fragmentView) {
+    private void setupRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.document_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        documents = new ArrayList<>();
+        documents.add(new Document(R.drawable.mri_scan_thumbnail, "MRI Scan - Brain", "10/12/2025"));
+        documents.add(new Document(R.drawable.lab_results_thumbnail, "Blood Work Lab Results", "10/10/2025"));
+        documents.add(new Document(R.drawable.visit_note_thumbnail, "Visit Note", "10/09/2025"));
+        documents.add(new Document(R.drawable.discharge_summary_thumbnail, "Discharge Summary", "08/26/2025"));
+        documents.add(new Document(R.drawable.prescription_summary_thumbnail, "Prescription Summary", "08/24/2025"));
 
-        // --- Header Button Click Listeners ---
+        documentAdapter = new DocumentAdapter(documents, this);
+        recyclerView.setAdapter(documentAdapter);
+    }
 
-        // Edit Patient Info button (ImageButton4)
-        fragmentView.findViewById(R.id.imageButton4).setOnClickListener(v -> {
-            if (listener != null) {
-                // If the activity implements the interface, trigger navigation
-                listener.goToPatientInfoScreen();
-            } else {
-                // Fallback / Demonstration message
-                Toast.makeText(getContext(), "Navigating to PatientInfo Screen (Simulated)", Toast.LENGTH_SHORT).show();
+    private void populatePatientHeader(View view, Bundle bundle) {
+        TextView patientNameText = view.findViewById(R.id.patient_name_text);
+        TextView patientAgeMrnText = view.findViewById(R.id.patient_age_mrn_text);
+        TextView patientMrnFinText = view.findViewById(R.id.patient_mrn_fin_text);
+        ImageView patientProfileImage = view.findViewById(R.id.patient_profile_image);
+
+        String firstName = bundle.getString("firstName", "");
+        String lastName = bundle.getString("lastName", "");
+        String middleInitial = bundle.getString("middleInitial", "");
+        String age = bundle.getString("age", "");
+        String mrn = bundle.getString("mrn", "");
+
+        patientNameText.setText(String.format("%s, %s %s.", lastName, firstName, middleInitial));
+        patientAgeMrnText.setText(String.format("Age: %s years", age));
+        patientMrnFinText.setText(String.format("MRN: %s   FIN: 1005-63251", mrn)); // FIN is hardcoded as in the XML
+
+        // Set profile image based on patient's last name
+        int profileImageResId = getProfileImageResource(lastName);
+        patientProfileImage.setImageResource(profileImageResId);
+    }
+
+    private int getProfileImageResource(String lastName) {
+        switch (lastName.toLowerCase()) {
+            case "alvarez":
+                return R.drawable.alvarez_profile;
+            case "bautista":
+                return R.drawable.bautista_profile;
+            case "cruz":
+                return R.drawable.cruz_profile;
+            case "dela rosa":
+                return R.drawable.dela_rosa_profile;
+            default:
+                return R.drawable.alvarez_profile; // A default image if no match is found
+        }
+    }
+
+    private void setupSearchAndFilter(View view) {
+        SearchView searchView = view.findViewById(R.id.document_search_view);
+        searchView.setOnClickListener(v -> searchView.onActionViewExpanded());
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                documentAdapter.filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                documentAdapter.filter(newText);
+                return false;
             }
         });
 
-        // Change Patient Button (ImageButton3)
-        fragmentView.findViewById(R.id.imageButton3).setOnClickListener(v -> Toast.makeText(getContext(), "Change Patient flow initiated", Toast.LENGTH_SHORT).show());
+        ImageButton filterButton = view.findViewById(R.id.filter_button);
+        filterButton.setOnClickListener(this::showFilterMenu);
+    }
 
+    private void showFilterMenu(View view) {
+        PopupMenu popup = new PopupMenu(getContext(), view);
+        popup.getMenuInflater().inflate(R.menu.filter_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.filter_date_asc) {
+                documentAdapter.sort(Comparator.comparing(Document::getDate));
+                return true;
+            } else if (itemId == R.id.filter_date_desc) {
+                documentAdapter.sort(Comparator.comparing(Document::getDate).reversed());
+                return true;
+            } else if (itemId == R.id.filter_name_asc) {
+                documentAdapter.sort(Comparator.comparing(Document::getTitle));
+                return true;
+            } else if (itemId == R.id.filter_name_desc) {
+                documentAdapter.sort(Comparator.comparing(Document::getTitle).reversed());
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
 
-        // --- Document List Click Listeners ---
+    @Override
+    public void onDocumentClick(Document document) {
+        showImageDialog(document.getThumbnail());
+    }
 
-        // 1. MRI Scan Item
-        LinearLayout mriScanLayout = fragmentView.findViewById(R.id.document_mri_scan);
-        mriScanLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening MRI Scan Document for viewing/editing", Toast.LENGTH_SHORT).show());
+    private void showImageDialog(int imageResource) {
+        if (imageResource == 0) return; // Do not show dialog if no image is found
 
-        // 2. Blood Work Lab Results Item
-        LinearLayout labResultsLayout = fragmentView.findViewById(R.id.document_lab_results);
-        labResultsLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Lab Results Document for viewing/editing", Toast.LENGTH_SHORT).show());
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.dialog_image_viewer);
 
-        // 3. Visit Note Item
-        LinearLayout visitNoteLayout = fragmentView.findViewById(R.id.document_visit_note);
-        visitNoteLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Visit Note Document for viewing/editing", Toast.LENGTH_SHORT).show());
+        ImageView imageView = dialog.findViewById(R.id.dialog_image_view);
+        Button closeButton = dialog.findViewById(R.id.dialog_close_button);
 
-        // 4. Discharge Summary Item
-        LinearLayout dischargeLayout = fragmentView.findViewById(R.id.document_discharge_summary);
-        dischargeLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Discharge Summary Document for viewing/editing", Toast.LENGTH_SHORT).show());
+        imageView.setImageResource(imageResource);
+        closeButton.setOnClickListener(v -> dialog.dismiss());
 
-        // 5. Prescription Summary Item
-        LinearLayout prescriptionLayout = fragmentView.findViewById(R.id.document_prescription_summary);
-        prescriptionLayout.setOnClickListener(v -> Toast.makeText(getContext(), "Opening Prescription Summary Document for viewing/editing", Toast.LENGTH_SHORT).show());
+        dialog.show();
     }
 }

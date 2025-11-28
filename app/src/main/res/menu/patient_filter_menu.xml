@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_name_asc"
+        android:title="Sort by Name (A-Z)" />
+    <item
+        android:id="@+id/filter_name_desc"
+        android:title="Sort by Name (Z-A)" />
+    <item
+        android:id="@+id/filter_age_asc"
+        android:title="Sort by Age (Ascending)" />
+    <item
+        android:id="@+id/filter_age_desc"
+        android:title="Sort by Age (Descending)" />
+</menu>
