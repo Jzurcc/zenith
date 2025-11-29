@@ -25,8 +25,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:background="@drawable/round_arrow_back_24"
-            android:contentDescription="@string/none"
-            tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+            android:contentDescription="@string/none" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,7 +38,6 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
                 android:text="ZENITH AI Assistant"
                 android:textColor="@color/caribbean"
                 android:textSize="25sp"
@@ -49,50 +47,119 @@
                 android:id="@+id/toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
                 android:text="AI-Powered Information Retrieval"
                 android:textColor="@color/moonstone"
-                android:textSize="16sp"
-                tools:ignore="TextContrastCheck" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </RelativeLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:layout_editor_absoluteY="697dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
         app:layout_constraintBottom_toTopOf="@id/bottom_controls_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:id="@+id/bottom_controls_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
+        android:padding="8dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/chat"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chat_recyclerview">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/patient_records"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:backgroundTint="@color/cream"
+                android:text="Find patient record"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/moonstone"
+                app:strokeWidth="2dp"
+                android:stateListAnimator="@null" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/prescription_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:backgroundTint="@color/cream"
+                android:text="Prescription stats"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/moonstone"
+                app:strokeWidth="2dp"
+                android:stateListAnimator="@null" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/follow_ups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:backgroundTint="@color/cream"
+                android:text="Upcoming follow-ups"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/moonstone"
+                app:strokeWidth="2dp"
+                android:stateListAnimator="@null" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/referral_suggestions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:backgroundTint="@color/cream"
+                android:text="Referral suggestions"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/moonstone"
+                app:strokeWidth="2dp"
+                android:stateListAnimator="@null" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <LinearLayout
+        android:id="@+id/chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:id="@+id/chat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/chat_input_layout"
@@ -108,6 +175,7 @@
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/chat_input_edittext"
                 android:layout_width="match_parent"
@@ -131,104 +199,5 @@
             android:contentDescription="Send message" />
 
     </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_controls_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/patient_records"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/cream"
-                    android:letterSpacing="0.00"
-                    android:paddingVertical="10dp"
-                    android:stateListAnimator="@null"
-                    android:text="Find patient record"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    app:cornerRadius="20dp"
-                    app:strokeColor="@color/moonstone"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/prescription_stats"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/cream"
-                    android:letterSpacing="0.00"
-                    android:paddingVertical="10dp"
-                    android:stateListAnimator="@null"
-                    android:text="Prescription stats"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    app:cornerRadius="20dp"
-                    app:strokeColor="@color/moonstone"
-                    app:strokeWidth="2dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/follow_ups"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/cream"
-                    android:letterSpacing="0.00"
-                    android:paddingVertical="10dp"
-                    android:stateListAnimator="@null"
-                    android:text="Upcoming follow-ups"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    app:cornerRadius="20dp"
-                    app:strokeColor="@color/moonstone"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/referral_suggestions"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/cream"
-                    android:letterSpacing="0.00"
-                    android:paddingVertical="10dp"
-                    android:stateListAnimator="@null"
-                    android:text="Referral suggestions"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    app:cornerRadius="20dp"
-                    app:strokeColor="@color/moonstone"
-                    app:strokeWidth="2dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
