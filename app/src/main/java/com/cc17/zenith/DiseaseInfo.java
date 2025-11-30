@@ -87,7 +87,7 @@ public class DiseaseInfo extends Fragment {
 
         int coral = ContextCompat.getColor(requireContext(), R.color.coral);
         int moonstone = ContextCompat.getColor(requireContext(), R.color.moonstone);
-        int lightBlue = Color.parseColor("#D1F1F6");
+        int lightBlue = Color.parseColor("#F0F9F7");
 
         // Reset all buttons to "unselected" style
         btnDesc.setBackgroundColor(lightBlue);

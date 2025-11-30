@@ -163,6 +163,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDesc"
+                android:textSize="12sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
@@ -174,6 +175,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSymp"
+                android:textSize="12sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
@@ -183,7 +185,7 @@
                 android:layout_marginStart="4dp"
                 android:textColor="@color/moonstone"
                 android:textAllCaps="false"
-                android:backgroundTint="#D1F1F6"/>
+                android:backgroundTint="@color/cream"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMeds"
@@ -191,11 +193,12 @@
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:text="Medication"
+                android:textSize="12sp"
                 app:cornerRadius="12dp"
                 android:layout_marginStart="4dp"
                 android:textColor="@color/moonstone"
                 android:textAllCaps="false"
-                android:backgroundTint="#D1F1F6"/>
+                android:backgroundTint="@color/cream"/>
 
         </LinearLayout>
 
@@ -207,7 +210,7 @@
             app:cardBackgroundColor="#F0F8F8"
             app:strokeColor="#FFFFFF"
             app:strokeWidth="0dp"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="120dp">
 
             <TextView
                 android:id="@+id/tvInfoContent"

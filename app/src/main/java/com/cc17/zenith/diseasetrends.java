@@ -105,9 +105,28 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         allDiseases.add(new Disease(
                 "3", "Tuberculosis", "Communicable", 600, "Oct 31",
                 12, 612, "6%",
-                "Tuberculosis (TB) is a serious illness that mainly affects the lungs.",
-                "Coughing for 3+ weeks, chest pain, coughing up blood, fatigue.",
-                "Antibiotics (Isoniazid, Rifampin) for 6-9 months.",
+                "Tuberculosis, also called TB, is a serious illness that mainly affects the lungs. The germs that cause tuberculosis are a type of bacteria.\n" +
+                        "\n" +
+                        "Tuberculosis can spread when a person with the illness coughs, sneezes or sings. This can put tiny droplets with the germs into the air. Another person can then breathe in the droplets, and the germs enter the lungs.\n" +
+                        "\n" +
+                        "Tuberculosis spreads easily where people gather in crowds or where people live in crowded conditions. People with HIV/AIDS and other people with weakened immune systems have a higher risk of catching tuberculosis than people with typical immune systems.",
+                "Common symptoms of TB often include:\n" +
+                        "\n" +
+                        "- Persistent cough (≥2 weeks)\n" +
+                        "- Sputum production or blood-streaked sputum (hemoptysis)\n" +
+                        "- Low-grade fever\n" +
+                        "- Night sweats\n" +
+                        "- Fatigue and weakness\n" +
+                        "- Unintentional weight loss\n" +
+                        "- Loss of appetite\n" +
+                        "- Chest pain\n" +
+                        "- Swollen lymph nodes (extrapulmonary TB)\n" +
+                        "- Back or abdominal pain (extrapulmonary TB)",
+                "Tuberculosis is treated with a combination of antibiotics over at least six months. \n" +
+                        "\n" +
+                        "The standard regimen, called RIPE therapy, includes Rifampicin, Isoniazid, Pyrazinamide, and Ethambutol during the first two months (intensive phase), followed by Rifampicin and Isoniazid for the next four months (continuation phase).  Adherence to the full course is essential to prevent relapse and resistance.\n" +
+                        "\n" +
+                        "Directly Observed Therapy (DOT) is often used to ensure patients complete treatment, supported by good nutrition, rest, and monitoring for side effects like liver or vision problems.",
                 Arrays.asList(300, 320, 350, 400, 380, 500, 600),
                 Arrays.asList(400, 150, 50)
         ));
