@@ -55,6 +55,10 @@ public class QRScanner extends AppCompatActivity {
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
     private ImageButton shutterBtn;
+    // Handler for timeout
+    private android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private Runnable timeoutRunnable;
+    private static final long SCAN_TIMEOUT = 5000; // 5 seconds timeout
 
 
     @Override
@@ -118,6 +122,15 @@ public class QRScanner extends AppCompatActivity {
         bindAnalysisUseCase();
         shutterBtn.setEnabled(false); // Disable shutter while scanning is active
         Toast.makeText(this, "Scanning QR", Toast.LENGTH_SHORT).show();
+
+        timeoutRunnable = () -> {
+            stopAnalysis(); // Stop the camera analysis
+            Toast.makeText(QRScanner.this, "No QR code scanned bruh", Toast.LENGTH_SHORT).show();
+            shutterBtn.setEnabled(true);
+        };
+
+        // starts countdown
+        handler.postDelayed(timeoutRunnable, SCAN_TIMEOUT);
     }
 
     private void getPermissions() {
@@ -237,6 +250,8 @@ public class QRScanner extends AppCompatActivity {
 
     private void onSuccessListener(List<Barcode> barcodes) {
         if (!barcodes.isEmpty()) {
+            handler.removeCallbacks(timeoutRunnable); // QR code scanned, stop the timer bro
+
             String urlToOpen = null;
 
             for (Barcode barcode : barcodes) {
@@ -261,14 +276,15 @@ public class QRScanner extends AppCompatActivity {
                 Toast.makeText(this, "Scanned code is not a URL.", Toast.LENGTH_SHORT).show();
             }
 
-            if (analysisUseCase != null && cameraProvider != null) {
-                cameraProvider.unbind(analysisUseCase);
-                analysisUseCase = null;
-            }
+            stopAnalysis(); // stop Helper
+            shutterBtn.setEnabled(true);
+        }
+    }
 
-            shutterBtn.setEnabled(true);
-        } else {
-            shutterBtn.setEnabled(true);
+    private void stopAnalysis() {
+        if (analysisUseCase != null && cameraProvider != null) {
+            cameraProvider.unbind(analysisUseCase);
+            analysisUseCase = null;
         }
     }
 
