@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:text="File Import"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="@font/raleway"
+                        android:fontFamily="@font/raleway_bold"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -107,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Shutter"
-                        android:fontFamily="@font/raleway"
+                        android:fontFamily="@font/raleway_bold"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:visibility="invisible"/>
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:text="Import Images"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="@font/raleway"
+                        android:fontFamily="@font/raleway_bold"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
                 </LinearLayout>
