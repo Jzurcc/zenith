@@ -116,7 +116,7 @@
                     android:layout_weight="1"
                     android:text="View All"
                     android:textSize="14sp"
-                    android:fontFamily="@font/raleway"
+                    android:fontFamily="@font/raleway_bold"
                     android:textColor="@color/coral" />
 
             </LinearLayout>

@@ -124,7 +124,7 @@ public class QRScanner extends AppCompatActivity {
         Toast.makeText(this, "Scanning QR", Toast.LENGTH_SHORT).show();
 
         timeoutRunnable = () -> {
-            stopAnalysis(); // Stop the camera analysis
+            stopAnalysis();
             Toast.makeText(QRScanner.this, "No QR code scanned bruh", Toast.LENGTH_SHORT).show();
             shutterBtn.setEnabled(true);
         };
@@ -276,11 +276,12 @@ public class QRScanner extends AppCompatActivity {
                 Toast.makeText(this, "Scanned code is not a URL.", Toast.LENGTH_SHORT).show();
             }
 
-            stopAnalysis(); // stop Helper
+            stopAnalysis();
             shutterBtn.setEnabled(true);
         }
     }
 
+    // stop the camera analysis
     private void stopAnalysis() {
         if (analysisUseCase != null && cameraProvider != null) {
             cameraProvider.unbind(analysisUseCase);

@@ -10,4 +10,6 @@
     <color name="accent">#FFC0C7C6</color>
     <color name="text">#FF424242</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="lineColor">#EAEAEA</color>
+    <color name="textColor">#424242</color>
 </resources>
