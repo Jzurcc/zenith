@@ -33,7 +33,11 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
         Document document = documentsFiltered.get(position);
-        holder.thumbnail.setImageResource(document.getThumbnail());
+        if (document.getImageUri() != null) {
+            holder.thumbnail.setImageURI(document.getImageUri());
+        } else {
+            holder.thumbnail.setImageResource(document.getThumbnail());
+        }
         holder.title.setText(document.getTitle());
         holder.date.setText(document.getDate());
         holder.documentItemLayout.setOnClickListener(v -> onDocumentClickListener.onDocumentClick(document));
@@ -61,6 +65,12 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     public void sort(java.util.Comparator<Document> comparator) {
         documentsFiltered.sort(comparator);
         notifyDataSetChanged();
+    }
+
+    public void addDocument(Document document) {
+        documents.add(0, document);
+        documentsFiltered.add(0, document);
+        notifyItemInserted(0);
     }
 
     static class DocumentViewHolder extends RecyclerView.ViewHolder {

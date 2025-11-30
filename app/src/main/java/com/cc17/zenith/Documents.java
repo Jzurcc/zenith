@@ -1,8 +1,14 @@
 package com.cc17.zenith;
 
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,46 +24,33 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int CAPTURE_IMAGE_REQUEST = 2;
+    private Uri imageUri;
     private DocumentAdapter documentAdapter;
     private List<Document> documents;
-
-    // Define an interface to communicate navigation events back to the hosting activity
-    // NOTE: This assumes your Activity implements this interface to handle Fragment switching.
-    public interface DocumentInteractionListener {
-        void goToPatientInfoScreen();
-    }
-    private DocumentInteractionListener listener;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // This is a typical way to ensure the hosting activity implements the required interface
-        if (getContext() instanceof DocumentInteractionListener) {
-            listener = (DocumentInteractionListener) getContext();
-        } else {
-            // Log an error if the host activity doesn't implement the interface
-            // or if navigation is not possible.
-            // In this simulated environment, we proceed without it.
-            // throw new RuntimeException(context.toString() + " must implement DocumentInteractionListener");
-        }
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Standard ViewModel setup
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.setTexts("ZENITH Documents", "Digitize Healthcare");
 
         setupRecyclerView(view);
         setupSearchAndFilter(view);
+        setupClickListeners(view);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -68,7 +61,6 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_documents, container, false);
     }
 
@@ -100,9 +92,8 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
 
         patientNameText.setText(String.format("%s, %s %s.", lastName, firstName, middleInitial));
         patientAgeMrnText.setText(String.format("Age: %s years", age));
-        patientMrnFinText.setText(String.format("MRN: %s   FIN: 1005-63251", mrn)); // FIN is hardcoded as in the XML
+        patientMrnFinText.setText(String.format("MRN: %s   FIN: 1005-63251", mrn));
 
-        // Set profile image based on patient's last name
         int profileImageResId = getProfileImageResource(lastName);
         patientProfileImage.setImageResource(profileImageResId);
     }
@@ -118,7 +109,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             case "dela rosa":
                 return R.drawable.dela_rosa_profile;
             default:
-                return R.drawable.alvarez_profile; // A default image if no match is found
+                return R.drawable.alvarez_profile;
         }
     }
 
@@ -141,6 +132,95 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
 
         ImageButton filterButton = view.findViewById(R.id.filter_button);
         filterButton.setOnClickListener(this::showFilterMenu);
+    }
+
+    private void setupClickListeners(View view) {
+        ImageButton editPatientInfoButton = view.findViewById(R.id.imageButton4);
+        editPatientInfoButton.setOnClickListener(v -> {
+            PatientInfo patientInfoFragment = new PatientInfo();
+            patientInfoFragment.setArguments(getArguments());
+
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_layout, patientInfoFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        ImageButton newDocumentButton = view.findViewById(R.id.imageButton6);
+        newDocumentButton.setOnClickListener(v -> showPermissionDialog());
+    }
+
+    private void showPermissionDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Permission Request")
+                .setMessage("To add a new document, please grant access to your device\'s storage and camera.")
+                .setPositiveButton("Accept", (dialog, which) -> showSourceSelectionDialog())
+                .setNegativeButton("Deny Access", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    private void showSourceSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_source_selection, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        dialogView.findViewById(R.id.option_files).setOnClickListener(v -> {
+            openFilePicker();
+            dialog.dismiss();
+        });
+        dialogView.findViewById(R.id.option_gallery).setOnClickListener(v -> {
+            openGallery();
+            dialog.dismiss();
+        });
+        dialogView.findViewById(R.id.option_camera).setOnClickListener(v -> {
+            openCamera();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    private void openCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+        imageUri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri selectedImage = null;
+            if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
+                selectedImage = data.getData();
+            } else if (requestCode == CAPTURE_IMAGE_REQUEST) {
+                selectedImage = imageUri;
+            }
+
+            if (selectedImage != null) {
+                String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+                Document newDocument = new Document(selectedImage, "New Document", currentDate);
+                documentAdapter.addDocument(newDocument);
+            }
+        }
     }
 
     private void showFilterMenu(View view) {
@@ -168,11 +248,11 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
 
     @Override
     public void onDocumentClick(Document document) {
-        showImageDialog(document.getThumbnail());
+        showImageDialog(document);
     }
 
-    private void showImageDialog(int imageResource) {
-        if (imageResource == 0) return; // Do not show dialog if no image is found
+    private void showImageDialog(Document document) {
+        if (document == null) return;
 
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_image_viewer);
@@ -180,7 +260,12 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
         ImageView imageView = dialog.findViewById(R.id.dialog_image_view);
         Button closeButton = dialog.findViewById(R.id.dialog_close_button);
 
-        imageView.setImageResource(imageResource);
+        if (document.getImageUri() != null) {
+            imageView.setImageURI(document.getImageUri());
+        } else {
+            imageView.setImageResource(document.getThumbnail());
+        }
+
         closeButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
