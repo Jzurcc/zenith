@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: Make patient info layout responsive
 // TODO: Add "Edit Patient Info" button
@@ -47,6 +49,16 @@ public class PatientInfo extends Fragment {
             et_email, et_address_line1, et_city_address, et_province_address,
             et_address_line2, et_zipcode, et_region, et_country, mobile1, et_primary_phone,
             mobile2, et_secondary_phone, et_remarks;
+
+    private Button sex_M, sex_F;
+    private Button btn_donor_yes, btn_donor_no;
+    private Button living_will_yes, living_will_no;
+    private Button personal_email_yes, personal_email_no;
+    private Button same_mail_yes, same_mail_no;
+
+    private List<View> allInputViews = new ArrayList<>();
+    private Button btnAction;
+    private boolean isEditing = false;
 
     private void setEditText(View view, int id, String text) {
         EditText et = view.findViewById(id);
@@ -69,82 +81,40 @@ public class PatientInfo extends Fragment {
 
         initViews(view);
         setupListeners(view);
+
+        setEditingEnabled(false);
+
         if (getArguments() != null) {
-            populateDataFromBundle(getArguments());
+            // check full JSON from QR Code
+            if (getArguments().containsKey("qr_json_data")) {
+                populateFromQRJson(getArguments().getString("qr_json_data"));
+            }
+            else {
+                populateDataFromBundle(getArguments());
+            }
         }
 
         return view;
-
-/*
-        // --- 1. Set Click Listeners for Interactive Elements ---
-
-        // The 'sex' button listener you originally provided
-        ImageButton sex = view.findViewById(R.id.sex);
-        sex.setOnClickListener(v -> Toast.makeText(getActivity(), "Sex selection toggled", Toast.LENGTH_SHORT).show());
-
-        // Other ImageButtons
-        view.findViewById(R.id.button2).setOnClickListener(v -> Toast.makeText(getActivity(), "Organ Donor status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button3).setOnClickListener(v -> Toast.makeText(getActivity(), "Living Will status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button4).setOnClickListener(v -> Toast.makeText(getActivity(), "Personal Email status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button5).setOnClickListener(v -> Toast.makeText(getActivity(), "Same Mail Address status toggled", Toast.LENGTH_SHORT).show());
-
-        // QR Code ImageView is also clickable
-        view.findViewById(R.id.imageView32).setOnClickListener(v -> generateQRCode());
-
-        // --- 2. Retrieve and Populate Data ---
-        Bundle args = getArguments();
-        if (args != null) {
-
-            // Basic Info Fields
-            setEditText(view, R.id.et_first_name, args.getString("firstName"));
-            setEditText(view, R.id.et_middle_name, args.getString("middleInitial"));
-            setEditText(view, R.id.et_last_name, args.getString("lastName"));
-            // Preferred name field is typically left empty unless data exists for it
-
-            // Detailed Info Fields (Matching the image snippet and preceding logic)
-            setEditText(view, R.id.et_dob, args.getString("dob"));
-            setEditText(view, R.id.et_country_birth, args.getString("countryOfBirth"));
-            setEditText(view, R.id.et_city_birth, args.getString("cityOfBirth"));
-            setEditText(view, R.id.et_province_birth, args.getString("provinceOfBirth"));
-
-            setEditText(view, R.id.et_marital_status, args.getString("maritalStatus"));
-            setEditText(view, R.id.et_race_ethnicity, args.getString("raceEthnicity"));
-            setEditText(view, R.id.et_mrn, args.getString("mrn"));
-            setEditText(view, R.id.et_fin, args.getString("mrn")); // Assuming FIN uses MRN value for sample data
-
-            setEditText(view, R.id.et_occupation, args.getString("occupation"));
-            setEditText(view, R.id.et_employer, args.getString("employer"));
-            setEditText(view, R.id.et_education, args.getString("education"));
-
-            setEditText(view, R.id.et_religion, args.getString("religion"));
-            setEditText(view, R.id.et_preferences, args.getString("preferences"));
-            setEditText(view, R.id.et_lang_record, args.getString("langRecord"));
-            setEditText(view, R.id.et_lang_record_no, args.getString("langRecordNo"));
-
-            // Contact/Address Fields
-            setEditText(view, R.id.et_email, args.getString("email"));
-
-            setEditText(view, R.id.et_address_line1, args.getString("address1"));
-            setEditText(view, R.id.et_city_address, args.getString("city"));
-            setEditText(view, R.id.et_province_address, args.getString("province"));
-
-            setEditText(view, R.id.et_address_line2, null); // Placeholder for Address Line 2
-            setEditText(view, R.id.et_zipcode, args.getString("zip"));
-            setEditText(view, R.id.et_region, args.getString("region"));
-            setEditText(view, R.id.et_country, args.getString("country"));
-
-            setEditText(view, R.id.et_primary_phone, args.getString("primaryPhone"));
-            setEditText(view, R.id.et_secondary_phone, args.getString("secondaryPhone"));
-
-            setEditText(view, R.id.et_remarks, null); // Placeholder for Remarks
-
-            // Note: Boolean fields (isOrganDonor, isLivingWill, etc.) would require specific logic to toggle the ImageButton background drawable.
-        }
-
-        return view;*/
     }
 
     private void initViews(View view) {
+        // toggle buttons
+        sex_M = view.findViewById(R.id.sex_M);
+        sex_F = view.findViewById(R.id.sex_F);
+
+        btn_donor_yes = view.findViewById(R.id.btn_donor_yes);
+        btn_donor_no = view.findViewById(R.id.btn_donor_no);
+
+        living_will_yes = view.findViewById(R.id.living_will_yes);
+        living_will_no = view.findViewById(R.id.living_will_no);
+
+        personal_email_yes = view.findViewById(R.id.personal_email_yes);
+        personal_email_no = view.findViewById(R.id.personal_email_no);
+
+        same_mail_yes = view.findViewById(R.id.same_mail_yes);
+        same_mail_no = view.findViewById(R.id.same_mail_no);
+
+
         // Personal Info
         et_first_name = view.findViewById(R.id.et_first_name);
         et_middle_name = view.findViewById(R.id.et_middle_name);
@@ -184,20 +154,134 @@ public class PatientInfo extends Fragment {
         mobile2 = view.findViewById(R.id.mobile2);
         et_secondary_phone = view.findViewById(R.id.et_secondary_phone);
         et_remarks = view.findViewById(R.id.et_remarks);
+
+        btnAction = view.findViewById(R.id.btn_action);
+
+        allInputViews.clear();
+
+        allInputViews.add(et_first_name);
+        allInputViews.add(et_middle_name);
+        allInputViews.add(et_last_name);
+        allInputViews.add(et_preferred_name);
+        allInputViews.add(et_dob);
+        allInputViews.add(et_country_birth);
+        allInputViews.add(et_city_birth);
+        allInputViews.add(et_province_birth);
+        allInputViews.add(et_fin);
+        allInputViews.add(et_mrn);
+        allInputViews.add(et_marital_status);
+        allInputViews.add(et_race_ethnicity);
+        allInputViews.add(et_occupation);
+        allInputViews.add(et_employer);
+        allInputViews.add(et_education);
+        allInputViews.add(et_religion);
+        allInputViews.add(et_preferences);
+        allInputViews.add(et_lang_record);
+        allInputViews.add(et_lang_record_no);
+        allInputViews.add(et_email);
+        allInputViews.add(et_address_line1);
+        allInputViews.add(et_city_address);
+        allInputViews.add(et_province_address);
+        allInputViews.add(et_address_line2);
+        allInputViews.add(et_zipcode);
+        allInputViews.add(et_region);
+        allInputViews.add(et_country);
+        allInputViews.add(mobile1);
+        allInputViews.add(et_primary_phone);
+        allInputViews.add(mobile2);
+        allInputViews.add(et_secondary_phone);
+        allInputViews.add(et_remarks);
+
+        allInputViews.add(sex_M);
+        allInputViews.add(sex_F);
+        allInputViews.add(btn_donor_yes);
+        allInputViews.add(btn_donor_no);
+        allInputViews.add(living_will_yes);
+        allInputViews.add(living_will_no);
+        allInputViews.add(personal_email_yes);
+        allInputViews.add(personal_email_no);
+        allInputViews.add(same_mail_yes);
+        allInputViews.add(same_mail_no);
+
     }
 
     private void setupListeners(View view) {
-        // original toggle buttons
-        // TODO: Change ImageButtons to Toggle Buttons and implement their listeners
-        view.findViewById(R.id.sex).setOnClickListener(v -> Toast.makeText(getActivity(), "Sex selection toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button2).setOnClickListener(v -> Toast.makeText(getActivity(), "Organ Donor status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button3).setOnClickListener(v -> Toast.makeText(getActivity(), "Living Will status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button4).setOnClickListener(v -> Toast.makeText(getActivity(), "Personal Email status toggled", Toast.LENGTH_SHORT).show());
-        view.findViewById(R.id.button5).setOnClickListener(v -> Toast.makeText(getActivity(), "Same Mail Address status toggled", Toast.LENGTH_SHORT).show());
+        setupTogglePair(sex_M, sex_F);
+        setupTogglePair(btn_donor_yes, btn_donor_no);
+        setupTogglePair(living_will_yes, living_will_no);
+        setupTogglePair(personal_email_yes, personal_email_no);
+        setupTogglePair(same_mail_yes, same_mail_no);
 
-        view.findViewById(R.id.imageView32).setOnClickListener(v -> generateQRCode());
+        view.findViewById(R.id.btn_qr).setOnClickListener(v -> generateQRCode());
+
+        btnAction.setOnClickListener(v -> {
+            if (isEditing) {
+                saveChanges();
+            } else {
+                enableEditMode();
+            }
+        });
     }
 
+    private void enableEditMode() {
+        setEditingEnabled(true);
+
+        btnAction.setText("Save Changes");
+        btnAction.setBackgroundColor(getResources().getColor(R.color.coral));
+
+        isEditing = true;
+        Toast.makeText(getContext(), "You can now edit details", Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveChanges() {
+        savePatientData();
+        setEditingEnabled(false);
+
+        btnAction.setText("Edit Info");
+        btnAction.setBackgroundColor(getResources().getColor(R.color.moonstone)); // Change back to 'Edit' color
+        isEditing = false;
+
+        // go back
+        getParentFragmentManager().popBackStack();
+        Toast.makeText(getContext(), "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setEditingEnabled(boolean isEnabled) {
+        for (View v : allInputViews) {
+            if (v != null) {
+                v.setEnabled(isEnabled);
+
+                if (v instanceof EditText) {
+                    v.setAlpha(isEnabled ? 1.0f : 0.7f);
+                    v.setFocusable(isEnabled);
+                    v.setFocusableInTouchMode(isEnabled);
+                    v.setClickable(isEnabled);
+                }
+
+                if (v instanceof Button && v != btnAction) {
+                    v.setAlpha(isEnabled ? 1.0f : 0.6f);
+                }
+            }
+        }
+    }
+
+    private void setupTogglePair(Button btn1, Button btn2) {
+        btn1.setOnClickListener(v -> {
+            btn1.setSelected(true);
+            btn2.setSelected(false);
+        });
+
+        btn2.setOnClickListener(v -> {
+            btn2.setSelected(true);
+            btn1.setSelected(false);
+        });
+    }
+
+    private String getToggleValue(Button btn1, Button btn2) {
+        if (btn1.isSelected()) return btn1.getText().toString(); // Returns "M" or "Yes"
+        if (btn2.isSelected()) return btn2.getText().toString(); // Returns "F" or "No"
+        return "";
+    }
 
     private void populateDataFromBundle(Bundle args) {
         safeSetText(et_first_name, args.getString("firstName"));
@@ -247,6 +331,61 @@ public class PatientInfo extends Fragment {
         }
     }
 
+    private void savePatientData() {
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        String fName = safeGetText(et_first_name);
+        String mName = safeGetText(et_middle_name);
+        String lName = safeGetText(et_last_name);
+        String dob = safeGetText(et_dob);
+
+        String age = "30";
+
+        String sex = getToggleValue(sex_M, sex_F);
+
+        boolean isDonor = getToggleValue(btn_donor_yes, btn_donor_no).equalsIgnoreCase("Yes");
+        boolean isWill = getToggleValue(living_will_yes, living_will_no).equalsIgnoreCase("Yes");
+
+
+        Patient newPatient = new Patient(
+                fName,
+                mName,
+                lName,
+                age,
+                sex,
+                safeGetText(et_fin), // Using FIN as ID No
+                safeGetText(mobile1), // Mobile No
+                dob,
+                safeGetText(et_country_birth),
+                safeGetText(et_city_birth),
+                safeGetText(et_province_birth),
+                safeGetText(et_marital_status),
+                safeGetText(et_race_ethnicity),
+                safeGetText(et_mrn),
+                safeGetText(et_occupation),
+                safeGetText(et_employer),
+                safeGetText(et_education),
+                safeGetText(et_religion),
+                safeGetText(et_preferences),
+                safeGetText(et_lang_record),
+                safeGetText(et_lang_record_no),
+                isDonor,
+                isWill,
+                safeGetText(et_email),
+                safeGetText(et_address_line1),
+                safeGetText(et_city_address),
+                safeGetText(et_province_address),
+                safeGetText(et_zipcode),
+                safeGetText(et_region),
+                safeGetText(et_country),
+                safeGetText(et_primary_phone),
+                safeGetText(et_secondary_phone),
+                R.drawable.patient_picture // TODO: Replace with actual default image resource
+        );
+
+        sharedViewModel.savePatient(newPatient);
+    }
+
     private void generateQRCode(){
         JSONObject data = new JSONObject();
 
@@ -289,6 +428,32 @@ public class PatientInfo extends Fragment {
         putIfNotEmpty(data, "cntry", et_country);
 
         putIfNotEmpty(data, "rem", et_remarks);
+
+        try {
+            // Sex (M/F)
+            String valSex = getToggleValue(sex_M, sex_F);
+            if (!valSex.isEmpty()) data.put("sex", valSex);
+
+            // Organ Donor (Yes/No)
+            String valDonor = getToggleValue(btn_donor_yes, btn_donor_no);
+            if (!valDonor.isEmpty()) data.put("donor", valDonor);
+
+            // Living Will (Yes/No)
+            String valWill = getToggleValue(living_will_yes, living_will_no);
+            if (!valWill.isEmpty()) data.put("will", valWill);
+
+            // Personal Email (Yes/No)
+            String valPEmail = getToggleValue(personal_email_yes, personal_email_no);
+            if (!valPEmail.isEmpty()) data.put("p_mail", valPEmail);
+
+            // Same Mail Address (Yes/No)
+            String valSameMail = getToggleValue(same_mail_yes, same_mail_no);
+            if (!valSameMail.isEmpty()) data.put("sm_addr", valSameMail);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
         if (data.length() == 0) {
@@ -392,6 +557,79 @@ public class PatientInfo extends Fragment {
                 e.printStackTrace();
                 Toast.makeText(getActivity(), "Failed to save image", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void populateFromQRJson(String jsonString) {
+        try {
+            JSONObject data = new JSONObject(jsonString);
+
+            safeSetText(et_first_name, data.optString("fname"));
+            safeSetText(et_middle_name, data.optString("mname"));
+            safeSetText(et_last_name, data.optString("lname"));
+            safeSetText(et_preferred_name, data.optString("pref"));
+            safeSetText(et_dob, data.optString("dob"));
+
+            safeSetText(et_country_birth, data.optString("b_cntry"));
+            safeSetText(et_city_birth, data.optString("b_city"));
+            safeSetText(et_province_birth, data.optString("b_prov"));
+
+            safeSetText(et_fin, data.optString("fin"));
+            safeSetText(et_mrn, data.optString("mrn"));
+
+            safeSetText(et_marital_status, data.optString("stat"));
+            safeSetText(et_race_ethnicity, data.optString("race"));
+            safeSetText(et_occupation, data.optString("job"));
+            safeSetText(et_employer, data.optString("emp"));
+            safeSetText(et_education, data.optString("edu"));
+            safeSetText(et_religion, data.optString("rel"));
+
+            safeSetText(et_preferences, data.optString("prefs"));
+            safeSetText(et_lang_record, data.optString("lang"));
+            safeSetText(et_lang_record_no, data.optString("lang_n"));
+
+            safeSetText(et_email, data.optString("email"));
+            safeSetText(mobile1, data.optString("mob1"));
+            safeSetText(mobile2, data.optString("mob2"));
+            safeSetText(et_primary_phone, data.optString("ph1"));
+            safeSetText(et_secondary_phone, data.optString("ph2"));
+
+            safeSetText(et_address_line1, data.optString("addr1"));
+            safeSetText(et_address_line2, data.optString("addr2"));
+            safeSetText(et_city_address, data.optString("city"));
+            safeSetText(et_province_address, data.optString("prov"));
+            safeSetText(et_zipcode, data.optString("zip"));
+            safeSetText(et_region, data.optString("reg"));
+            safeSetText(et_country, data.optString("cntry"));
+
+            safeSetText(et_remarks, data.optString("rem"));
+
+            restoreToggleState(sex_M, sex_F, data.optString("sex"));
+            restoreToggleState(btn_donor_yes, btn_donor_no, data.optString("donor"));
+            restoreToggleState(living_will_yes, living_will_no, data.optString("will"));
+            restoreToggleState(personal_email_yes, personal_email_no, data.optString("p_mail"));
+            restoreToggleState(same_mail_yes, same_mail_no, data.optString("sm_addr"));
+
+            Toast.makeText(getContext(), "Patient data loaded from QR", Toast.LENGTH_SHORT).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error parsing QR Data", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // sets the correct button as selected based on the string value
+    private void restoreToggleState(Button btn1, Button btn2, String value) {
+        if (value == null || value.isEmpty()) return;
+
+        btn1.setSelected(false);
+        btn2.setSelected(false);
+
+        // Check if value matches button text ("M" == "M" or "Yes" == "Yes")
+        if (btn1.getText().toString().equalsIgnoreCase(value)) {
+            btn1.setSelected(true);
+        } else if (btn2.getText().toString().equalsIgnoreCase(value)) {
+            btn2.setSelected(true);
         }
     }
 }

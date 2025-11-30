@@ -1,1223 +1,1332 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PatientInfo">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-        <LinearLayout
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:contentDescription="@string/none"
-                android:layout_width="match_parent"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="150dp">
+
+            <TextView
+                android:id="@+id/tv_header"
+                style="@style/Text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:tabTextAppearance="@style/AppTabTextAppearance"
-                app:tabSelectedTextAppearance="@style/SelectedAppTabTextAppearance">
+                android:text="Updated by Dr. Jane Smith on 10/10/2025, 9:22 AM"
+                android:textColor="@color/coral"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Basic"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabItem2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Health" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabItem3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Summary" />
-            </com.google.android.material.tabs.TabLayout>
+            <ImageView
+                android:id="@+id/imageView30"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="Profile Image"
+                android:src="@drawable/info_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_header" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp">
+                android:id="@+id/layout_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_middle_name"
+                app:layout_constraintStart_toEndOf="@+id/imageView30"
+                app:layout_constraintTop_toTopOf="@+id/imageView30">
 
-                <TextView style="@style/Text"
-                    android:id="@+id/textView8"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Updated by Dr. Jane Smith on 10/10/2025, 9:22 AM"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/coral"
-                    android:layout_gravity="center"/>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:id="@+id/imageView29"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/patient_icons"
-                    android:contentDescription="Patient Icons"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13dp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="200dp">
-
-                <ImageView
-                    android:id="@+id/imageView30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="95dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/info_image"
-                    android:layout_above="@id/field11"
-                    android:layout_alignEnd="@id/field11"
-                    android:layout_alignStart="@id/field11"
-                    android:contentDescription="Profile Image"/>
-
-                <LinearLayout android:id="@+id/field1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="first name *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_first_name" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:text="Julian"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field2"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toEndOf="@id/field1">
-
-                    <TextView
-                        android:text="middle name"
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/caribbean"
-                        android:textStyle="bold"
-                        android:textSize="13sp"/>
-
-                    <EditText
-                        android:text="Ramos"
-                        android:id="@+id/et_middle_name" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="LabelFor,TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical"
-                    android:layout_below="@id/field1"
-                    android:layout_alignStart="@id/field1">
-
-                    <TextView
-                        android:text="last name *"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/caribbean"
-                        android:textStyle="bold"
-                        android:textSize="13sp"/>
-
-                    <EditText
-                        android:text="Alvarez"
-                        android:id="@+id/et_last_name" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical"
-                    android:layout_toEndOf="@id/field3"
-                    android:layout_alignTop="@id/field3">
-
-                    <TextView
-                        android:text="preferred name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/caribbean"
-                        android:textStyle="bold"
-                        android:textSize="13sp"/>
-
-                    <EditText
-                        android:hint="preferred name"
-                        android:id="@+id/et_preferred_name" android:textColorHint="@color/accent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field3"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="date of birth *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_dob" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="date"
-                        android:paddingHorizontal="7dp"
-                        android:text="12/21/1979"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field5"
-                    android:layout_toEndOf="@id/field3"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="country of birth *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Philippines"
-                        android:id="@+id/et_country_birth" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical"
-                    android:layout_below="@id/field5"
-                    android:layout_alignStart="@id/field1">
-
-                    <TextView
-                        android:text="city of birth *"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/caribbean"
-                        android:textStyle="bold"
-                        android:textSize="13sp"/>
-
-                    <EditText
-                        android:text="Baguio City"
-                        android:id="@+id/et_city_birth" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical"
-                    android:layout_toEndOf="@id/field7"
-                    android:layout_alignTop="@id/field7">
-
-                    <TextView
-                        android:text="province of birth *"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/caribbean"
-                        android:textStyle="bold"
-                        android:textSize="13sp"/>
-
-                    <EditText
-                        android:text="Benguet"
-                        android:id="@+id/et_province_birth" android:textColorHint="@color/accent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field7"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="martial status *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_marital_status" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:text="Married"
-                        android:textColor="@color/text"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field9"
-                    android:layout_toEndOf="@id/field3"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="race / ethnicity *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_race_ethnicity" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:text="Ilocano"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_centerInParent="true"
-                    android:id="@+id/field11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field5"
-                    android:layout_toEndOf="@id/field2"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="sex *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/sex"
-                        android:layout_width="110dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/sex_on"
-                        android:contentDescription="@string/none"
-                        android:clickable="true"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field7"
-                    android:layout_toEndOf="@id/field2"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="FIN *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="1005-63251"
-                        android:id="@+id/et_fin" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field9"
-                    android:layout_toEndOf="@id/field2"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="MRN *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="200365448"
-                        android:id="@+id/et_mrn" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field9"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="occupation"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Architect"
-                        android:id="@+id/et_occupation" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field14"
-                    android:layout_alignTop="@id/field14"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="employer"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Visionarch"
-                        android:id="@+id/et_employer" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field15"
-                    android:layout_alignTop="@id/field15"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="highest education *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="College Graduate"
-                        android:id="@+id/et_education" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field14"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="religion"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Christian"
-                        android:id="@+id/et_religion" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="7"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field17"
-                    android:layout_alignTop="@id/field17"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="religious, cultural, ethnic preferences"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="N/A"
-                        android:id="@+id/et_preferences" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="15"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field18"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="organ donor"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/button2"
-                        android:layout_width="110dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/yes"
-                        android:contentDescription="@string/none" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field19"
-                    android:layout_marginStart="10dp"
-                    android:layout_alignTop="@id/field19"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:text="language record #"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/et_lang_record" android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="3"
-                            android:fontFamily="@font/inter"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="English"
-                            android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
-                            android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
-
-                        <Space
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <EditText
-                            android:id="@+id/et_lang_record_no" android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="3"
-                            android:fontFamily="@font/inter"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="1977232"
-                            android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
-                            android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field19"
-                    android:layout_toEndOf="@id/field2"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="has a living will"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/button3"
-                        android:layout_width="110dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/yes"
-                        android:contentDescription="@string/none" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field21"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="email *"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="julianalvarez@gmail.com"
-                        android:id="@+id/et_email" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="14"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field22"
-                    android:layout_toEndOf="@id/field22"
-                    android:layout_marginStart="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="personal email"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/button4"
-                        android:layout_width="110dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/yes"
-                        android:contentDescription="@string/none" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field23"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field22"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="address line 1*"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="142 Holy Ghost Hill Ext. Rd."
-                        android:id="@+id/et_address_line1" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="11"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field24"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field23"
-                    android:layout_alignTop="@id/field23"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="city"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Baguio"
-                        android:id="@+id/et_city_address" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="5"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field24"
-                    android:layout_alignTop="@id/field24"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="province"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Benguet"
-                        android:id="@+id/et_province_address" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="5"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field23"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="address line 2"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="julianalvarez@gmail.com"
-                        android:id="@+id/et_address_line2" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="11"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field27"
-                    android:layout_alignTop="@id/field27"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="zipcode"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="2600"
-                        android:id="@+id/et_zipcode" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="5"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/field28"
-                    android:layout_alignTop="@id/field28"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="region"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="CAR"
-                        android:id="@+id/et_region" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="5"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field27"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="country"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:text="Philippines"
-                        android:id="@+id/et_country" android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/rounded_outline"
-                        android:ems="14"
-                        android:fontFamily="@font/inter"
-                        android:inputType="text"
-                        android:paddingHorizontal="7dp"
-                        android:textColor="@color/text"
-                        android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_centerInParent="true"
-                    android:id="@+id/field31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/field30"
-                    android:layout_toEndOf="@id/field30"
-                    android:layout_marginStart="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="same mail address"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/button5"
-                        android:layout_width="110dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/yes"
-                        android:contentDescription="@string/none" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field31"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="primary phone"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/mobile1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="6"
-                            android:fontFamily="@font/inter"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="mobile"
-                            android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
-                            android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/mobile1"
-                            android:id="@+id/et_primary_phone" android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="9"
-                            android:fontFamily="@font/inter"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="(63+) 927 910 7392"
-                            android:textColor="@color/text"
-                            android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field33"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/field32"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="secondary phone"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/mobile2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="6"
-                            android:fontFamily="@font/inter"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="telephone"
-                            android:textColor="@color/text"
-                            android:textColorHint="@color/accent"
-                            android:textSize="13sp"
-                            tools:ignore="TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/mobile2"
-                            android:id="@+id/et_secondary_phone" android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@drawable/rounded_outline"
-                            android:ems="9"
-                            android:fontFamily="@font/inter"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:paddingHorizontal="7dp"
-                            android:text="(214) 723-9001"
-                            android:textColor="@color/text"
-                            android:textSize="13sp"
-                            tools:ignore="TextFields,TouchTargetSizeCheck" />
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field34"
+                    android:text="First name"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/field33"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g John"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="remarks"
-                        android:textColor="@color/caribbean"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/layout_middle_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_first_name"
+                app:layout_constraintTop_toTopOf="@+id/layout_first_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Middle name"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g Dela"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/layout_first_name"
+                app:layout_constraintStart_toStartOf="@+id/layout_first_name"
+                app:layout_constraintTop_toBottomOf="@+id/layout_first_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last name"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g Cruz"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_preferred_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/layout_middle_name"
+                app:layout_constraintStart_toStartOf="@+id/layout_middle_name"
+                app:layout_constraintTop_toBottomOf="@+id/layout_middle_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preferred name"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_preferred_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g John John"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_dob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_country_birth"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Birth"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="MM/DD/YYYY"
+                    android:inputType="date"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_country_birth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_sex"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toEndOf="@+id/layout_dob"
+                app:layout_constraintTop_toTopOf="@+id/layout_dob">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country of Birth"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_country_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g Philippines"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_country_birth"
+                app:layout_constraintTop_toTopOf="@+id/layout_country_birth">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sex"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sex_M"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="M"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_left"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sex_F"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="F"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_right"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_city_birth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_province_birth"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_dob">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City of Birth"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_city_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g Baguio City"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_province_birth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_fin"
+                app:layout_constraintStart_toEndOf="@+id/layout_city_birth"
+                app:layout_constraintTop_toBottomOf="@+id/layout_dob">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Province of Birth"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_province_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Benguet"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_fin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_province_birth"
+                app:layout_constraintTop_toBottomOf="@+id/layout_sex">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FIN"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_fin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="1005-63251"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_marital"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_race"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_city_birth">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marital Status"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_marital_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g. Married"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_race"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_mrn"
+                app:layout_constraintStart_toEndOf="@+id/layout_marital"
+                app:layout_constraintTop_toBottomOf="@+id/layout_city_birth">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Race / Ethnicity"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_race_ethnicity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Ilocano"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_mrn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_race"
+                app:layout_constraintTop_toBottomOf="@+id/layout_fin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MRN"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_mrn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="200365448"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_occupation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_employer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_marital">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Occupation"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_occupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Architect"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_employer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_education"
+                app:layout_constraintStart_toEndOf="@+id/layout_occupation"
+                app:layout_constraintTop_toBottomOf="@+id/layout_marital">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Employer"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_employer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Visionarch"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_education"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_employer"
+                app:layout_constraintTop_toBottomOf="@+id/layout_mrn">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Highest Education"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_education"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="College Grad"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_religion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_occupation">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Religion"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_religion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g Christian"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_preferences"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_religion">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Religious, cultural, ethnic preferences"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_preferences"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="N/A"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_organ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_preferences">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Organ Donor"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_donor_yes"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="Yes"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_left"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_donor_no"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="No"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_right"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_living_will"
+                app:layout_constraintStart_toEndOf="@+id/layout_organ"
+                app:layout_constraintTop_toTopOf="@+id/layout_organ">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Language Record #"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <EditText
-                        android:gravity="top|start"
-                        android:id="@+id/et_remarks" android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:id="@+id/et_lang_record"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@drawable/rounded_outline"
-                        android:ems="14"
-                        android:fontFamily="@font/inter"
-                        android:inputType="textMultiLine"
-                        android:paddingHorizontal="7dp"
+                        android:hint="English"
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
                         android:textColor="@color/text"
                         android:textColorHint="@color/accent"
-                        android:textSize="13sp"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:textSize="13sp" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/et_lang_record_no"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_outline"
+                        android:hint="19772"
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp" />
                 </LinearLayout>
+            </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView32"
+            <LinearLayout
+                android:id="@+id/layout_living_will"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_lang"
+                app:layout_constraintTop_toTopOf="@+id/layout_organ">
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="85dp"
-                    android:adjustViewBounds="true"
-                    android:layout_below="@id/field31"
-                    android:layout_toEndOf="@id/field32"
-                    android:layout_alignEnd="@id/field31"
-                    android:layout_alignStart="@id/field31"
-                    android:src="@drawable/qr_button"
-                    android:layout_marginTop="13dp"
-                    android:contentDescription="QR Code"/>
+                    android:layout_height="wrap_content"
+                    android:text="Has Living Will"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/living_will_yes"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="Yes"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_left"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
 
-        </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/living_will_no"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="No"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_right"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_personal_email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_organ">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="johndcruz@gmail.com"
+                    android:inputType="textEmailAddress"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_personal_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_email"
+                app:layout_constraintTop_toTopOf="@+id/layout_email">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Personal Email"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/personal_email_yes"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="Yes"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_left"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/personal_email_no"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="No"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_right"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_addr1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_city"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address line 1"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_address_line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g 142 Holy Ghost"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_province"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@+id/layout_addr1"
+                app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_city_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Baguio"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_province"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@+id/layout_city"
+                app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Province"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_province_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Benguet"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_addr2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_zip"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_addr1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address line 2"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_address_line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="e.g. Unit 2"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_zip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_region"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@+id/layout_addr2"
+                app:layout_constraintTop_toBottomOf="@+id/layout_addr1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Zipcode"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_zipcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="2600"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_region"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@+id/layout_zip"
+                app:layout_constraintTop_toBottomOf="@+id/layout_addr1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Region"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="CAR"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/layout_same_mail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_addr2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline"
+                    android:hint="Philippines"
+                    android:inputType="text"
+                    android:minHeight="35dp"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_same_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_country"
+                app:layout_constraintTop_toBottomOf="@+id/layout_addr2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Same Mail Address"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/same_mail_yes"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="M"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_left"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/same_mail_no"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="F"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_toggle_right"
+                        android:textColor="@color/text_toggle_selector"
+                        android:textAllCaps="false"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_primary_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/btn_qr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_country">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Primary phone"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/mobile1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:background="@drawable/rounded_outline"
+                        android:hint="Mobile"
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/et_primary_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/rounded_outline"
+                        android:hint="(63+) 927..."
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_secondary_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/btn_qr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_primary_phone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Secondary phone"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/mobile2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:background="@drawable/rounded_outline"
+                        android:hint="Tel"
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/et_secondary_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/rounded_outline"
+                        android:hint="(214) 723..."
+                        android:inputType="text"
+                        android:minHeight="35dp"
+                        android:padding="6dp"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/accent"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="QR Code"
+                android:src="@drawable/qr_button"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_secondary_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/layout_primary_phone" />
+
+            <LinearLayout
+                android:id="@+id/editFieldRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/layout_secondary_phone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remarks"
+                    android:textColor="@color/caribbean"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/rounded_outline"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:padding="6dp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/accent"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Info"
+                android:backgroundTint="@color/moonstone"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/editFieldRemarks"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

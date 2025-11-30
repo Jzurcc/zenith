@@ -252,32 +252,25 @@ public class QRScanner extends AppCompatActivity {
         if (!barcodes.isEmpty()) {
             handler.removeCallbacks(timeoutRunnable); // QR code scanned, stop the timer bro
 
-            String urlToOpen = null;
+            Barcode barcode = barcodes.get(0); // Get the first barcode
+            String rawValue = barcode.getRawValue();
 
-            for (Barcode barcode : barcodes) {
-                int valueType = barcode.getValueType();
+            if (rawValue.trim().startsWith("{")) {
+                Log.d("QRScanner", "JSON Data found: " + rawValue);
 
-                if (valueType == Barcode.TYPE_URL) {
-                    urlToOpen = Objects.requireNonNull(barcode.getUrl()).getUrl();
-                    break;
-                }
-            }
+                // navigate back to MainActivity and pass the data
+                Intent intent = new Intent(QRScanner.this, MainActivity.class);
+                intent.putExtra("scanned_patient_json", rawValue);
 
-            // open the URL in the browser
-            if (urlToOpen != null) {
-                Log.d("QRScanner", "Opening URL: " + urlToOpen);
-
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(urlToOpen));
-                startActivity(browserIntent);
-
-                Toast.makeText(this, "Opening Browser...", Toast.LENGTH_LONG).show();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish(); // Close the scanner
             } else {
-                Toast.makeText(this, "Scanned code is not a URL.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Unknown QR format", Toast.LENGTH_SHORT).show();
+                shutterBtn.setEnabled(true);
             }
 
             stopAnalysis();
-            shutterBtn.setEnabled(true);
         }
     }
 

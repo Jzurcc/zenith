@@ -44,14 +44,28 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.setTexts("Dashboard", "Overview");
 
-        setupRecyclerView(view);
+        // runs only once
+        sharedViewModel.initializeDefaultPatients();
+
+        setupRecyclerView(view, sharedViewModel);
         setupSearchAndFilter(view);
     }
 
-    private void setupRecyclerView(View view) {
+    private void setupRecyclerView(View view, SharedViewModel viewModel) {
         RecyclerView recyclerView = view.findViewById(R.id.patient_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        patients = new ArrayList<>();
+
+        patientAdapter = new PatientAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(patientAdapter);
+
+        viewModel.getPatientList().observe(getViewLifecycleOwner(), updatedList -> {
+            // Update the adapter whenever the list changes
+            patients = updatedList; // Update local reference
+            patientAdapter = new PatientAdapter(patients, this); // OR create a method in Adapter to update data
+            recyclerView.setAdapter(patientAdapter);
+        });
+
+        /*patients = new ArrayList<>();
         patients.add(new Patient("Julian", "R", "Alvarez", "46", "Male", "6202158", "0965 0568 555",
                 "12/21/1979", "Philippines", "Baguio City", "Benguet",
                 "Married", "Ilocano", "200365448", "Architect",
@@ -86,7 +100,7 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
                 "(63+) 921 7789 654", "N/A", R.drawable.dela_rosa_profile));
 
         patientAdapter = new PatientAdapter(patients, this);
-        recyclerView.setAdapter(patientAdapter);
+        recyclerView.setAdapter(patientAdapter);*/
     }
 
     private void setupSearchAndFilter(View view) {

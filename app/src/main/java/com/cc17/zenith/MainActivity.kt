@@ -127,7 +127,28 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
+        // check if we arrived here from the QR Scanner
+        if (intent.hasExtra("scanned_patient_json")) {
+            val jsonString = intent.getStringExtra("scanned_patient_json")
+            openPatientInfoWithData(jsonString)
+        }
     }
+
+
+    // If the QR activity was already open in background
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // Update the activity's intent to the new one
+        setIntent(intent)
+
+        if (intent.hasExtra("scanned_patient_json")) {
+            val jsonString = intent.getStringExtra("scanned_patient_json")
+            openPatientInfoWithData(jsonString)
+        }
+    }
+
+
     private fun toChatbot() {
         val intent = Intent(this, Chatbot::class.java)
         startActivity(intent)
@@ -141,6 +162,22 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_layout, fragment)
+            .commit()
+    }
+
+    private fun openPatientInfoWithData(jsonString: String?) {
+        // 1. Create the fragment instance
+        val patientInfoFragment = PatientInfo()
+
+        // 2. Create the Bundle to pass the data
+        val args = Bundle()
+        args.putString("qr_json_data", jsonString)
+        patientInfoFragment.arguments = args
+
+        // 3. Replace the current fragment
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_layout, patientInfoFragment)
+            .addToBackStack(null) // Optional: Allows user to press Back button to return to Dashboard
             .commit()
     }
 }
