@@ -35,6 +35,7 @@ public class Dashboard extends Fragment {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_layout, new diseasetrends())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -43,6 +44,7 @@ public class Dashboard extends Fragment {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_layout, new Appointments())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -52,6 +54,7 @@ public class Dashboard extends Fragment {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_layout, new Appointments())
+                    .addToBackStack(null)
                     .commit();
         });
 

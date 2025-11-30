@@ -1,55 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DiseaseInfo">
+    android:background="#F8F9FA"
+    android:padding="16dp">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tuberculosis"
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="@color/moonstone"/>
+
+            <TextView
+                android:id="@+id/tvDetailDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="October 31"
+                android:textColor="@color/moonstone"/>
+        </LinearLayout>
+
+        <TextView
+            android:text="Overview"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Stats Grid (Using Table-like Linear Layouts) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <!-- Card 1 -->
+            <include layout="@layout/item_stat_box"
+                android:id="@+id/statActive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Card 2 -->
+            <include layout="@layout/item_stat_box"
+                android:id="@+id/statNew"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <!-- Card 3 -->
+            <include layout="@layout/item_stat_box"
+                android:id="@+id/statTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Card 4 -->
+            <include layout="@layout/item_stat_box"
+                android:id="@+id/statRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+
+        <!-- Graph 1: Line Chart -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="Monthly Trend"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!-- OUR CUSTOM LINE VIEW -->
+                <com.cc17.zenith.SimpleLineGraph
+                    android:id="@+id/graphTrend"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Graph 2: Bar Chart -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="Severity Distribution"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!-- OUR CUSTOM BAR VIEW -->
+                <com.cc17.zenith.SimpleBarGraph
+                    android:id="@+id/graphSeverity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Buttons / Tabs -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDesc"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:text="Description"
+                app:cornerRadius="12dp"
+                android:layout_marginEnd="4dp"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/coral"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSymp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:text="Symptoms"
+                app:cornerRadius="12dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/moonstone"
+                android:textAllCaps="false"
+                android:backgroundTint="#D1F1F6"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeds"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:text="Medication"
+                app:cornerRadius="12dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/moonstone"
+                android:textAllCaps="false"
+                android:backgroundTint="#D1F1F6"/>
+
+        </LinearLayout>
+
+        <!-- Info Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#F0F8F8"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="0dp"
+            android:layout_marginBottom="50dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tvInfoContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:text="Tuberculosis"
-                android:textAppearance="@style/Header"
-                android:textColor="@color/moonstone" />
+                android:padding="20dp"
+                android:textSize="15sp"
+                android:lineSpacingMultiplier="1.3"
+                android:textColor="#455A64"
+                android:text="Select a tab above to see details."/>
+        </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:src="@drawable/calendar" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/disease_info"
-                android:layout_marginBottom="25dp"/>
-
-            <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:src="@drawable/info_tabs" />
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+    </LinearLayout>
+</ScrollView>

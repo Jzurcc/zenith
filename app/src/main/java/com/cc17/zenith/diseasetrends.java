@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class diseasetrends extends Fragment {
+public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseClickListener {
 
     // UI Components
     private DiseaseAdapter diseaseAdapter;
@@ -34,6 +34,7 @@ public class diseasetrends extends Fragment {
     public diseasetrends() {
         // Required empty public constructor
     }
+
 
     @Nullable
     @Override
@@ -69,7 +70,7 @@ public class diseasetrends extends Fragment {
 
         // 4. Setup RecyclerView
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        diseaseAdapter = new DiseaseAdapter(allDiseases);
+        diseaseAdapter = new DiseaseAdapter(allDiseases, this);
         rvList.setAdapter(diseaseAdapter);
 
         // 5. Setup Listeners
@@ -79,13 +80,127 @@ public class diseasetrends extends Fragment {
 
     private void initializeData() {
         allDiseases = new ArrayList<>();
-        allDiseases.add(new Disease("1", "Dengue", "Communicable", 32, "Oct 31"));
-        allDiseases.add(new Disease("2", "Influenza", "Communicable", 17, "Oct 31"));
-        allDiseases.add(new Disease("3", "Tuberculosis", "Communicable", 32, "Oct 31"));
-        allDiseases.add(new Disease("4", "Diabetes", "Non-communicable", 120, "Oct 30"));
-        allDiseases.add(new Disease("5", "Hypertension", "Non-communicable", 98, "Oct 30"));
-        allDiseases.add(new Disease("6", "Asthma", "Chronic", 45, "Oct 29"));
-        allDiseases.add(new Disease("7", "Bronchitis", "Acute", 12, "Oct 29"));
+
+        // --- COMMUNICABLE ---
+        allDiseases.add(new Disease(
+                "1", "Dengue", "Communicable", 32, "Oct 31",
+                12, 612, "2%",
+                "Dengue is a mosquito-borne viral disease occurring in tropical and subtropical areas.",
+                "High fever, headache, vomiting, muscle and joint pains, skin rash.",
+                "Pain relievers (Acetaminophen), fluids, and rest. Avoid aspirin.",
+                Arrays.asList(10, 25, 15, 40, 30, 60, 32),
+                Arrays.asList(20, 10, 2)
+        ));
+
+        allDiseases.add(new Disease(
+                "2", "Influenza", "Communicable", 600, "Oct 31",
+                45, 1200, "0.5%",
+                "Influenza is a viral infection that attacks your respiratory system.",
+                "Fever, chills, muscle aches, cough, congestion, runny nose.",
+                "Antiviral drugs (Oseltamivir), bed rest, plenty of fluids.",
+                Arrays.asList(500, 520, 480, 600, 580, 610, 600),
+                Arrays.asList(500, 90, 10)
+        ));
+
+        allDiseases.add(new Disease(
+                "3", "Tuberculosis", "Communicable", 600, "Oct 31",
+                12, 612, "6%",
+                "Tuberculosis (TB) is a serious illness that mainly affects the lungs.",
+                "Coughing for 3+ weeks, chest pain, coughing up blood, fatigue.",
+                "Antibiotics (Isoniazid, Rifampin) for 6-9 months.",
+                Arrays.asList(300, 320, 350, 400, 380, 500, 600),
+                Arrays.asList(400, 150, 50)
+        ));
+
+        allDiseases.add(new Disease(
+                "4", "COVID-19", "Communicable", 150, "Oct 31",
+                25, 2300, "1.2%",
+                "A disease caused by SARS-CoV-2 that can trigger what doctors call a respiratory tract infection.",
+                "Fever, dry cough, tiredness, loss of taste or smell.",
+                "Supportive care, antivirals (Paxlovid) for high risk patients.",
+                Arrays.asList(50, 80, 120, 100, 140, 130, 150),
+                Arrays.asList(100, 40, 10)
+        ));
+
+        allDiseases.add(new Disease(
+                "5", "Pneumonia", "Communicable", 85, "Oct 30",
+                10, 450, "3.5%",
+                "Infection that inflames air sacs in one or both lungs, which may fill with fluid.",
+                "Chest pain when breathing, cough with phlegm, fatigue, fever.",
+                "Antibiotics (if bacterial), cough medicine, fever reducers.",
+                Arrays.asList(60, 65, 70, 75, 80, 82, 85),
+                Arrays.asList(50, 25, 10)
+        ));
+
+
+        // --- NON-COMMUNICABLE ---
+        allDiseases.add(new Disease(
+                "6", "Diabetes Type 2", "Non-communicable", 120, "Oct 30",
+                2, 5000, "0.1%",
+                "A chronic condition that affects the way the body processes blood sugar (glucose).",
+                "Increased thirst, frequent urination, hunger, fatigue, blurred vision.",
+                "Metformin, insulin therapy, diet, and exercise.",
+                Arrays.asList(115, 116, 118, 118, 119, 119, 120),
+                Arrays.asList(80, 30, 10)
+        ));
+
+        allDiseases.add(new Disease(
+                "7", "Hypertension", "Non-communicable", 98, "Oct 30",
+                5, 4200, "0.2%",
+                "A condition in which the force of the blood against the artery walls is too high.",
+                "Often no symptoms. Headaches, shortness of breath, nosebleeds in severe cases.",
+                "ACE inhibitors, beta-blockers, diet changes (low sodium).",
+                Arrays.asList(90, 92, 91, 94, 95, 96, 98),
+                Arrays.asList(60, 30, 8)
+        ));
+
+
+        // --- CHRONIC ---
+        allDiseases.add(new Disease(
+                "8", "Asthma", "Chronic", 45, "Oct 29",
+                1, 800, "0.05%",
+                "A condition in which your airways narrow and swell and may produce extra mucus.",
+                "Shortness of breath, chest tightness or pain, wheezing.",
+                "Inhalers (Albuterol), corticosteroids.",
+                Arrays.asList(40, 38, 42, 45, 41, 43, 45),
+                Arrays.asList(30, 12, 3)
+        ));
+
+        allDiseases.add(new Disease(
+                "9", "Arthritis", "Chronic", 210, "Oct 28",
+                3, 1500, "0%",
+                "Swelling and tenderness of one or more joints.",
+                "Joint pain, stiffness, swelling, redness, decreased range of motion.",
+                "Painkillers, NSAIDs, physical therapy.",
+                Arrays.asList(205, 206, 208, 208, 209, 210, 210),
+                Arrays.asList(150, 50, 10)
+        ));
+
+
+        // --- ACUTE ---
+        allDiseases.add(new Disease(
+                "10", "Acute Bronchitis", "Acute", 12, "Oct 29",
+                4, 150, "0%",
+                "Inflammation of the lining of your bronchial tubes, which carry air to and from your lungs.",
+                "Cough, production of mucus, fatigue, slight fever and chills.",
+                "Rest, fluids, cough suppressants, humidifier.",
+                Arrays.asList(5, 8, 15, 18, 14, 10, 12),
+                Arrays.asList(8, 3, 1)
+        ));
+    }
+
+    public void onDiseaseClick(Disease disease) {
+        DiseaseInfo detailFragment = new DiseaseInfo();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("disease_data", disease);
+        detailFragment.setArguments(bundle);
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_layout, detailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void setupSearch() {
@@ -127,7 +242,6 @@ public class diseasetrends extends Fragment {
 
         for (ButtonCategoryPair pair : pairs) {
             pair.btn.setOnClickListener(v -> {
-                // Toggle logic: if clicking already selected, turn it off.
                 if (pair.category.equals(selectedCategory)) {
                     selectedCategory = null;
                     updateButtonStyles(null);
@@ -166,7 +280,6 @@ public class diseasetrends extends Fragment {
             btn.setStrokeWidth(3);
         }
 
-        // Selected Filled Style
         if (selectedBtn != null) {
             selectedBtn.setBackgroundColor(colorCoral);
             selectedBtn.setTextColor(Color.WHITE);

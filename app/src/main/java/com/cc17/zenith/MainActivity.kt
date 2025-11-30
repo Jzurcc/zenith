@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_layout, Dashboard())
+                .addToBackStack(null)
                 .commit()
             navigationView.setCheckedItem(R.id.home)
         }
@@ -141,6 +142,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_layout, fragment)
+            .addToBackStack(null)
             .commit()
     }
 }
