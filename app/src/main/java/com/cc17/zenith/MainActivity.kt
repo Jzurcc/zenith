@@ -108,25 +108,11 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        // TODO: Add Settings
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> replaceFragment(Dashboard())
-                R.id.medication -> replaceFragment(ehr())
-                R.id.documents -> replaceFragment(Documents())
-                R.id.patient_info -> replaceFragment(PatientInfo())
                 R.id.appointments -> replaceFragment(Appointments())
-                R.id.ai_assistant -> toChatbot()
-                R.id.ocr_scanner -> toOCR()
-                R.id.prescriptions -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.charting -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.overview -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.data_recon -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.allergies -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.tasks -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.billing -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.mar -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.clinical_notes -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
-                R.id.flowsheet -> Toast.makeText(this, "ERROR 404: Page not found", Toast.LENGTH_SHORT).show()
                 R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
             }
 
