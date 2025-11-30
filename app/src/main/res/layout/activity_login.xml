@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="24dp">
+    android:background="#FFFFFF">
 
     <!-- Back Arrow -->
     <ImageView
@@ -17,6 +16,7 @@
         android:src="@drawable/ic_arrow_back"
         app:tint="@color/moonstone"
         android:contentDescription="Back"
+        android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTitle"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitle" />
@@ -46,9 +46,11 @@
         android:textColor="@color/text"
         android:textSize="16sp"
         android:layout_marginTop="48dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
+    <!-- Email Input -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="0dp"
@@ -62,6 +64,8 @@
         android:fontFamily="@font/inter"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
@@ -76,9 +80,11 @@
         android:textColor="@color/text"
         android:textSize="16sp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
+    <!-- Password Input -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="0dp"
@@ -95,12 +101,13 @@
         android:drawableTint="@color/text"
         android:drawablePadding="12dp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
 
     <!-- Log In Button -->
-    <!-- Using MaterialButton to easily handle rounded corners and tints -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
@@ -113,6 +120,8 @@
         android:backgroundTint="@color/moonstone"
         app:cornerRadius="12dp"
         android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:textAllCaps="false"
         android:elevation="0dp"
         android:stateListAnimator="@null"

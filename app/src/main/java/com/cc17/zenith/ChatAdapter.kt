@@ -14,23 +14,19 @@ class ChatAdapter(
     // View type constants
     private val VIEW_TYPE_USER = 1
     private val VIEW_TYPE_BOT = 2
-
-    // This class just holds the reference to the TextView in your bubble
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.chat_message_text)
     }
 
     override fun getItemViewType(position: Int): Int {
-        // This is the magic: it checks who the message is from...
         return if (messageList[position].isUser) {
-            VIEW_TYPE_USER // ...and returns the "user" type
+            VIEW_TYPE_USER
         } else {
-            VIEW_TYPE_BOT // ...or the "bot" type
+            VIEW_TYPE_BOT
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        // This inflates the correct layout based on the view type
         val layoutId = if (viewType == VIEW_TYPE_USER) {
             R.layout.user_bubble_layout
         } else {
@@ -41,18 +37,13 @@ class ChatAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        // This gets the message for the current row and sets the text
         val message = messageList[position]
         holder.messageText.text = message.message
     }
 
     override fun getItemCount(): Int = messageList.size
-
-    // This is the function your Chatbot.kt Activity calls
-    // to update the list with new messages
     fun updateMessages(newMessages: List<ChatMessage>) {
         messageList = newMessages
-        // This tells the adapter to refresh the whole list
         notifyDataSetChanged()
     }
 }
