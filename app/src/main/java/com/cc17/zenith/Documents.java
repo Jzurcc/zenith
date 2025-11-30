@@ -179,6 +179,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             openCamera();
             dialog.dismiss();
         });
+        dialogView.findViewById(R.id.cancel_button).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
