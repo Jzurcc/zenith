@@ -1215,6 +1215,7 @@
                     android:layout_marginTop="13dp"
                     android:contentDescription="QR Code"/>
 
+
             </RelativeLayout>
 
         </LinearLayout>

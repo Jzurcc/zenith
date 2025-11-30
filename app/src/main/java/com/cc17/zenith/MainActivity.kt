@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // TODO: Add Settings
+        // TODO: Add settings and edit profile
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> replaceFragment(Dashboard())

@@ -69,17 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                app:headerLayout="@layout/nav_header"
-                app:itemBackground="@color/transparent"
-                app:itemIconTint="@color/caribbean"
-                app:itemTextColor="@color/caribbean"
-                app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/nav_menu" />
         </FrameLayout>
 
     </LinearLayout>
@@ -117,5 +106,17 @@
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/caribbean"
+        app:itemTextColor="@color/caribbean"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/nav_menu"
+        app:itemBackground="@color/transparent"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

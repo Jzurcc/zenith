@@ -14,7 +14,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="patient_information">Patient Information</string>
     <string name="zenith_ai_assistant">ZENITH AI Assistant</string>
-    <string name="zenith_appointments">ZENITH Appointments</string>
+    <string name="zenith_appointments">View Appointments</string>
     <string name="zenith_documents">ZENITH Documents</string>
     <string name="zenith_medication">ZENITH Medication</string>
     <string name="zenith_ocr_scanner">ZENITH OCR Scanner</string>
