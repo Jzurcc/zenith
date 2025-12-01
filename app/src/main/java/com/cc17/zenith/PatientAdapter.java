@@ -35,7 +35,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         Patient patient = patientsFiltered.get(position);
         holder.profileImage.setImageResource(patient.getProfileImage());
         holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
-        holder.patientDetails.setText(String.format("%s, %s\nID No.: %s\nMobile No.: %s", patient.getSex(), patient.getAge(), patient.getIdNo(), patient.getMobileNo()));
+        holder.patientDetails.setText(String.format("%s, %s\nID No.: %s\nMobile No.: %s", patient.getSex(), patient.getAge(), patient.getMrn(), patient.getPrimaryPhoneLabel(), patient.getPrimaryPhoneNumber()));
         holder.itemView.setOnClickListener(v -> onPatientClickListener.onPatientClick(patient));
     }
 
@@ -49,11 +49,14 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         if (query.isEmpty()) {
             patientsFiltered.addAll(patients);
         } else {
+            String lowerCaseQuery = query.toLowerCase();
             for (Patient patient : patients) {
-                if (patient.getLastName().toLowerCase().contains(query.toLowerCase()) ||
-                    patient.getFirstName().toLowerCase().contains(query.toLowerCase()) ||
-                    patient.getIdNo().toLowerCase().contains(query.toLowerCase()) ||
-                    patient.getMobileNo().toLowerCase().contains(query.toLowerCase())) {
+                // Check Name, MRN, or Phone
+                if (patient.getLastName().toLowerCase().contains(lowerCaseQuery) ||
+                        patient.getFirstName().toLowerCase().contains(lowerCaseQuery) ||
+                        patient.getMrn().contains(lowerCaseQuery) ||
+                        patient.getPrimaryPhoneNumber().contains(lowerCaseQuery)) {
+
                     patientsFiltered.add(patient);
                 }
             }

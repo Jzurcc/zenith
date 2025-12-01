@@ -54,19 +54,42 @@ public class SharedViewModel extends ViewModel {
         patientList.setValue(currentList);
     }
 
+
+    // TODO: Populate dummy patient data
     public void initializeDefaultPatients() {
         List<Patient> current = patientList.getValue();
         if (current == null || current.isEmpty()) {
             List<Patient> dummyData = new ArrayList<>();
-            dummyData.add(new Patient("Julian", "R", "Alvarez", "46", "Male", "6202158", "0965 0568 555",
-                    "12/21/1979", "Philippines", "Baguio City", "Benguet",
-                    "Married", "Ilocano", "200365448", "Architect",
-                    "Visionarch", "College Graduate", "Christian", "N/A",
-                    "English", "1977232", true, true,
-                    "julianalvarez@gmail.com", "142 Holy Ghost Hill Ext. Rd.", "Baguio",
-                    "Benguet", "2600", "CAR", "Philippines",
-                    "(63+) 927 910 7392", "(214) 723-9001", R.drawable.alvarez_profile));
-            // Add other dummy patients...
+
+            dummyData.add(new Patient(
+                    "Julian", "R", "Alvarez", "Julian",
+                    "12/21/1979", "46", "Philippines", "Male",
+                    "Baguio City", "Benguet", "1005-63251", "Married",
+                    "Ilocano", "200365448", "Architect", "Visionarch",
+                    "College Graduate", "Christian", "N/A", true,
+                    "English", "1977232", true,
+                    "julianalvarez@gmail.com", true,
+                    "142 Holy Ghost Hill Ext. Rd.", "Baguio", "Benguet", "",
+                    "2600", "CAR", "Philippines", true,
+                    "Mobile", "(63+) 927 910 7392",
+                    "Telephone", "(214) 723-9001",
+                    "No known allergies.", R.drawable.alvarez_profile
+            ));
+
+            dummyData.add(new Patient(
+                    "Angela", "M", "Bautista", "Ange",
+                    "10/15/1984", "41", "Philippines", "Female",
+                    "Manila", "Metro Manila", "1000001", "Single",
+                    "Tagalog", "200365449", "Designer", "Self-Employed",
+                    "High School", "Catholic", "None", false,
+                    "Tagalog", "1000001", false,
+                    "angelabautista@gmail.com", true,
+                    "123 Main St.", "Manila", "Metro Manila", "",
+                    "1000", "NCR", "Philippines", false,
+                    "Mobile", "(63+) 917 2256 432",
+                    "Work", "(02) 8123-4567",
+                    "Allergic to Penicillin.", R.drawable.bautista_profile
+            ));
 
             patientList.setValue(dummyData);
         }

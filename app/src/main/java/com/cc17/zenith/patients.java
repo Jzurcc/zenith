@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +21,8 @@ import java.util.List;
 public class patients extends Fragment implements PatientAdapter.OnPatientClickListener {
 
     private PatientAdapter patientAdapter;
-    private List<Patient> patients;
+    private List<Patient> patientsList = new ArrayList<>();
+
 
     public patients() {
         // Required empty public constructor
@@ -49,19 +51,31 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
 
         setupRecyclerView(view, sharedViewModel);
         setupSearchAndFilter(view);
+
+        ImageButton btnAddPatient = view.findViewById(R.id.btn_add_patient);
+        btnAddPatient.setOnClickListener(v -> {
+            PatientInfo newPatientFragment = new PatientInfo();
+            Bundle args = new Bundle();
+            args.putBoolean("isNewPatient", true);
+            newPatientFragment.setArguments(args);
+
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_layout, newPatientFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
     private void setupRecyclerView(View view, SharedViewModel viewModel) {
         RecyclerView recyclerView = view.findViewById(R.id.patient_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        patientAdapter = new PatientAdapter(new ArrayList<>(), this);
+        patientAdapter = new PatientAdapter(patientsList, this);
         recyclerView.setAdapter(patientAdapter);
 
         viewModel.getPatientList().observe(getViewLifecycleOwner(), updatedList -> {
-            // Update the adapter whenever the list changes
-            patients = updatedList; // Update local reference
-            patientAdapter = new PatientAdapter(patients, this); // OR create a method in Adapter to update data
+            patientsList = updatedList;
+            patientAdapter = new PatientAdapter(patientsList, this);
             recyclerView.setAdapter(patientAdapter);
         });
 
@@ -102,6 +116,7 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         patientAdapter = new PatientAdapter(patients, this);
         recyclerView.setAdapter(patientAdapter);*/
     }
+
 
     private void setupSearchAndFilter(View view) {
         SearchView searchView = view.findViewById(R.id.patient_search_view);
@@ -161,46 +176,20 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
 
     @Override
     public void onPatientClick(Patient patient) {
-        Bundle bundle = new Bundle();
-        bundle.putString("firstName", patient.getFirstName());
-        bundle.putString("middleInitial", patient.getMiddleInitial());
-        bundle.putString("lastName", patient.getLastName());
-        bundle.putString("age", patient.getAge());
-        bundle.putString("sex", patient.getSex());
-        bundle.putString("idNo", patient.getIdNo());
-        bundle.putString("mobileNo", patient.getMobileNo());
-        bundle.putString("dob", patient.getDob());
-        bundle.putString("countryOfBirth", patient.getCountryOfBirth());
-        bundle.putString("cityOfBirth", patient.getCityOfBirth());
-        bundle.putString("provinceOfBirth", patient.getProvinceOfBirth());
-        bundle.putString("maritalStatus", patient.getMaritalStatus());
-        bundle.putString("raceEthnicity", patient.getRaceEthnicity());
-        bundle.putString("mrn", patient.getMrn());
-        bundle.putString("occupation", patient.getOccupation());
-        bundle.putString("employer", patient.getEmployer());
-        bundle.putString("education", patient.getEducation());
-        bundle.putString("religion", patient.getReligion());
-        bundle.putString("preferences", patient.getPreferences());
-        bundle.putString("langRecord", patient.getLangRecord());
-        bundle.putString("langRecordNo", patient.getLangRecordNo());
-        bundle.putBoolean("isOrganDonor", patient.isOrganDonor());
-        bundle.putBoolean("isLivingWill", patient.isLivingWill());
-        bundle.putString("email", patient.getEmail());
-        bundle.putString("address1", patient.getAddress1());
-        bundle.putString("city", patient.getCity());
-        bundle.putString("province", patient.getProvince());
-        bundle.putString("zip", patient.getZip());
-        bundle.putString("region", patient.getRegion());
-        bundle.putString("country", patient.getCountry());
-        bundle.putString("primaryPhone", patient.getPrimaryPhone());
-        bundle.putString("secondaryPhone", patient.getSecondaryPhone());
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("selected_patient", patient);
 
-        Documents documentsFragment = new Documents();
-        documentsFragment.setArguments(bundle);
+            Documents documentsFragment = new Documents();
+            documentsFragment.setArguments(bundle);
 
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_layout, documentsFragment)
-                .addToBackStack(null)
-                .commit();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_layout, documentsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error opening patient: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

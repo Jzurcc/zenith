@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -36,11 +38,13 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Make patient info layout responsive
-// TODO: Add "Edit Patient Info" button
 public class PatientInfo extends Fragment {
     private EditText et_first_name, et_middle_name, et_last_name, et_preferred_name, et_dob,
             et_country_birth, et_city_birth, et_province_birth, et_fin,
@@ -50,11 +54,14 @@ public class PatientInfo extends Fragment {
             et_address_line2, et_zipcode, et_region, et_country, mobile1, et_primary_phone,
             mobile2, et_secondary_phone, et_remarks;
 
+    private TextView tv_first_name, tv_last_name, tv_email, tv_primary_phone, tv_secondary_phone;
+
     private Button sex_M, sex_F;
     private Button btn_donor_yes, btn_donor_no;
     private Button living_will_yes, living_will_no;
     private Button personal_email_yes, personal_email_no;
     private Button same_mail_yes, same_mail_no;
+    private int currentProfileImageId = R.drawable.default_profile_pic;
 
     private List<View> allInputViews = new ArrayList<>();
     private Button btnAction;
@@ -85,9 +92,13 @@ public class PatientInfo extends Fragment {
         setEditingEnabled(false);
 
         if (getArguments() != null) {
-            // check full JSON from QR Code
-            if (getArguments().containsKey("qr_json_data")) {
+            if (getArguments().getBoolean("isNewPatient", false)) {
+                enableEditMode();
+                clearFields();
+            }
+            else if (getArguments().containsKey("qr_json_data")) {
                 populateFromQRJson(getArguments().getString("qr_json_data"));
+                enableEditMode();
             }
             else {
                 populateDataFromBundle(getArguments());
@@ -156,6 +167,14 @@ public class PatientInfo extends Fragment {
         et_remarks = view.findViewById(R.id.et_remarks);
 
         btnAction = view.findViewById(R.id.btn_action);
+
+        // for TextView labels
+        tv_first_name = view.findViewById(R.id.tv_first_name);
+        tv_last_name = view.findViewById(R.id.tv_last_name);
+        tv_email = view.findViewById(R.id.tv_email);
+        tv_primary_phone = view.findViewById(R.id.tv_primary_phone);
+        tv_secondary_phone = view.findViewById(R.id.tv_secondary_phone);
+
 
         allInputViews.clear();
 
@@ -226,24 +245,25 @@ public class PatientInfo extends Fragment {
     private void enableEditMode() {
         setEditingEnabled(true);
 
-        btnAction.setText("Save Changes");
+        btnAction.setText("Save");
         btnAction.setBackgroundColor(getResources().getColor(R.color.coral));
 
         isEditing = true;
-        Toast.makeText(getContext(), "You can now edit details", Toast.LENGTH_SHORT).show();
     }
 
     private void saveChanges() {
-        savePatientData();
-        setEditingEnabled(false);
 
-        btnAction.setText("Edit Info");
-        btnAction.setBackgroundColor(getResources().getColor(R.color.moonstone)); // Change back to 'Edit' color
-        isEditing = false;
+        if (savePatientData()) {
+            setEditingEnabled(false);
 
-        // go back
-        getParentFragmentManager().popBackStack();
-        Toast.makeText(getContext(), "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
+            btnAction.setText("Edit Info");
+            btnAction.setBackgroundColor(getResources().getColor(R.color.moonstone)); // Change back to 'Edit' color
+            isEditing = false;
+
+            // go back to previous screen after saving
+            getParentFragmentManager().popBackStack();
+            Toast.makeText(getContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setEditingEnabled(boolean isEnabled) {
@@ -283,40 +303,63 @@ public class PatientInfo extends Fragment {
         return "";
     }
 
-    private void populateDataFromBundle(Bundle args) {
-        safeSetText(et_first_name, args.getString("firstName"));
-        safeSetText(et_middle_name, args.getString("middleInitial"));
-        safeSetText(et_last_name, args.getString("lastName"));
-
-        safeSetText(et_dob, args.getString("dob"));
-        safeSetText(et_country_birth, args.getString("countryOfBirth"));
-        safeSetText(et_city_birth, args.getString("cityOfBirth"));
-        safeSetText(et_province_birth, args.getString("provinceOfBirth"));
-
-        safeSetText(et_marital_status, args.getString("maritalStatus"));
-        safeSetText(et_race_ethnicity, args.getString("raceEthnicity"));
-        safeSetText(et_mrn, args.getString("mrn"));
-        safeSetText(et_fin, args.getString("fin"));
-
-        safeSetText(et_occupation, args.getString("occupation"));
-        safeSetText(et_employer, args.getString("employer"));
-        safeSetText(et_education, args.getString("education"));
-        safeSetText(et_religion, args.getString("religion"));
-        safeSetText(et_preferences, args.getString("preferences"));
-        safeSetText(et_lang_record, args.getString("langRecord"));
-        safeSetText(et_lang_record_no, args.getString("langRecordNo"));
-
-        safeSetText(et_email, args.getString("email"));
-        safeSetText(et_address_line1, args.getString("address1"));
-        safeSetText(et_city_address, args.getString("city"));
-        safeSetText(et_province_address, args.getString("province"));
-        safeSetText(et_zipcode, args.getString("zip"));
-        safeSetText(et_region, args.getString("region"));
-        safeSetText(et_country, args.getString("country"));
-
-        safeSetText(et_primary_phone, args.getString("primaryPhone"));
-        safeSetText(et_secondary_phone, args.getString("secondaryPhone"));
+    private void setToggleFromBoolean(Button btnYes, Button btnNo, boolean isYes) {
+        btnYes.setSelected(isYes);
+        btnNo.setSelected(!isYes);
     }
+
+    private void populateDataFromBundle(Bundle args) {
+        Patient patient = args.getParcelable("selected_patient"); // "selected_patient" is what was used for the parcelable object
+
+        if (patient != null) {
+            currentProfileImageId = patient.getProfileImage();
+
+            safeSetText(et_first_name, patient.getFirstName());
+            safeSetText(et_middle_name, patient.getMiddleInitial());
+            safeSetText(et_last_name, patient.getLastName());
+            safeSetText(et_preferred_name, patient.getPreferredName());
+
+            safeSetText(et_dob, patient.getDob());
+            safeSetText(et_country_birth, patient.getCountryOfBirth());
+            safeSetText(et_city_birth, patient.getCityOfBirth());
+            safeSetText(et_province_birth, patient.getProvinceOfBirth());
+
+            safeSetText(et_marital_status, patient.getMaritalStatus());
+            safeSetText(et_race_ethnicity, patient.getRaceEthnicity());
+            safeSetText(et_mrn, patient.getMrn());
+            safeSetText(et_fin, patient.getFin());
+
+            safeSetText(et_occupation, patient.getOccupation());
+            safeSetText(et_employer, patient.getEmployer());
+            safeSetText(et_education, patient.getEducation());
+            safeSetText(et_religion, patient.getReligion());
+            safeSetText(et_preferences, patient.getPreferences());
+            safeSetText(et_lang_record, patient.getLangRecord());
+            safeSetText(et_lang_record_no, patient.getLangRecordNo());
+
+            safeSetText(et_email, patient.getEmail());
+            safeSetText(et_address_line1, patient.getAddress1());
+            safeSetText(et_city_address, patient.getCity());
+            safeSetText(et_province_address, patient.getProvince());
+            safeSetText(et_zipcode, patient.getZipcode());
+            safeSetText(et_region, patient.getRegion());
+            safeSetText(et_country, patient.getCountry());
+
+            safeSetText(mobile1, patient.getPrimaryPhoneLabel());
+            safeSetText(et_primary_phone, patient.getPrimaryPhoneNumber());
+
+            safeSetText(mobile2, "Telephone"); // Assuming default label
+            safeSetText(et_secondary_phone, patient.getSecondaryPhoneNumber());
+
+            restoreToggleState(sex_M, sex_F, patient.getSex());
+            setToggleFromBoolean(btn_donor_yes, btn_donor_no, patient.isOrganDonor());
+            setToggleFromBoolean(living_will_yes, living_will_no, patient.hasLivingWill());
+            setToggleFromBoolean(personal_email_yes, personal_email_no, patient.isPersonalEmail());
+            setToggleFromBoolean(same_mail_yes, same_mail_no, patient.isSameMail());
+        }
+    }
+
+
 
     // returns an empty string instead of crashing if the EditText is null
     private String safeGetText(EditText editText) {
@@ -331,59 +374,146 @@ public class PatientInfo extends Fragment {
         }
     }
 
-    private void savePatientData() {
+    // for when adding a new patient, fields must not contain anything
+    private void clearFields() {
+        for (View v : allInputViews) {
+            if (v instanceof EditText) {
+                ((EditText) v).setText("");
+            }
+        }
+        // reset toggles
+        sex_M.setSelected(false);
+        sex_F.setSelected(false);
+        btn_donor_yes.setSelected(false);
+        btn_donor_no.setSelected(false);
+        living_will_yes.setSelected(false);
+        living_will_no.setSelected(false);
+        personal_email_yes.setSelected(false);
+        personal_email_no.setSelected(false);
+        same_mail_yes.setSelected(false);
+        same_mail_no.setSelected(false);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String calculateAge(String dobString) {
+        if (dobString == null || dobString.isEmpty()) {
+            return "N/A";
+        }
+
+        DateTimeFormatter formatter = null;
+        formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        try {
+            LocalDate birthDate = null;
+            birthDate = LocalDate.parse(dobString, formatter);
+            LocalDate currentDate = null;
+            currentDate = LocalDate.now();
+
+            if ((birthDate != null) && (currentDate != null)) {
+                if (birthDate.isAfter(currentDate)) {
+                    return "Invalid"; // 8080 ka ba, bertdey mo nasa future
+                }
+
+                return String.valueOf(Period.between(birthDate, currentDate).getYears());
+            }
+        } catch (DateTimeParseException e) {
+            return "N/A";
+            // returns N/A if the user typed "13/45/2023" or other string in their dob field
+        }
+
+        return "N/A";
+    }
+
+    private boolean savePatientData() {
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-        String fName = safeGetText(et_first_name);
-        String mName = safeGetText(et_middle_name);
-        String lName = safeGetText(et_last_name);
-        String dob = safeGetText(et_dob);
+        resetFieldColors();
 
-        String age = "30";
+        String fName = safeGetText(et_first_name);
+        String lName = safeGetText(et_last_name);
+
+        // Contact fields
+        String emailVal = safeGetText(et_email);
+        String phone1Val = safeGetText(et_primary_phone);
+        String phone2Val = safeGetText(et_secondary_phone);
+
+        boolean isValid = true;
+
+        if (fName.isEmpty()) {
+            tv_first_name.setTextColor(Color.RED);
+            isValid = false;
+        }
+        if (lName.isEmpty()) {
+            tv_last_name.setTextColor(Color.RED);
+            isValid = false;
+        }
+
+        if (emailVal.isEmpty() && phone1Val.isEmpty() && phone2Val.isEmpty()) {
+            tv_email.setTextColor(Color.RED);
+            tv_primary_phone.setTextColor(Color.RED);
+            tv_secondary_phone.setTextColor(Color.RED);
+
+            Toast.makeText(getContext(), "Please provide at least one contact method", Toast.LENGTH_LONG).show();
+            isValid = false;
+        }
+
+        if (!isValid) {
+            Toast.makeText(getContext(), "Please fill in the required red fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        String mName = safeGetText(et_middle_name);
+        String dob = safeGetText(et_dob);
+        String age = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            age = calculateAge(dob);
+        }
+        String mrn = safeGetText(et_mrn);
+
+        if (mrn.isEmpty()) {
+            mrn = String.valueOf(System.currentTimeMillis());
+        }
 
         String sex = getToggleValue(sex_M, sex_F);
-
         boolean isDonor = getToggleValue(btn_donor_yes, btn_donor_no).equalsIgnoreCase("Yes");
         boolean isWill = getToggleValue(living_will_yes, living_will_no).equalsIgnoreCase("Yes");
+        boolean isPersonalEmail = getToggleValue(personal_email_yes, personal_email_no).equalsIgnoreCase("Yes");
+        boolean isSameMail = getToggleValue(same_mail_yes, same_mail_no).equalsIgnoreCase("Yes");
 
 
         Patient newPatient = new Patient(
-                fName,
-                mName,
-                lName,
-                age,
-                sex,
-                safeGetText(et_fin), // Using FIN as ID No
-                safeGetText(mobile1), // Mobile No
-                dob,
-                safeGetText(et_country_birth),
-                safeGetText(et_city_birth),
-                safeGetText(et_province_birth),
-                safeGetText(et_marital_status),
-                safeGetText(et_race_ethnicity),
-                safeGetText(et_mrn),
-                safeGetText(et_occupation),
-                safeGetText(et_employer),
-                safeGetText(et_education),
-                safeGetText(et_religion),
-                safeGetText(et_preferences),
-                safeGetText(et_lang_record),
-                safeGetText(et_lang_record_no),
-                isDonor,
-                isWill,
-                safeGetText(et_email),
-                safeGetText(et_address_line1),
-                safeGetText(et_city_address),
-                safeGetText(et_province_address),
-                safeGetText(et_zipcode),
-                safeGetText(et_region),
-                safeGetText(et_country),
-                safeGetText(et_primary_phone),
-                safeGetText(et_secondary_phone),
-                R.drawable.patient_picture // TODO: Replace with actual default image resource
+                fName, mName, lName, safeGetText(et_preferred_name),
+                dob, age, safeGetText(et_country_birth), sex,
+                safeGetText(et_city_birth), safeGetText(et_province_birth),
+                safeGetText(et_fin), safeGetText(et_marital_status),
+                safeGetText(et_race_ethnicity), mrn,
+                safeGetText(et_occupation), safeGetText(et_employer),
+                safeGetText(et_education), safeGetText(et_religion),
+                safeGetText(et_preferences), isDonor,
+                safeGetText(et_lang_record), safeGetText(et_lang_record_no),
+                isWill, safeGetText(et_email), isPersonalEmail,
+                safeGetText(et_address_line1), safeGetText(et_city_address),
+                safeGetText(et_province_address), safeGetText(et_address_line2),
+                safeGetText(et_zipcode), safeGetText(et_region), safeGetText(et_country),
+                isSameMail,
+                safeGetText(mobile1), safeGetText(et_primary_phone),
+                safeGetText(mobile2), safeGetText(et_secondary_phone),
+                safeGetText(et_remarks),
+                currentProfileImageId
         );
 
         sharedViewModel.savePatient(newPatient);
+        return true;
+    }
+
+    private void resetFieldColors() {
+        int defaultHintColor = getResources().getColor(R.color.accent);
+
+        et_first_name.setHintTextColor(defaultHintColor);
+        et_last_name.setHintTextColor(defaultHintColor);
+        et_email.setHintTextColor(defaultHintColor);
+        et_primary_phone.setHintTextColor(defaultHintColor);
+        et_secondary_phone.setHintTextColor(defaultHintColor);
     }
 
     private void generateQRCode(){

@@ -15,12 +15,12 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     private List<Document> documents;
     private List<Document> documentsFiltered;
-    private OnDocumentClickListener onDocumentClickListener;
+    private OnDocumentClickListener listener;
 
-    public DocumentAdapter(List<Document> documents, OnDocumentClickListener onDocumentClickListener) {
+    public DocumentAdapter(List<Document> documents, OnDocumentClickListener listener) {
         this.documents = documents;
         this.documentsFiltered = new ArrayList<>(documents);
-        this.onDocumentClickListener = onDocumentClickListener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,15 +33,18 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
         Document document = documentsFiltered.get(position);
+        holder.title.setText(document.getTitle());
+        holder.date.setText(document.getDate());
+
         if (document.getImageUri() != null) {
             holder.thumbnail.setImageURI(document.getImageUri());
         } else {
             holder.thumbnail.setImageResource(document.getThumbnail());
         }
-        holder.title.setText(document.getTitle());
-        holder.date.setText(document.getDate());
-        holder.documentItemLayout.setOnClickListener(v -> onDocumentClickListener.onDocumentClick(document));
+
+        holder.itemView.setOnClickListener(v -> listener.onDocumentClick(document));
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,20 +78,23 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     static class DocumentViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
-        TextView title;
-        TextView date;
-        View documentItemLayout;
+        TextView title, date;
 
         public DocumentViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.document_thumbnail);
             title = itemView.findViewById(R.id.document_title);
             date = itemView.findViewById(R.id.document_date);
-            documentItemLayout = itemView.findViewById(R.id.document_item_layout);
         }
     }
 
     public interface OnDocumentClickListener {
         void onDocumentClick(Document document);
+    }
+
+    public void updateData(List<Document> newDocuments) {
+        this.documents = newDocuments;
+        this.documentsFiltered = new ArrayList<>(newDocuments); // Refresh the internal copy
+        notifyDataSetChanged();
     }
 }

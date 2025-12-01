@@ -55,6 +55,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView30">
 
                 <TextView
+                    android:id="@+id/tv_first_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="First name"
@@ -119,6 +120,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_first_name">
 
                 <TextView
+                    android:id="@+id/tv_last_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Last name"
@@ -197,7 +199,6 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_outline"
                     android:hint="MM/DD/YYYY"
-                    android:inputType="date"
                     android:minHeight="35dp"
                     android:padding="6dp"
                     android:textColor="@color/text"
@@ -807,6 +808,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_organ">
 
                 <TextView
+                    android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
@@ -1138,7 +1140,7 @@
                         android:id="@+id/same_mail_yes"
                         android:layout_width="60dp"
                         android:layout_height="35dp"
-                        android:text="M"
+                        android:text="Yes"
                         android:textSize="12sp"
                         android:background="@drawable/bg_toggle_left"
                         android:textColor="@color/text_toggle_selector"
@@ -1149,7 +1151,7 @@
                         android:id="@+id/same_mail_no"
                         android:layout_width="60dp"
                         android:layout_height="35dp"
-                        android:text="F"
+                        android:text="No"
                         android:textSize="12sp"
                         android:background="@drawable/bg_toggle_right"
                         android:textColor="@color/text_toggle_selector"
@@ -1171,6 +1173,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_country">
 
                 <TextView
+                    android:id="@+id/tv_primary_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Primary phone"
@@ -1229,6 +1232,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_primary_phone">
 
                 <TextView
+                    android:id="@+id/tv_secondary_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Secondary phone"

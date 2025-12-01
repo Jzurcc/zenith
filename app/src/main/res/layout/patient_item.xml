@@ -22,7 +22,7 @@
             android:layout_height="100dp"
             android:contentDescription="Patient Profile Image"
             android:scaleType="centerCrop"
-            tools:src="@drawable/alvarez_profile" />
+            tools:src="@drawable/default_profile_pic" />
 
         <LinearLayout
             android:layout_width="match_parent"
