@@ -105,7 +105,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_layout, Dashboard())
-                .addToBackStack(null)
                 .commit()
             navigationView.setCheckedItem(R.id.home)
         }
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 when (item.itemId) {
                     R.id.home -> replaceFragment(Dashboard())
                     R.id.disease -> replaceFragment(diseasetrends())
-                    R.id.ehr -> replaceFragment(ehr())
+                    R.id.ehr -> toChatbot()
                     R.id.profile -> replaceFragment(patients()) // This now loads fresh Patients list
                 }
 
@@ -142,7 +141,6 @@ class MainActivity : AppCompatActivity() {
 
                 when (menuItem.itemId) {
                     R.id.home -> replaceFragment(Dashboard())
-                    R.id.appointments -> replaceFragment(Appointments())
                     R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
                 }
 

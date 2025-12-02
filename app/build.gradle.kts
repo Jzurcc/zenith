@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.4")
     implementation("androidx.activity:activity-ktx:1.11.0")
+    implementation("io.noties.markwon:core:4.6.2")
 
 
     // TODO: Add the dependencies for Firebase products you want to use

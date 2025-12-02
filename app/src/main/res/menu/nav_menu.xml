@@ -8,8 +8,9 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/appointments"
-            android:title="@string/zenith_appointments"/>
+            android:id="@+id/Home"
+            android:title="Home"/>
+
         <item
             android:id="@+id/editProfile"
             android:title="Edit Profile"/>
@@ -17,8 +18,16 @@
             android:id="@+id/settings"
             android:title="Settings"/>
         <item
+            android:id="@+id/about"
+            android:title="About"/>
+        <item
+            android:id="@+id/help"
+            android:title="Help"/>
+        <item
             android:id="@+id/nav_logout"
             android:title="Log Out"/>
+
+
     </group>
 
 </menu>

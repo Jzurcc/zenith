@@ -18,8 +18,8 @@
 
     <item
         android:id="@+id/ehr"
-        android:title="@string/ehr"
-        android:icon="@drawable/ehr" />
+        android:title="@string/ai"
+        android:icon="@drawable/chat" />
     <item
         android:id="@+id/profile"
         android:title="@string/profile"

@@ -10,32 +10,48 @@ import com.google.firebase.ai.ai
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
-    // No API key needed, all in Firebase
+
     private val generativeModel = Firebase.ai.generativeModel(
         modelName = "gemini-2.5-flash"
     )
+
+    // START CHAT: This enables multi-turn history (Memory)
+    private val chat = generativeModel.startChat()
+
     private val _messageList = MutableLiveData<List<ChatMessage>>()
     val messageList: LiveData<List<ChatMessage>> get() = _messageList
 
     private val currentMessages = mutableListOf<ChatMessage>()
 
     fun sendMessage(message: String) {
-        Log.d("ChatViewModel", "sendMessage called with: $message")
+        // 1. Add User Message
         currentMessages.add(ChatMessage(message, true))
+
+        // 2. Add Dummy "Loading" Message
+        val loadingMessage = ChatMessage("", isUser = false, isLoading = true)
+        currentMessages.add(loadingMessage)
+
+        // Update UI immediately
         _messageList.value = currentMessages.toList()
+
         viewModelScope.launch {
             try {
-                Log.d("ChatViewModel", "Calling Gemini API...")
-                val response = generativeModel.generateContent("You are a healthcare AI assistant chatbot, message like it's a text. Prompt: $message")
+                // 3. Send to Gemini (using chat history)
+                val response = chat.sendMessage(message)
+
+                // 4. Remove Loading Message
+                currentMessages.remove(loadingMessage)
 
                 response.text?.let { botResponse ->
+                    // 5. Add Real Response
                     currentMessages.add(ChatMessage(botResponse, false))
-                    _messageList.value = currentMessages.toList()
-                    Log.d("ChatViewModel", "Gemini response: $botResponse")
                 }
             } catch (e: Exception) {
-                Log.e("ChatViewModel", "API Error: ${e.message}", e)
+                // Remove loading if error
+                currentMessages.remove(loadingMessage)
                 currentMessages.add(ChatMessage("Error: ${e.message}", false))
+            } finally {
+                // Update UI with final result
                 _messageList.value = currentMessages.toList()
             }
         }
