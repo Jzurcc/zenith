@@ -52,7 +52,7 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         setupRecyclerView(view, sharedViewModel);
         setupSearchAndFilter(view);
 
-        ImageButton btnAddPatient = view.findViewById(R.id.btn_add_patient);
+        View btnAddPatient = view.findViewById(R.id.btn_add_patient);
         btnAddPatient.setOnClickListener(v -> {
             PatientInfo newPatientFragment = new PatientInfo();
             Bundle args = new Bundle();
