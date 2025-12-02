@@ -1,5 +1,6 @@
 package com.cc17.zenith;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -15,6 +16,9 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class DiseaseInfo extends Fragment {
     private Disease disease;
@@ -27,8 +31,13 @@ public class DiseaseInfo extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.setTexts("Disease Trends", "Track Diseases");
+
+        try {
+            SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+            sharedViewModel.setTexts("Disease Trends", "Track Diseases");
+        } catch (Exception e) {
+            // Context safety check
+        }
 
         if (getArguments() != null) {
             disease = (Disease) getArguments().getSerializable("disease_data");
@@ -38,7 +47,6 @@ public class DiseaseInfo extends Fragment {
 
         TextView title = view.findViewById(R.id.tvDetailTitle);
         TextView date = view.findViewById(R.id.tvDetailDate);
-
         title.setText(disease.getName());
         date.setText(disease.getDate());
 
@@ -77,29 +85,33 @@ public class DiseaseInfo extends Fragment {
         if (container != null) {
             TextView lbl = container.findViewById(R.id.tvLabel);
             TextView val = container.findViewById(R.id.tvValue);
-            lbl.setText(label);
-            val.setText(value);
+            if (lbl != null) lbl.setText(label);
+            if (val != null) val.setText(value);
         }
     }
 
-    private void updateTabSelection(MaterialButton selected, String content) {
-        tvInfoContent.setText(content);
+    private void updateTabSelection(MaterialButton selectedBtn, String content) {
+        if (tvInfoContent != null) {
+            tvInfoContent.setText(content);
+        }
 
         int coral = ContextCompat.getColor(requireContext(), R.color.coral);
         int moonstone = ContextCompat.getColor(requireContext(), R.color.moonstone);
-        int lightBlue = Color.parseColor("#F0F9F7");
+        int cream = ContextCompat.getColor(requireContext(), R.color.cream);
 
-        // Reset all buttons to "unselected" style
-        btnDesc.setBackgroundColor(lightBlue);
-        btnDesc.setTextColor(moonstone);
-        btnSymp.setBackgroundColor(lightBlue);
-        btnSymp.setTextColor(moonstone);
-        btnMeds.setBackgroundColor(lightBlue);
-        btnMeds.setTextColor(moonstone);
+        List<MaterialButton> buttons = Arrays.asList(btnDesc, btnSymp, btnMeds);
 
-        // Highlight selected button
-        selected.setBackgroundColor(coral);
-        selected.setTextColor(Color.WHITE);
+        for (MaterialButton btn : buttons) {
+            if (btn == selectedBtn) {
+                // Active State: Coral Background, White Text
+                btn.setBackgroundTintList(ColorStateList.valueOf(coral));
+                btn.setTextColor(Color.WHITE);
+            } else {
+                // Inactive State: Cream Background, Moonstone Text
+                btn.setBackgroundTintList(ColorStateList.valueOf(cream));
+                btn.setTextColor(moonstone);
+            }
+        }
     }
 
     @Override

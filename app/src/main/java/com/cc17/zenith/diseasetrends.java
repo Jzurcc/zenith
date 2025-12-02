@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseClickListener {
 
@@ -24,12 +31,14 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     private DiseaseAdapter diseaseAdapter;
     private RecyclerView rvList;
     private SearchView searchView;
+    private ImageButton btnFilter;
     private MaterialButton btnComm, btnNonComm, btnChronic, btnAcute;
 
     // State Variables
     private String currentSearchText = "";
     private String selectedCategory = null; // Null means "Show All"
     private List<Disease> allDiseases;
+    private Comparator<Disease> currentComparator = Comparator.comparingInt(Disease::getActiveCases).reversed();
 
     public diseasetrends() {
         // Required empty public constructor
@@ -61,6 +70,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         // 3. Initialize Views
         rvList = view.findViewById(R.id.rvDiseaseList);
         searchView = view.findViewById(R.id.searchView);
+        btnFilter = view.findViewById(R.id.btnFilter);
 
         // Note: These IDs must match what is in your XML file
         btnComm = view.findViewById(R.id.btnCatCommunicable);
@@ -73,17 +83,22 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         diseaseAdapter = new DiseaseAdapter(allDiseases, this);
         rvList.setAdapter(diseaseAdapter);
 
+        applyFilters();
+
         // 5. Setup Listeners
         setupSearch();
         setupCategories();
+        setupFilterMenu();
     }
 
     private void initializeData() {
         allDiseases = new ArrayList<>();
 
+        String todayStr = new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date());
+
         // --- COMMUNICABLE ---
         allDiseases.add(new Disease(
-                "1", "Dengue", "Communicable", 32, "Oct 31",
+                "1", "Dengue", "Communicable", 32, "Sept 27",
                 12, 612, "2%",
                 "Dengue is a mosquito-borne viral disease occurring in tropical and subtropical areas.",
                 "High fever, headache, vomiting, muscle and joint pains, skin rash.",
@@ -93,7 +108,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "2", "Influenza", "Communicable", 600, "Oct 31",
+                "2", "Influenza", "Communicable", 600, todayStr,
                 45, 1200, "0.5%",
                 "Influenza is a viral infection that attacks your respiratory system.",
                 "Fever, chills, muscle aches, cough, congestion, runny nose.",
@@ -103,7 +118,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "3", "Tuberculosis", "Communicable", 600, "Oct 31",
+                "3", "Tuberculosis", "Communicable", 600, todayStr,
                 12, 612, "6%",
                 "Tuberculosis, also called TB, is a serious illness that mainly affects the lungs. The germs that cause tuberculosis are a type of bacteria.\n" +
                         "\n" +
@@ -132,7 +147,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "4", "COVID-19", "Communicable", 150, "Oct 31",
+                "4", "COVID-19", "Communicable", 150, "Nov 30",
                 25, 2300, "1.2%",
                 "A disease caused by SARS-CoV-2 that can trigger what doctors call a respiratory tract infection.",
                 "Fever, dry cough, tiredness, loss of taste or smell.",
@@ -142,7 +157,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "5", "Pneumonia", "Communicable", 85, "Oct 30",
+                "5", "Pneumonia", "Communicable", 85, todayStr,
                 10, 450, "3.5%",
                 "Infection that inflames air sacs in one or both lungs, which may fill with fluid.",
                 "Chest pain when breathing, cough with phlegm, fatigue, fever.",
@@ -154,7 +169,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
 
         // --- NON-COMMUNICABLE ---
         allDiseases.add(new Disease(
-                "6", "Diabetes Type 2", "Non-communicable", 120, "Oct 30",
+                "6", "Diabetes Type 2", "Non-communicable", 120, "Nov 23",
                 2, 5000, "0.1%",
                 "A chronic condition that affects the way the body processes blood sugar (glucose).",
                 "Increased thirst, frequent urination, hunger, fatigue, blurred vision.",
@@ -164,7 +179,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "7", "Hypertension", "Non-communicable", 98, "Oct 30",
+                "7", "Hypertension", "Non-communicable", 98, todayStr,
                 5, 4200, "0.2%",
                 "A condition in which the force of the blood against the artery walls is too high.",
                 "Often no symptoms. Headaches, shortness of breath, nosebleeds in severe cases.",
@@ -176,7 +191,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
 
         // --- CHRONIC ---
         allDiseases.add(new Disease(
-                "8", "Asthma", "Chronic", 45, "Oct 29",
+                "8", "Asthma", "Chronic", 45, todayStr,
                 1, 800, "0.05%",
                 "A condition in which your airways narrow and swell and may produce extra mucus.",
                 "Shortness of breath, chest tightness or pain, wheezing.",
@@ -186,7 +201,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         ));
 
         allDiseases.add(new Disease(
-                "9", "Arthritis", "Chronic", 210, "Oct 28",
+                "9", "Arthritis", "Chronic", 210, todayStr,
                 3, 1500, "0%",
                 "Swelling and tenderness of one or more joints.",
                 "Joint pain, stiffness, swelling, redness, decreased range of motion.",
@@ -198,7 +213,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
 
         // --- ACUTE ---
         allDiseases.add(new Disease(
-                "10", "Acute Bronchitis", "Acute", 12, "Oct 29",
+                "10", "Acute Bronchitis", "Acute", 12, todayStr,
                 4, 150, "0%",
                 "Inflammation of the lining of your bronchial tubes, which carry air to and from your lungs.",
                 "Cough, production of mucus, fatigue, slight fever and chills.",
@@ -207,6 +222,36 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
                 Arrays.asList(8, 3, 1)
         ));
     }
+
+    private void setupFilterMenu() {
+        btnFilter.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getContext(), v);
+            popup.getMenuInflater().inflate(R.menu.disease_filter_menu, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+
+                if (id == R.id.filter_name_asc) {
+                    currentComparator = Comparator.comparing(Disease::getName);
+                }
+                else if (id == R.id.filter_name_desc) {
+                    currentComparator = Comparator.comparing(Disease::getName).reversed();
+                }
+                else if (id == R.id.filter_cases_high) {
+                    currentComparator = Comparator.comparingInt(Disease::getActiveCases).reversed();
+                }
+                else if (id == R.id.filter_cases_low) {
+                    currentComparator = Comparator.comparingInt(Disease::getActiveCases);
+                }
+
+                applyFilters();
+                return true;
+            });
+
+            popup.show();
+        });
+    }
+
 
     public void onDiseaseClick(Disease disease) {
         DiseaseInfo detailFragment = new DiseaseInfo();
@@ -277,13 +322,20 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         List<Disease> filteredList = new ArrayList<>();
 
         for (Disease disease : allDiseases) {
-            boolean matchesSearch = disease.getName().toLowerCase().contains(currentSearchText.toLowerCase());
+            boolean matchesSearch = disease.getName().toLowerCase().startsWith(currentSearchText.toLowerCase().trim()) ||
+                    disease.getName().toLowerCase().contains(" " + currentSearchText.toLowerCase().trim());
             boolean matchesCategory = selectedCategory == null || disease.getCategory().equalsIgnoreCase(selectedCategory);
 
             if (matchesSearch && matchesCategory) {
                 filteredList.add(disease);
             }
         }
+
+        // apply Sorting
+        if (currentComparator != null) {
+            Collections.sort(filteredList, currentComparator);
+        }
+
         diseaseAdapter.updateList(filteredList);
     }
 
