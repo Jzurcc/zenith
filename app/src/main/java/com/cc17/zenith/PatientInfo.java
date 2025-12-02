@@ -67,6 +67,7 @@ public class PatientInfo extends Fragment {
     private List<View> allInputViews = new ArrayList<>();
     private Button btnAction;
     private boolean isEditing = false;
+    private boolean isDataSaved = false;
 
     private void setEditText(View view, int id, String text) {
         EditText et = view.findViewById(id);
@@ -94,15 +95,18 @@ public class PatientInfo extends Fragment {
 
         if (getArguments() != null) {
             if (getArguments().getBoolean("isNewPatient", false)) {
+                isDataSaved = false; // if new patient, mark as unsaved
                 enableEditMode();
                 clearFields();
             }
             else if (getArguments().containsKey("qr_json_data")) {
                 populateFromQRJson(getArguments().getString("qr_json_data"));
+                isDataSaved = false; // mark as unsaved because newly scanned info redirects to editing patient info
                 enableEditMode();
             }
             else {
                 populateDataFromBundle(getArguments());
+                isDataSaved = true;
             }
         }
 
@@ -234,7 +238,13 @@ public class PatientInfo extends Fragment {
         setupTogglePair(personal_email_yes, personal_email_no);
         setupTogglePair(same_mail_yes, same_mail_no);
 
-        view.findViewById(R.id.btn_qr).setOnClickListener(v -> generateQRCode());
+        view.findViewById(R.id.btn_qr).setOnClickListener(v -> {
+            if (isDataSaved) {
+                generateQRCode();
+            } else {
+                Toast.makeText(getContext(), "Please save patient info first", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnAction.setOnClickListener(v -> {
             if (isEditing) {
@@ -252,6 +262,7 @@ public class PatientInfo extends Fragment {
         btnAction.setBackgroundColor(getResources().getColor(R.color.coral));
 
         isEditing = true;
+        isDataSaved = false; // edit mode so data is unsaved
     }
 
     private void saveChanges() {
@@ -262,6 +273,8 @@ public class PatientInfo extends Fragment {
             btnAction.setText("Edit Info");
             btnAction.setBackgroundColor(getResources().getColor(R.color.moonstone)); // Change back to 'Edit' color
             isEditing = false;
+
+            isDataSaved = true;
 
             Toast.makeText(getContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
         }
