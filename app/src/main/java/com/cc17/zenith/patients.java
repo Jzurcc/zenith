@@ -66,9 +66,23 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // FORCE REFRESH: When coming back from "Discard" or "Save", ensure the list is up to date
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        if (sharedViewModel.getPatientList().getValue() != null) {
+            if (patientAdapter != null) {
+                patientAdapter.updateList(sharedViewModel.getPatientList().getValue());
+            }
+        }
+    }
+
     private void setupRecyclerView(View view, SharedViewModel viewModel) {
         RecyclerView recyclerView = view.findViewById(R.id.patient_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        patientsList = new ArrayList<>();
 
         patientAdapter = new PatientAdapter(patientsList, this);
         recyclerView.setAdapter(patientAdapter);
@@ -76,7 +90,6 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         viewModel.getPatientList().observe(getViewLifecycleOwner(), updatedList -> {
             if (updatedList != null) {
                 patientsList = updatedList;
-                // FIX: Don't create 'new PatientAdapter', just update the data
                 patientAdapter.updateList(patientsList);
             }
         });

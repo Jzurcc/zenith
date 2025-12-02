@@ -95,7 +95,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     }
 
     public void updateList(List<Patient> newPatients) {
-        this.patients.clear();
+        /*this.patients.clear();
         this.patients.addAll(newPatients);
 
         List<Patient> oldList = new ArrayList<>(this.patientsFiltered);
@@ -103,29 +103,37 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         this.patientsFiltered.addAll(newPatients);
 
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new PatientDiffCallback(oldList, this.patientsFiltered));
-        diffResult.dispatchUpdatesTo(this);
+        diffResult.dispatchUpdatesTo(this);*/
+
+        this.patients.clear();
+        this.patients.addAll(newPatients);
+
+        this.patientsFiltered.clear();
+        this.patientsFiltered.addAll(newPatients);
+
+        notifyDataSetChanged();
     }
 
     public void filter(String query) {
-        List<Patient> oldList = new ArrayList<>(patientsFiltered);
         patientsFiltered.clear();
-        if (query.isEmpty()) {
+        if (query == null || query.isEmpty()) {
             patientsFiltered.addAll(patients);
         } else {
             String lowerCaseQuery = query.toLowerCase();
             for (Patient patient : patients) {
-                // Check Name, MRN, or Phone
-                if (patient.getLastName().toLowerCase().contains(lowerCaseQuery) ||
-                        patient.getFirstName().toLowerCase().contains(lowerCaseQuery) ||
-                        patient.getMrn().contains(lowerCaseQuery) ||
-                        (patient.getPrimaryPhoneNumber() != null && patient.getPrimaryPhoneNumber().contains(lowerCaseQuery))) {
+                boolean matchesName = patient.getLastName().toLowerCase().contains(lowerCaseQuery) ||
+                        patient.getFirstName().toLowerCase().contains(lowerCaseQuery);
 
+                boolean matchesMRN = patient.getMrn().contains(lowerCaseQuery);
+
+                boolean matchesPhone = (patient.getPrimaryPhoneNumber() != null && patient.getPrimaryPhoneNumber().contains(lowerCaseQuery));
+
+                if (matchesName || matchesMRN || matchesPhone) {
                     patientsFiltered.add(patient);
                 }
             }
         }
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new PatientDiffCallback(oldList, patientsFiltered));
-        diffResult.dispatchUpdatesTo(this);
+        notifyDataSetChanged();
     }
 
     public void sort(java.util.Comparator<Patient> comparator) {
