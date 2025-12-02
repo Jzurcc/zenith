@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +45,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             holder.profileImage.setImageResource(R.drawable.default_profile_pic);
         }
 
-        if (!patient.getMiddleInitial().isEmpty()){
+        if (!patient.getMiddleInitial().isEmpty()) {
             holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
         } else {
             holder.patientName.setText(String.format("%s, %s", patient.getLastName(), patient.getFirstName()));
@@ -91,6 +92,18 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     @Override
     public int getItemCount() {
         return patientsFiltered.size();
+    }
+
+    public void updateList(List<Patient> newPatients) {
+        this.patients.clear();
+        this.patients.addAll(newPatients);
+
+        List<Patient> oldList = new ArrayList<>(this.patientsFiltered);
+        this.patientsFiltered.clear();
+        this.patientsFiltered.addAll(newPatients);
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new PatientDiffCallback(oldList, this.patientsFiltered));
+        diffResult.dispatchUpdatesTo(this);
     }
 
     public void filter(String query) {
@@ -181,4 +194,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     Objects.equals(oldPatient.getEmail(), newPatient.getEmail());
         }
     }
+
+
 }

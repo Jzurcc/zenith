@@ -107,6 +107,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
 
         if (getArguments() != null) {
             currentPatient = getArguments().getParcelable("selected_patient");
+            populatePatientHeader(view, getArguments());
         }
 
         setupRecyclerView(view);
@@ -118,17 +119,17 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
         sharedViewModel.getPatientList().observe(getViewLifecycleOwner(), patientList -> {
             if (currentPatient != null && patientList != null) {
                 for (Patient p : patientList) {
-                    // Match by MRN to find the "Live" version of this patient
+                    // find the updated version of THIS patient
                     if (p.getMrn().equals(currentPatient.getMrn())) {
-                        currentPatient = p; // Update our local reference
-                        refreshDocumentList(); // Refresh the list
+                        currentPatient = p;
+                        refreshDocumentList();
+
+                        populatePatientHeader(view, getArguments());
                         break;
                     }
                 }
             }
         });
-
-
 
         setupSearchAndFilter(view);
         setupClickListeners(view);
@@ -215,8 +216,6 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
     }
 
     private void populatePatientHeader(View view, Bundle bundle) {
-        currentPatient = bundle.getParcelable("selected_patient");
-
         if (currentPatient != null) {
             TextView patientNameText = view.findViewById(R.id.patient_name_text);
             TextView patientAgeMrnText = view.findViewById(R.id.patient_age_mrn_text);
@@ -224,10 +223,17 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             ImageView patientProfileImage = view.findViewById(R.id.patient_profile_image);
 
             // Set Name
-            patientNameText.setText(String.format("%s, %s %s.",
-                    currentPatient.getLastName(),
-                    currentPatient.getFirstName(),
-                    currentPatient.getMiddleInitial()));
+            if (!currentPatient.getMiddleInitial().isEmpty()){
+                patientNameText.setText(String.format("%s, %s %s.",
+                        currentPatient.getLastName(),
+                        currentPatient.getFirstName(),
+                        currentPatient.getMiddleInitial()));
+            } else {
+                patientNameText.setText(String.format("%s, %s",
+                        currentPatient.getLastName(),
+                        currentPatient.getFirstName()));
+            }
+
 
             // Set Age
             patientAgeMrnText.setText(String.format("Age: %s years", currentPatient.getAge()));
@@ -239,9 +245,15 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
 
             // Set Profile Image
             String profileImageUri = currentPatient.getProfileImage();
-            if (profileImageUri != null && !profileImageUri.isEmpty()) {
-                patientProfileImage.setImageURI(Uri.parse(profileImageUri));
-            } else {
+
+            try {
+                if (profileImageUri != null && !profileImageUri.isEmpty()) {
+                    patientProfileImage.setImageURI(Uri.parse(profileImageUri));
+                } else {
+                    patientProfileImage.setImageResource(R.drawable.default_profile_pic);
+                }
+            } catch (Exception e) {
+                // fallback
                 patientProfileImage.setImageResource(R.drawable.default_profile_pic);
             }
         }

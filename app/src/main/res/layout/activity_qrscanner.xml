@@ -72,7 +72,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:id="@+id/lv_fileImport">
 
                     <ImageButton
                         android:id="@+id/fileImportBtn"
@@ -118,7 +119,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:id="@+id/lv_importImage">
 
                     <ImageButton
                         android:id="@+id/importImagesBtn"

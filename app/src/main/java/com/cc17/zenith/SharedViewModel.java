@@ -155,4 +155,16 @@ public class SharedViewModel extends ViewModel {
                 .build()
                 .toString();
     }
+
+    public Patient getPatientByMrn(String mrn) {
+        List<Patient> current = patientList.getValue();
+        if (current != null) {
+            for (Patient p : current) {
+                if (p.getMrn().equalsIgnoreCase(mrn)) {
+                    return p;
+                }
+            }
+        }
+        return null; // Not found
+    }
 }

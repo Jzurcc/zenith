@@ -13,6 +13,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -53,7 +55,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PatientInfo extends Fragment {
+public class PatientInfo extends Fragment implements OnUnsavedChangesListener {
     private EditText et_first_name, et_middle_name, et_last_name, et_preferred_name, et_dob,
             et_country_birth, et_city_birth, et_province_birth, et_fin,
             et_mrn, et_marital_status, et_race_ethnicity, et_occupation,
@@ -78,6 +80,7 @@ public class PatientInfo extends Fragment {
     private boolean isDataSaved = false;
 
     private Uri imageUri;
+    private List<Document> preservedDocuments = new ArrayList<>();
 
     private final ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -131,6 +134,22 @@ public class PatientInfo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.setTexts("Patient Information", "Centralize Patients");
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (hasUnsavedChanges()) {
+                    showUnsavedChangesDialog(() -> {
+                        // If confirmed, disable this callback and press back again
+                        setEnabled(false);
+                        requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                    });
+                } else {
+                    setEnabled(false);
+                    requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     @Override
@@ -309,6 +328,24 @@ public class PatientInfo extends Fragment {
                 enableEditMode();
             }
         });
+    }
+
+    @Override
+    public boolean hasUnsavedChanges() {
+        return !isDataSaved;
+    }
+
+    @Override
+    public void showUnsavedChangesDialog(Runnable onConfirm) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Unsaved Changes")
+                .setMessage("You have unsaved changes. Are you sure you want to discard them?")
+                .setPositiveButton("Discard", (dialog, which) -> {
+                    if (onConfirm != null) onConfirm.run();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 
     private void enableEditMode() {
@@ -580,6 +617,10 @@ public class PatientInfo extends Fragment {
                 currentProfileImageUri
         );
 
+        if (preservedDocuments != null && !preservedDocuments.isEmpty()) {
+            newPatient.setDocuments(preservedDocuments);
+        }
+
         sharedViewModel.savePatient(newPatient);
         return true;
     }
@@ -772,6 +813,44 @@ public class PatientInfo extends Fragment {
         try {
             JSONObject data = new JSONObject(jsonString);
 
+            // extract MRN first to check for existing records
+            String scannedMrn = data.optString("mrn");
+
+            // check ViewModel for existing patient
+            SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+            Patient existingPatient = sharedViewModel.getPatientByMrn(scannedMrn);
+
+            if (existingPatient != null) {
+                // preserve Local Assets
+                currentProfileImageUri = existingPatient.getProfileImage();
+                preservedDocuments = existingPatient.getDocuments();
+
+                // update the UI Image immediately so the user sees the correct person
+                if (profileImageView != null) {
+                    if (currentProfileImageUri != null && !currentProfileImageUri.isEmpty()) {
+                        // Try parsing as URI
+                        try {
+                            profileImageView.setImageURI(Uri.parse(currentProfileImageUri));
+                        } catch (Exception e) {
+                            // Fallback if URI is invalid
+                            profileImageView.setImageResource(R.drawable.default_profile_pic);
+                        }
+                    } else {
+                        profileImageView.setImageResource(R.drawable.default_profile_pic);
+                    }
+                }
+
+                Toast.makeText(getContext(), "Updating existing patient record", Toast.LENGTH_SHORT).show();
+            } else {
+                // reset Assets
+                currentProfileImageUri = "";
+                preservedDocuments = new ArrayList<>();
+                if (profileImageView != null) {
+                    profileImageView.setImageResource(R.drawable.default_profile_pic);
+                }
+            }
+
+
             safeSetText(et_first_name, data.optString("fname"));
             safeSetText(et_middle_name, data.optString("mname"));
             safeSetText(et_last_name, data.optString("lname"));
@@ -783,7 +862,7 @@ public class PatientInfo extends Fragment {
             safeSetText(et_province_birth, data.optString("b_prov"));
 
             safeSetText(et_fin, data.optString("fin"));
-            safeSetText(et_mrn, data.optString("mrn"));
+            safeSetText(et_mrn, scannedMrn); // set the MRN  that was just extracted
 
             safeSetText(et_marital_status, data.optString("stat"));
             safeSetText(et_race_ethnicity, data.optString("race"));

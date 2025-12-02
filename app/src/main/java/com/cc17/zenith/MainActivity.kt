@@ -18,9 +18,11 @@ import androidx.core.view.get
 import androidx.core.view.size
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import androidx.activity.OnBackPressedCallback
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +42,24 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    supportFragmentManager.popBackStack()
+                }
+                else {
+                    val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_layout)
+
+                    if (currentFragment is Dashboard) {
+                        finish()
+                    } else {
+                        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
+                        bottomNavigationView.selectedItemId = R.id.home
+                    }
+                }
+            }
+        })
 
         val imageButton: Button = findViewById(R.id.qr_code)
         imageButton.setOnClickListener {
@@ -75,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
 
         toolbarIcon.setOnClickListener {
-            // Your code here
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
@@ -91,60 +110,93 @@ class MainActivity : AppCompatActivity() {
             navigationView.setCheckedItem(R.id.home)
         }
 
-        replaceFragment(Dashboard())
         bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> replaceFragment(Dashboard())
-                R.id.disease -> replaceFragment(diseasetrends())
-                R.id.ehr -> replaceFragment(ehr())
-                R.id.profile -> replaceFragment(patients())
+            val switchAction = Runnable {
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+                when (item.itemId) {
+                    R.id.home -> replaceFragment(Dashboard())
+                    R.id.disease -> replaceFragment(diseasetrends())
+                    R.id.ehr -> replaceFragment(ehr())
+                    R.id.profile -> replaceFragment(patients()) // This now loads fresh Patients list
+                }
+
+                // Sync Side Nav selection
+                navigationView.menu.setGroupCheckable(0, true, false)
+                for (i in 0 until navigationView.menu.size()) {
+                    navigationView.menu.getItem(i).isChecked = false
+                }
+                navigationView.menu.setGroupCheckable(0, true, true)
             }
 
-            navigationView.menu.setGroupCheckable(0, true, false)
-            for (i in 0 until navigationView.menu.size) {
-                navigationView.menu[i].isChecked = false
+            if (!checkUnsavedChanges(switchAction)) {
+                return@setOnItemSelectedListener false
             }
 
-            navigationView.menu.setGroupCheckable(0, true, true)
             true
         }
 
-        // TODO: Add settings and edit profile
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.home -> replaceFragment(Dashboard())
-                R.id.appointments -> replaceFragment(Appointments())
-                R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+            val switchAction = Runnable {
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+                when (menuItem.itemId) {
+                    R.id.home -> replaceFragment(Dashboard())
+                    R.id.appointments -> replaceFragment(Appointments())
+                    R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+                }
+
+                // Sync Bottom Nav
+                bottomNavigationView.menu.setGroupCheckable(0, true, false)
+                for (i in 0 until bottomNavigationView.menu.size()) {
+                    bottomNavigationView.menu.getItem(i).isChecked = false
+                }
+                bottomNavigationView.menu.setGroupCheckable(0, true, true)
+                drawerLayout.closeDrawer(GravityCompat.START)
             }
 
-            bottomNavigationView.menu.setGroupCheckable(0, true, false)
-            for (i in 0 until bottomNavigationView.menu.size) {
-                bottomNavigationView.menu[i].isChecked = false
+            if (!checkUnsavedChanges(switchAction)) {
+                return@setNavigationItemSelectedListener false
             }
 
-            bottomNavigationView.menu.setGroupCheckable(0, true, true)
-
-            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
 
-
-        // check if we arrived here from the QR Scanner
+        // Handle Intent from QR
         if (intent.hasExtra("scanned_patient_json")) {
             val jsonString = intent.getStringExtra("scanned_patient_json")
+            sharedViewModel.initializeDefaultPatients(this)
             openPatientInfoWithData(jsonString)
         }
     }
 
+    private fun checkUnsavedChanges(onConfirmAction: Runnable): Boolean {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_layout)
 
-    // If the QR activity was already open in background
+        if (currentFragment is OnUnsavedChangesListener) {
+            if (currentFragment.hasUnsavedChanges()) {
+                // Show dialog, passing the action to run if they click "Discard"
+                currentFragment.showUnsavedChangesDialog(onConfirmAction)
+                return false // Don't switch yet
+            }
+        }
+
+        // Safe to switch immediately
+        onConfirmAction.run()
+        return true
+    }
+
+    // if the QR activity was already open in background
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Update the activity's intent to the new one
         setIntent(intent)
 
         if (intent.hasExtra("scanned_patient_json")) {
             val jsonString = intent.getStringExtra("scanned_patient_json")
+
+            // load dummy data here too
+            sharedViewModel.initializeDefaultPatients(this)
+
             openPatientInfoWithData(jsonString)
         }
     }
@@ -163,7 +215,6 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_layout, fragment)
-            .addToBackStack(null)
             .commit()
     }
 

@@ -74,9 +74,11 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         recyclerView.setAdapter(patientAdapter);
 
         viewModel.getPatientList().observe(getViewLifecycleOwner(), updatedList -> {
-            patientsList = updatedList;
-            patientAdapter = new PatientAdapter(patientsList, this);
-            recyclerView.setAdapter(patientAdapter);
+            if (updatedList != null) {
+                patientsList = updatedList;
+                // FIX: Don't create 'new PatientAdapter', just update the data
+                patientAdapter.updateList(patientsList);
+            }
         });
     }
 
