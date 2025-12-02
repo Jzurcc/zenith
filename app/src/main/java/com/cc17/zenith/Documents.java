@@ -39,6 +39,9 @@ import androidx.core.content.ContextCompat;
 
 import static android.app.Activity.RESULT_OK;
 
+// TODO: Redesign the "Add Patient" button; looks so out of place ngl fr fr
+// TODO: Add edit document title functionality
+// TODO: Add QR Sync functionality -- will do later (jeni)
 public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener {
     private Uri imageUri;
     private DocumentAdapter documentAdapter;

@@ -35,13 +35,47 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         Patient patient = patientsFiltered.get(position);
 
         holder.profileImage.setImageResource(patient.getProfileImage());
-        holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
+        if (!patient.getMiddleInitial().isEmpty()){
+            holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
+        } else {
+            holder.patientName.setText(String.format("%s, %s", patient.getLastName(), patient.getFirstName()));
+        }
+
+
+        String sexDisplay = patient.getSex();
+        if (sexDisplay == null || sexDisplay.trim().isEmpty()) {
+            sexDisplay = "N/A";
+        }
+
+        String contactLabel;
+        String contactValue;
+
+        if (patient.getPrimaryPhoneNumber() != null && !patient.getPrimaryPhoneNumber().trim().isEmpty()) {
+            contactLabel = patient.getPrimaryPhoneLabel();
+            contactValue = patient.getPrimaryPhoneNumber();
+            // fallback if label is empty
+            if (contactLabel == null || contactLabel.isEmpty()) contactLabel = "Mobile";
+
+        } else if (patient.getSecondaryPhoneNumber() != null && !patient.getSecondaryPhoneNumber().trim().isEmpty()) {
+            contactLabel = patient.getSecondaryPhoneLabel();
+            contactValue = patient.getSecondaryPhoneNumber();
+            if (contactLabel == null || contactLabel.isEmpty()) contactLabel = "Phone";
+
+        } else if (patient.getEmail() != null && !patient.getEmail().trim().isEmpty()) {
+            contactLabel = "Email";
+            contactValue = patient.getEmail();
+
+        } else {
+            contactLabel = "Contact";
+            contactValue = "N/A";
+        }
+
         holder.patientDetails.setText(String.format("%s, %s\nMRN: %s\n%s: %s",
-                patient.getSex(),
+                sexDisplay,
                 patient.getAge(),
                 patient.getMrn(),
-                patient.getPrimaryPhoneLabel(),
-                patient.getPrimaryPhoneNumber()));
+                contactLabel,
+                contactValue));
         holder.itemView.setOnClickListener(v -> onPatientClickListener.onPatientClick(patient));
     }
 
