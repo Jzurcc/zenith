@@ -25,7 +25,7 @@ class ChatViewModel : ViewModel() {
 
     fun sendMessage(message: String) {
         // 1. Add User Message
-        currentMessages.add(ChatMessage(message, true))
+        currentMessages.add(ChatMessage("You are an AI healthcare assistant information retriever. This is the patient: firstName: Julian, middleInitial: R, lastName: Alvarez, date of birth: 12/21/1979, age:46, country of birth: Philippines, sex: Male, city of Birth: Baguio City, province of BirthL Benguet, fin: 1005-63251, marital Status: Married, race Ethnicity: Ilocano, mrn: 200365448, occupation: architect, email: julianalvarez@gmail.com, address: 142 Holy Ghost Hill Ext. Rd, phone: (63+) 927 910 7392. This is the query: "+message, true))
 
         // 2. Add Dummy "Loading" Message
         val loadingMessage = ChatMessage("", isUser = false, isLoading = true)
