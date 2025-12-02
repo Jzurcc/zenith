@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -26,7 +26,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log into account"
+        android:text="Create account"
         android:fontFamily="@font/inter"
         android:textColor="@color/coral"
         android:textSize="20sp"
@@ -45,11 +45,10 @@
         android:fontFamily="@font/inter"
         android:textColor="@color/text"
         android:textSize="16sp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
-    <!-- Email Input -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="0dp"
@@ -67,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
 
-    <!-- Email Error (Added) -->
+    <!-- Email Error -->
     <TextView
         android:id="@+id/tvEmailError"
         android:layout_width="wrap_content"
@@ -90,11 +89,10 @@
         android:fontFamily="@font/inter"
         android:textColor="@color/text"
         android:textSize="16sp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEmailError" />
 
-    <!-- Password Input -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="0dp"
@@ -115,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
 
-    <!-- Password Error (Added) -->
+    <!-- Password Error -->
     <TextView
         android:id="@+id/tvPasswordError"
         android:layout_width="wrap_content"
@@ -129,12 +127,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
-    <!-- Log In Button -->
+    <!-- Confirm Password Section -->
+    <TextView
+        android:id="@+id/labelConfirmPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm Password"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/text"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPasswordError" />
+
+    <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="Re-enter password"
+        android:paddingHorizontal="16dp"
+        android:inputType="textPassword"
+        android:textColor="@color/text"
+        android:textColorHint="@color/hint_color"
+        android:fontFamily="@font/inter"
+        android:textSize="16sp"
+        android:drawableEnd="@drawable/ic_visibility_off"
+        android:drawableTint="@color/text"
+        android:drawablePadding="12dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelConfirmPassword" />
+
+    <!-- Confirm Password Error -->
+    <TextView
+        android:id="@+id/tvConfirmError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⚠ Passwords do not match."
+        android:fontFamily="@font/inter"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
+
+    <!-- Register Button -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:text="Log in"
+        android:text="Sign up"
         android:fontFamily="@font/inter"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -147,22 +192,7 @@
         android:stateListAnimator="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPasswordError" />
-
-    <!-- Forgot Password -->
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Forgot password?"
-        android:fontFamily="@font/inter"
-        android:textStyle="bold"
-        android:textColor="@color/text"
-        android:textSize="14sp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/tvConfirmError" />
 
     <!-- Footer Section -->
     <LinearLayout

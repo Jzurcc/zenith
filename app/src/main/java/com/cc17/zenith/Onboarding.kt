@@ -24,7 +24,7 @@ class Onboarding : AppCompatActivity() {
         val tvLoginLink = findViewById<TextView>(R.id.tvLoginLink)
 
         btnCreateAccount.setOnClickListener {
-            navigateToLogin()
+            navigateToRegister()
         }
 
         tvLoginLink.setOnClickListener {
@@ -34,6 +34,23 @@ class Onboarding : AppCompatActivity() {
 
     private fun navigateToLogin() {
         val intent = Intent(this, Login::class.java)
+        startActivity(intent)
+
+        // Check if the phone is running Android 14 (API 34) or newer
+        if (Build.VERSION.SDK_INT >= 34) {
+            overrideActivityTransition(
+                OVERRIDE_TRANSITION_OPEN,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
+    }
+
+    private fun navigateToRegister() {
+        val intent = Intent(this, Register::class.java)
         startActivity(intent)
 
         // Check if the phone is running Android 14 (API 34) or newer
