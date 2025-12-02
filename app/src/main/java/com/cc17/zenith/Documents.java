@@ -274,7 +274,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
         // TODO
         view.findViewById(R.id.imageButton8).setOnClickListener(v -> {
             // Logic for QR Sync
-            Toast.makeText(getContext(), "Syncing QR...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Generating QR", Toast.LENGTH_SHORT).show();
         });
 
         view.findViewById(R.id.patient_allergies_text).setOnClickListener(v -> showAllergiesDialog());

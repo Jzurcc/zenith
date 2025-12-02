@@ -70,6 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/patient_age_mrn_text"
             tools:ignore="HardcodedText" />
 
+
         <TextView
             android:id="@+id/patient_allergies_text"
             android:layout_width="35dp"
@@ -77,8 +78,8 @@
             android:layout_marginStart="4dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="View"
-            android:textColor="#78909C"
+            android:text="@string/view"
+            android:textColor="@color/moonstone"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/lbl_allergies"
@@ -125,11 +126,11 @@
 
         <ImageButton
             android:id="@+id/imageButton8"
-            android:layout_width="96dp"
+            android:layout_width="133dp"
             android:layout_height="34dp"
             android:layout_marginTop="16dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/qr_sync"
+            android:background="@drawable/generate_qr_code"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
