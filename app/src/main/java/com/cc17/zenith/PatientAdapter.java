@@ -33,9 +33,9 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
         Patient patient = patientsFiltered.get(position);
+
         holder.profileImage.setImageResource(patient.getProfileImage());
         holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
-        holder.patientDetails.setText(String.format("%s, %s\nID No.: %s\nMobile No.: %s", patient.getSex(), patient.getAge(), patient.getMrn(), patient.getPrimaryPhoneLabel(), patient.getPrimaryPhoneNumber()));
         holder.itemView.setOnClickListener(v -> onPatientClickListener.onPatientClick(patient));
     }
 

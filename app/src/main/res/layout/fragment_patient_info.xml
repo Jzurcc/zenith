@@ -33,16 +33,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageView30"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_profile_wrapper"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="16dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="Profile Image"
-                android:src="@drawable/info_image"
+                app:cardCornerRadius="60dp"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_header" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_header">
+
+                <ImageView
+                    android:id="@+id/imageView30"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Profile Image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_profile_pic"/>
+
+            </androidx.cardview.widget.CardView>
+
 
             <LinearLayout
                 android:id="@+id/layout_first_name"
@@ -51,8 +63,8 @@
                 android:layout_marginStart="12dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@+id/layout_middle_name"
-                app:layout_constraintStart_toEndOf="@+id/imageView30"
-                app:layout_constraintTop_toTopOf="@+id/imageView30">
+                app:layout_constraintStart_toEndOf="@+id/cv_profile_wrapper"
+                app:layout_constraintTop_toTopOf="@+id/cv_profile_wrapper">
 
                 <TextView
                     android:id="@+id/tv_first_name"
@@ -183,7 +195,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/layout_country_birth"
                 app:layout_constraintHorizontal_weight="0.4"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView30">
+                app:layout_constraintTop_toBottomOf="@+id/cv_profile_wrapper">
 
                 <TextView
                     android:layout_width="wrap_content"

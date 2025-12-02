@@ -62,6 +62,7 @@ public class PatientInfo extends Fragment {
     private Button personal_email_yes, personal_email_no;
     private Button same_mail_yes, same_mail_no;
     private int currentProfileImageId = R.drawable.default_profile_pic;
+    private ImageView profileImageView;
 
     private List<View> allInputViews = new ArrayList<>();
     private Button btnAction;
@@ -175,6 +176,8 @@ public class PatientInfo extends Fragment {
         tv_primary_phone = view.findViewById(R.id.tv_primary_phone);
         tv_secondary_phone = view.findViewById(R.id.tv_secondary_phone);
 
+        profileImageView = view.findViewById(R.id.imageView30);
+
 
         allInputViews.clear();
 
@@ -260,8 +263,6 @@ public class PatientInfo extends Fragment {
             btnAction.setBackgroundColor(getResources().getColor(R.color.moonstone)); // Change back to 'Edit' color
             isEditing = false;
 
-            // go back to previous screen after saving
-            getParentFragmentManager().popBackStack();
             Toast.makeText(getContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
         }
     }
@@ -313,6 +314,14 @@ public class PatientInfo extends Fragment {
 
         if (patient != null) {
             currentProfileImageId = patient.getProfileImage();
+
+            if (profileImageView != null) {
+                if (currentProfileImageId != 0) {
+                    profileImageView.setImageResource(currentProfileImageId);
+                } else {
+                    profileImageView.setImageResource(R.drawable.default_profile_pic);
+                }
+            }
 
             safeSetText(et_first_name, patient.getFirstName());
             safeSetText(et_middle_name, patient.getMiddleInitial());
@@ -392,6 +401,11 @@ public class PatientInfo extends Fragment {
         personal_email_no.setSelected(false);
         same_mail_yes.setSelected(false);
         same_mail_no.setSelected(false);
+
+        currentProfileImageId = R.drawable.default_profile_pic; // Reset the variable
+        if (profileImageView != null) {
+            profileImageView.setImageResource(R.drawable.default_profile_pic); // Reset the visual
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

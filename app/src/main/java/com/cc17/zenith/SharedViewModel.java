@@ -54,8 +54,6 @@ public class SharedViewModel extends ViewModel {
         patientList.setValue(currentList);
     }
 
-
-    // TODO: Populate dummy patient data
     public void initializeDefaultPatients() {
         List<Patient> current = patientList.getValue();
         if (current == null || current.isEmpty()) {
@@ -89,6 +87,36 @@ public class SharedViewModel extends ViewModel {
                     "Mobile", "(63+) 917 2256 432",
                     "Work", "(02) 8123-4567",
                     "Allergic to Penicillin.", R.drawable.bautista_profile
+            ));
+
+            dummyData.add(new Patient(
+                    "Michael", "J", "Cruz", "Mike",
+                    "05/01/1983", "42", "Philippines", "Male",
+                    "Cebu City", "Cebu", "1005-62041", "Married",
+                    "Cebuano", "200365450", "Engineer", "MegaWorld",
+                    "Masters Degree", "Catholic", "N/A", true,
+                    "Cebuano", "2000002", false,
+                    "michaelcruz@gmail.com", true,
+                    "456 Ocean View Rd.", "Cebu", "Cebu", "",
+                    "6000", "VII", "Philippines", true,
+                    "Mobile", "(63+) 995 8457 210",
+                    "Telephone", "(032) 567-8901",
+                    "Regular checkups requested.", R.drawable.cruz_profile
+            ));
+
+            dummyData.add(new Patient(
+                    "Camille", "A", "Dela Rosa", "Camille",
+                    "11/20/1998", "27", "Philippines", "Female",
+                    "Davao City", "Davao Del Sur", "1005-62021", "Single",
+                    "Bicolano", "200365451", "Student", "None",
+                    "Undergraduate", "Atheist", "Vegan", false,
+                    "English", "3000003", false,
+                    "camille.dela.rosa@gmail.com", true,
+                    "789 Pine Tree Lane", "Davao", "Davao Del Sur", "",
+                    "8000", "XI", "Philippines", false,
+                    "Mobile", "(63+) 921 7789 654",
+                    "Work", "N/A",
+                    "Strict Vegan diet.", R.drawable.dela_rosa_profile
             ));
 
             patientList.setValue(dummyData);
