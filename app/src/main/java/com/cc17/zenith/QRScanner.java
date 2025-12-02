@@ -3,6 +3,7 @@ package com.cc17.zenith;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -85,9 +86,7 @@ public class QRScanner extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QRScanner.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP); // so the data will still be intact
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -163,6 +162,11 @@ public class QRScanner extends AppCompatActivity {
 
         cameraProviderFuture.addListener(() -> {
             try {
+                // check if the activity is still alive before touching the UI or camera
+                if (isDestroyed() || isFinishing()) {
+                    return;
+                }
+
                 cameraProvider = cameraProviderFuture.get();
                 bindAllCameraUseCases();
             } catch (ExecutionException | InterruptedException e) {
@@ -174,8 +178,8 @@ public class QRScanner extends AppCompatActivity {
     private void bindAllCameraUseCases() {
         if (cameraProvider != null) {
             cameraProvider.unbindAll();
+
             bindPreviewUseCase();
-            //bindAnalysisUseCase();
         }
     }
 
@@ -195,10 +199,10 @@ public class QRScanner extends AppCompatActivity {
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
 
         try {
-            cameraProvider
-                    .bindToLifecycle(this, cameraSelector, previewUseCase);
+            cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
         } catch (Exception e) {
             Log.e(TAG, "Error when bind preview", e);
+            Toast.makeText(this, "Error starting camera.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -220,14 +224,16 @@ public class QRScanner extends AppCompatActivity {
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
 
         try {
-            cameraProvider
-                    .bindToLifecycle(this, cameraSelector, analysisUseCase);
+            cameraProvider.bindToLifecycle(this, cameraSelector, analysisUseCase);
         } catch (Exception e) {
             Log.e(TAG, "Error when bind analysis", e);
         }
     }
 
     protected int getRotation() throws NullPointerException {
+        if (previewView == null || previewView.getDisplay() == null) {
+            return Surface.ROTATION_0; // Default if display isn't ready
+        }
         return previewView.getDisplay().getRotation();
     }
 
