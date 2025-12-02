@@ -31,6 +31,13 @@ android {
             )
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
+    }
+    kotlinOptions {
+        jvmTarget = "22"
+    }
 }
 
 dependencies {

@@ -36,6 +36,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- General Error (Added at Top) -->
+    <LinearLayout
+        android:id="@+id/layoutGeneralError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            app:tint="@color/coral"
+            android:contentDescription="Error"
+            android:layout_marginEnd="6dp"/>
+
+        <TextView
+            android:id="@+id/tvGeneralErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registration failed."
+            android:fontFamily="@font/inter"
+            android:textColor="@color/coral"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <!-- Email Section -->
     <TextView
         android:id="@+id/labelEmail"
@@ -45,9 +75,9 @@
         android:fontFamily="@font/inter"
         android:textColor="@color/text"
         android:textSize="16sp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutGeneralError" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -66,19 +96,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
 
-    <!-- Email Error -->
-    <TextView
-        android:id="@+id/tvEmailError"
+    <!-- Email Error (Layout with Icon) -->
+    <LinearLayout
+        android:id="@+id/layoutEmailError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="⚠ Invalid email. Must contain '@' and a domain."
-        android:fontFamily="@font/inter"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:visibility="gone"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmail">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            app:tint="@color/coral"
+            android:contentDescription="Error"
+            android:layout_marginEnd="6dp"/>
+
+        <TextView
+            android:id="@+id/tvEmailErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invalid email. Must contain a domain."
+            android:fontFamily="@font/inter"
+            android:textColor="@color/coral"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <!-- Password Section -->
     <TextView
@@ -91,7 +137,7 @@
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEmailError" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutEmailError" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -113,19 +159,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
 
-    <!-- Password Error -->
-    <TextView
-        android:id="@+id/tvPasswordError"
+    <!-- Password Error (Layout with Icon) -->
+    <LinearLayout
+        android:id="@+id/layoutPasswordError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="⚠ Password must be at least 5 characters."
-        android:fontFamily="@font/inter"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:visibility="gone"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            app:tint="@color/coral"
+            android:contentDescription="Error"
+            android:layout_marginEnd="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password must be at least 5 characters."
+            android:fontFamily="@font/inter"
+            android:textColor="@color/coral"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <!-- Confirm Password Section -->
     <TextView
@@ -138,7 +199,7 @@
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPasswordError" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPasswordError" />
 
     <EditText
         android:id="@+id/etConfirmPassword"
@@ -160,19 +221,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelConfirmPassword" />
 
-    <!-- Confirm Password Error -->
-    <TextView
-        android:id="@+id/tvConfirmError"
+    <!-- Confirm Password Error (Layout with Icon) -->
+    <LinearLayout
+        android:id="@+id/layoutConfirmError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="⚠ Passwords do not match."
-        android:fontFamily="@font/inter"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:visibility="gone"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            app:tint="@color/coral"
+            android:contentDescription="Error"
+            android:layout_marginEnd="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Passwords do not match."
+            android:fontFamily="@font/inter"
+            android:textColor="@color/coral"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <!-- Register Button -->
     <com.google.android.material.button.MaterialButton
@@ -192,7 +268,51 @@
         android:stateListAnimator="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvConfirmError" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutConfirmError" />
+
+    <!-- OR Divider -->
+    <LinearLayout
+        android:id="@+id/layoutOr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textColor="@color/text"
+            android:textSize="12sp"
+            android:paddingHorizontal="8dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"/>
+    </LinearLayout>
+
+    <!-- Google Image Button -->
+    <ImageButton
+        android:id="@+id/btnGoogle"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/google"
+        android:contentDescription="@string/none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutOr" />
 
     <!-- Footer Section -->
     <LinearLayout
