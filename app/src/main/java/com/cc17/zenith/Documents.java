@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -42,7 +43,7 @@ import static android.app.Activity.RESULT_OK;
 // TODO: Redesign the "Add Patient" button; looks so out of place ngl fr fr
 // TODO: Add edit document title functionality
 // TODO: Add QR Sync functionality -- will do later (jeni)
-public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener {
+public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener, AllergiesAdapter.OnAllergyDeleteListener {
     private Uri imageUri;
     private DocumentAdapter documentAdapter;
     private List<Document> documents;
@@ -51,6 +52,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
     private View layoutNoDocuments;
     private RecyclerView recyclerView;
     private SharedViewModel sharedViewModel;
+    private AllergiesAdapter allergiesAdapter;
 
     // Launcher for Gallery
     private final ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
@@ -59,7 +61,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri selectedImage = result.getData().getData();
                     if (selectedImage != null) {
-                        addNewDocument(selectedImage);
+                        showAddDocumentDialog(selectedImage);
                     }
                 }
             }
@@ -73,7 +75,7 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
                 if (result.getResultCode() == RESULT_OK) {
                     // imageUri is already set in the openCamera() method
                     if (imageUri != null) {
-                        addNewDocument(imageUri);
+                        showAddDocumentDialog(imageUri);
                     }
                 }
             }
@@ -145,13 +147,6 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             documents.addAll(currentPatient.getDocuments()); // use addALL instead of getDocuments()
         }
 
-        // dummy data onleh
-        /*documents.add(new Document(R.drawable.mri_scan_thumbnail, "MRI Scan - Brain", "10/12/2025"));
-        documents.add(new Document(R.drawable.lab_results_thumbnail, "Blood Work Lab Results", "10/10/2025"));
-        documents.add(new Document(R.drawable.visit_note_thumbnail, "Visit Note", "10/09/2025"));
-        documents.add(new Document(R.drawable.discharge_summary_thumbnail, "Discharge Summary", "08/26/2025"));
-        documents.add(new Document(R.drawable.prescription_summary_thumbnail, "Prescription Summary", "08/24/2025"));*/
-
         documentAdapter = new DocumentAdapter(documents, this);
         recyclerView.setAdapter(documentAdapter);
 
@@ -177,13 +172,11 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
         }
     }
 
-    private void addNewDocument(Uri uri) {
+    private void addNewDocument(Uri uri, String title) {
         String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
-        Document newDocument = new Document(uri, "New Document", currentDate);
+        Document newDocument = new Document(uri, title, currentDate);
 
-        // add to local list
-        documents.add(0, newDocument);
-        documentAdapter.updateData(documents);
+        documentAdapter.addDocument(newDocument);
         checkEmptyState();
         recyclerView.scrollToPosition(0);
 
@@ -194,6 +187,29 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             }
             Toast.makeText(getContext(), "Document Saved", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showAddDocumentDialog(Uri uri) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_document, null);
+        builder.setView(dialogView);
+
+        EditText documentTitleEditText = dialogView.findViewById(R.id.document_title_edit_text);
+        Button saveDocumentButton = dialogView.findViewById(R.id.save_document_button);
+
+        final AlertDialog dialog = builder.create();
+
+        saveDocumentButton.setOnClickListener(v -> {
+            String title = documentTitleEditText.getText().toString().trim();
+            if (title.isEmpty()) {
+                title = "New Document";
+            }
+            addNewDocument(uri, title);
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void populatePatientHeader(View view, Bundle bundle) {
@@ -220,8 +236,9 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
                     currentPatient.getFin()));
 
             // Set Profile Image
-            if (currentPatient.getProfileImage() != 0) {
-                patientProfileImage.setImageResource(currentPatient.getProfileImage());
+            String profileImageUri = currentPatient.getProfileImage();
+            if (profileImageUri != null && !profileImageUri.isEmpty()) {
+                patientProfileImage.setImageURI(Uri.parse(profileImageUri));
             } else {
                 patientProfileImage.setImageResource(R.drawable.default_profile_pic);
             }
@@ -257,6 +274,53 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             // Logic for QR Sync
             Toast.makeText(getContext(), "Syncing QR...", Toast.LENGTH_SHORT).show();
         });
+
+        view.findViewById(R.id.patient_allergies_text).setOnClickListener(v -> showAllergiesDialog());
+    }
+
+    private void showAllergiesDialog() {
+        if (currentPatient == null) return;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_allergies, null);
+        builder.setView(dialogView);
+
+        RecyclerView allergiesRecyclerView = dialogView.findViewById(R.id.allergies_recycler_view);
+        EditText addAllergyEditText = dialogView.findViewById(R.id.add_allergy_edit_text);
+        Button addAllergyButton = dialogView.findViewById(R.id.add_allergy_button);
+        Button saveAllergiesButton = dialogView.findViewById(R.id.save_allergies_button);
+
+        List<String> currentAllergies = new ArrayList<>(currentPatient.getAllergies());
+        allergiesAdapter = new AllergiesAdapter(currentAllergies, this);
+        allergiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        allergiesRecyclerView.setAdapter(allergiesAdapter);
+
+        addAllergyButton.setOnClickListener(v -> {
+            String newAllergy = addAllergyEditText.getText().toString().trim();
+            if (!newAllergy.isEmpty()) {
+                allergiesAdapter.addAllergy(newAllergy);
+                addAllergyEditText.setText("");
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+        saveAllergiesButton.setOnClickListener(v -> {
+            currentPatient.setAllergies(allergiesAdapter.getAllergies());
+            if (sharedViewModel != null) {
+                sharedViewModel.savePatient(currentPatient);
+            }
+            dialog.dismiss();
+            Toast.makeText(getContext(), "Allergies Saved", Toast.LENGTH_SHORT).show();
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onAllergyDelete(int position) {
+        allergiesAdapter.removeAllergy(position);
     }
 
     private void showSourceSelectionDialog() {
@@ -372,11 +436,14 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
     private void showImageDialog(Document document) {
         if (document == null) return;
 
-        Dialog dialog = new Dialog(getContext());
+        final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_image_viewer);
 
+        TextView documentTitle = dialog.findViewById(R.id.dialog_document_title);
         ImageView imageView = dialog.findViewById(R.id.dialog_image_view);
         Button closeButton = dialog.findViewById(R.id.dialog_close_button);
+
+        documentTitle.setText(document.getTitle());
 
         if (document.getImageUri() != null) {
             imageView.setImageURI(document.getImageUri());

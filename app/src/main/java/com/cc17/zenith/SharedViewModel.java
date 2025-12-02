@@ -1,5 +1,8 @@
 package com.cc17.zenith;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -54,7 +57,7 @@ public class SharedViewModel extends ViewModel {
         patientList.setValue(currentList);
     }
 
-    public void initializeDefaultPatients() {
+    public void initializeDefaultPatients(Context context) {
         List<Patient> current = patientList.getValue();
         if (current == null || current.isEmpty()) {
             List<Patient> dummyData = new ArrayList<>();
@@ -71,10 +74,10 @@ public class SharedViewModel extends ViewModel {
                     "2600", "CAR", "Philippines", true,
                     "Mobile", "(63+) 927 910 7392",
                     "Telephone", "(214) 723-9001",
-                    "No known allergies.", R.drawable.alvarez_profile
+                    "No known allergies.", resourceToUriString(context, R.drawable.alvarez_profile)
             ));
 
-            dummyData.add(new Patient(
+            Patient bautista = new Patient(
                     "Angela", "M", "Bautista", "Ange",
                     "10/15/1984", "41", "Philippines", "Female",
                     "Manila", "Metro Manila", "1000001", "Single",
@@ -86,8 +89,12 @@ public class SharedViewModel extends ViewModel {
                     "1000", "NCR", "Philippines", false,
                     "Mobile", "(63+) 917 2256 432",
                     "Work", "(02) 8123-4567",
-                    "Allergic to Penicillin.", R.drawable.bautista_profile
-            ));
+                    "", resourceToUriString(context, R.drawable.bautista_profile)
+            );
+            List<String> bautistaAllergies = new ArrayList<>();
+            bautistaAllergies.add("Penicillin");
+            bautista.setAllergies(bautistaAllergies);
+            dummyData.add(bautista);
 
             dummyData.add(new Patient(
                     "Michael", "J", "Cruz", "Mike",
@@ -101,7 +108,7 @@ public class SharedViewModel extends ViewModel {
                     "6000", "VII", "Philippines", true,
                     "Mobile", "(63+) 995 8457 210",
                     "Telephone", "(032) 567-8901",
-                    "Regular checkups requested.", R.drawable.cruz_profile
+                    "Regular checkups requested.", resourceToUriString(context, R.drawable.cruz_profile)
             ));
 
             dummyData.add(new Patient(
@@ -116,10 +123,20 @@ public class SharedViewModel extends ViewModel {
                     "8000", "XI", "Philippines", false,
                     "Mobile", "(63+) 921 7789 654",
                     "Work", "N/A",
-                    "Strict Vegan diet.", R.drawable.dela_rosa_profile
+                    "Strict Vegan diet.", resourceToUriString(context, R.drawable.dela_rosa_profile)
             ));
 
             patientList.setValue(dummyData);
         }
+    }
+
+    private String resourceToUriString(Context context, int resId) {
+        return new Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(context.getResources().getResourcePackageName(resId))
+                .appendPath(context.getResources().getResourceTypeName(resId))
+                .appendPath(context.getResources().getResourceEntryName(resId))
+                .build()
+                .toString();
     }
 }

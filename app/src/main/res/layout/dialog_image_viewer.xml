@@ -5,6 +5,16 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/dialog_document_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Document Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
     <ImageView
         android:id="@+id/dialog_image_view"
         android:layout_width="wrap_content"
@@ -18,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
         android:textColor="@android:color/white"
         android:text="Close" />
 

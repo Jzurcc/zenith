@@ -45,8 +45,9 @@ public class Patient implements Parcelable {
     private String secondaryPhoneLabel;
     private String secondaryPhoneNumber;
     private String remarks;
-    private int profileImage;
+    private String profileImage;
     private List<Document> documents;
+    private List<String> allergies;
 
     public Patient(String firstName, String middleInitial, String lastName, String preferredName,
                    String dob, String age, String countryOfBirth, String sex, String cityOfBirth,
@@ -57,7 +58,7 @@ public class Patient implements Parcelable {
                    String address1, String city, String province, String address2, String zipcode,
                    String region, String country, boolean isSameMail, String primaryPhoneLabel,
                    String primaryPhoneNumber, String secondaryPhoneLabel, String secondaryPhoneNumber,
-                   String remarks, int profileImage) {
+                   String remarks, String profileImage) {
 
         this.firstName = firstName;
         this.middleInitial = middleInitial;
@@ -99,6 +100,7 @@ public class Patient implements Parcelable {
         this.remarks = remarks;
         this.profileImage = profileImage;
         this.documents = new ArrayList<>();
+        this.allergies = new ArrayList<>();
     }
 
     protected Patient(Parcel in) {
@@ -140,9 +142,10 @@ public class Patient implements Parcelable {
         secondaryPhoneLabel = in.readString();
         secondaryPhoneNumber = in.readString();
         remarks = in.readString();
-        profileImage = in.readInt();
+        profileImage = in.readString();
 
         documents = in.createTypedArrayList(Document.CREATOR);
+        allergies = in.createStringArrayList();
     }
 
     public String getFirstName() {
@@ -297,7 +300,7 @@ public class Patient implements Parcelable {
         return remarks;
     }
 
-    public int getProfileImage() {
+    public String getProfileImage() {
         return profileImage;
     }
 
@@ -312,6 +315,16 @@ public class Patient implements Parcelable {
         this.documents = documents;
     }
 
+    public List<String> getAllergies() {
+        if (allergies == null) {
+            allergies = new ArrayList<>();
+        }
+        return allergies;
+    }
+
+    public void setAllergies(List<String> allergies) {
+        this.allergies = allergies;
+    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -353,8 +366,9 @@ public class Patient implements Parcelable {
         dest.writeString(secondaryPhoneLabel);
         dest.writeString(secondaryPhoneNumber);
         dest.writeString(remarks);
-        dest.writeInt(profileImage);
+        dest.writeString(profileImage);
         dest.writeTypedList(documents);
+        dest.writeStringList(allergies);
     }
 
     @Override

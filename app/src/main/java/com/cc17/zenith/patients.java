@@ -47,7 +47,7 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
         sharedViewModel.setTexts("Dashboard", "Overview");
 
         // runs only once
-        sharedViewModel.initializeDefaultPatients();
+        sharedViewModel.initializeDefaultPatients(requireContext());
 
         setupRecyclerView(view, sharedViewModel);
         setupSearchAndFilter(view);

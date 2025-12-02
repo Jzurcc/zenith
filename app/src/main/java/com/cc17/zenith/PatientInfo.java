@@ -1,17 +1,23 @@
 package com.cc17.zenith;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -45,6 +51,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class PatientInfo extends Fragment {
     private EditText et_first_name, et_middle_name, et_last_name, et_preferred_name, et_dob,
             et_country_birth, et_city_birth, et_province_birth, et_fin,
@@ -61,13 +69,55 @@ public class PatientInfo extends Fragment {
     private Button living_will_yes, living_will_no;
     private Button personal_email_yes, personal_email_no;
     private Button same_mail_yes, same_mail_no;
-    private int currentProfileImageId = R.drawable.default_profile_pic;
+    private String currentProfileImageUri = "";
     private ImageView profileImageView;
 
     private List<View> allInputViews = new ArrayList<>();
     private Button btnAction;
     private boolean isEditing = false;
     private boolean isDataSaved = false;
+
+    private Uri imageUri;
+
+    private final ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri selectedImage = result.getData().getData();
+                    if (selectedImage != null) {
+                        profileImageView.setImageURI(selectedImage);
+                        currentProfileImageUri = selectedImage.toString();
+                    }
+                }
+            }
+    );
+
+
+    // Launcher for Camera
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // imageUri is already set in the openCamera() method
+                    if (imageUri != null) {
+                        profileImageView.setImageURI(imageUri);
+                        currentProfileImageUri = imageUri.toString();
+                    }
+                }
+            }
+    );
+
+    // Launcher for requesting Camera Permission
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            isGranted -> {
+                if (isGranted) {
+                    openCamera();
+                } else {
+                    Toast.makeText(getContext(), "Camera permission is required to take photos", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
 
     private void setEditText(View view, int id, String text) {
         EditText et = view.findViewById(id);
@@ -238,6 +288,12 @@ public class PatientInfo extends Fragment {
         setupTogglePair(personal_email_yes, personal_email_no);
         setupTogglePair(same_mail_yes, same_mail_no);
 
+        profileImageView.setOnClickListener(v -> {
+            if(isEditing) {
+                showSourceSelectionDialog();
+            }
+        });
+
         view.findViewById(R.id.btn_qr).setOnClickListener(v -> {
             if (isDataSaved) {
                 generateQRCode();
@@ -326,11 +382,11 @@ public class PatientInfo extends Fragment {
         Patient patient = args.getParcelable("selected_patient"); // "selected_patient" is what was used for the parcelable object
 
         if (patient != null) {
-            currentProfileImageId = patient.getProfileImage();
+            currentProfileImageUri = patient.getProfileImage();
 
             if (profileImageView != null) {
-                if (currentProfileImageId != 0) {
-                    profileImageView.setImageResource(currentProfileImageId);
+                if (currentProfileImageUri != null && !currentProfileImageUri.isEmpty()) {
+                    profileImageView.setImageURI(Uri.parse(currentProfileImageUri));
                 } else {
                     profileImageView.setImageResource(R.drawable.default_profile_pic);
                 }
@@ -381,22 +437,17 @@ public class PatientInfo extends Fragment {
         }
     }
 
-
-
-    // returns an empty string instead of crashing if the EditText is null
     private String safeGetText(EditText editText) {
         if (editText == null) return "";
         return editText.getText().toString().trim();
     }
 
-    // does nothing if the EditText is null
     private void safeSetText(EditText editText, String text) {
         if (editText != null && text != null) {
             editText.setText(text);
         }
     }
 
-    // for when adding a new patient, fields must not contain anything
     private void clearFields() {
         for (View v : allInputViews) {
             if (v instanceof EditText) {
@@ -415,7 +466,7 @@ public class PatientInfo extends Fragment {
         same_mail_yes.setSelected(false);
         same_mail_no.setSelected(false);
 
-        currentProfileImageId = R.drawable.default_profile_pic; // Reset the variable
+        currentProfileImageUri = ""; // Reset the variable
         if (profileImageView != null) {
             profileImageView.setImageResource(R.drawable.default_profile_pic); // Reset the visual
         }
@@ -526,7 +577,7 @@ public class PatientInfo extends Fragment {
                 safeGetText(mobile1), safeGetText(et_primary_phone),
                 safeGetText(mobile2), safeGetText(et_secondary_phone),
                 safeGetText(et_remarks),
-                currentProfileImageId
+                currentProfileImageUri
         );
 
         sharedViewModel.savePatient(newPatient);
@@ -789,4 +840,66 @@ public class PatientInfo extends Fragment {
             btn2.setSelected(true);
         }
     }
+
+    private void showSourceSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_source_selection, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        dialogView.findViewById(R.id.option_files).setOnClickListener(v -> {
+            openFilePicker();
+            dialog.dismiss();
+        });
+
+        dialogView.findViewById(R.id.option_gallery).setOnClickListener(v -> {
+            openGallery();
+            dialog.dismiss();
+        });
+
+        dialogView.findViewById(R.id.option_camera).setOnClickListener(v -> {
+            dialog.dismiss();
+            checkCameraPermissionAndOpen();
+        });
+
+        dialogView.findViewById(R.id.cancel_button).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void checkCameraPermissionAndOpen() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            // open camera if already allowed
+            openCamera();
+        } else {
+            // else ask system for permission
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA);
+        }
+    }
+
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        filePickerLauncher.launch(intent);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        filePickerLauncher.launch(intent);
+    }
+
+    private void openCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Patient Profile");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Captured via Zenith App");
+        // insert empty image into MediaStore to get a valid URI
+        imageUri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+        cameraLauncher.launch(intent);
+    }
+
 }
