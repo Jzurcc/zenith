@@ -20,4 +20,5 @@
     <string name="zenith_ocr_scanner">ZENITH OCR Scanner</string>
     <string name="zenith_prescriptions">ZENITH Prescriptions</string>
     <string name="zenith_charting">ZENITH Charting</string>
+    <string name="ai">AI</string>
 </resources>

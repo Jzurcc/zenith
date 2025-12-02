@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "22"
     }
 }
 
@@ -66,10 +66,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-ai")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation("com.google.android.gms:play-services-auth:21.4.0")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.4")
-    implementation("androidx.activity:activity-ktx:1.11.0")
+    implementation("androidx.activity:activity-ktx:1.12.0")
+    implementation("io.noties.markwon:core:4.6.2")
+
 
 
     // TODO: Add the dependencies for Firebase products you want to use

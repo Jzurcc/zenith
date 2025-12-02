@@ -12,7 +12,20 @@
           "package_name": "com.cc17.zenith"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "502820129002-if2bci9a61qmaisghrvff3adnnqqubfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cc17.zenith",
+            "certificate_hash": "902573d2cbb6abf5e9b27152894f267f8c37231a"
+          }
+        },
+        {
+          "client_id": "502820129002-kjrfibl32dsor7i6bc53iqrmvcjo6ke0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCiO_aSQl1hTg6s1-TuxirfK3G4iS3jf5g"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502820129002-kjrfibl32dsor7i6bc53iqrmvcjo6ke0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -28,8 +28,6 @@ public class Dashboard extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ImageButton myButton = view.findViewById(R.id.imageButton2);
-        ImageButton julian = view.findViewById(R.id.julian);
-        ImageButton angela = view.findViewById(R.id.angela);
         myButton.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
@@ -39,24 +37,6 @@ public class Dashboard extends Fragment {
                     .commit();
         });
 
-        julian.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_layout, new Appointments())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-
-        angela.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_layout, new Appointments())
-                    .addToBackStack(null)
-                    .commit();
-        });
 
 
 

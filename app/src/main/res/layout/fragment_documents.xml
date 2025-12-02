@@ -87,6 +87,19 @@
             app:layout_constraintTop_toTopOf="@+id/lbl_allergies"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
+        <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="6dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/open"
+            app:layout_constraintBottom_toTopOf="@+id/patient_mrn_fin_text"
+            app:layout_constraintStart_toEndOf="@+id/patient_allergies_text"
+            app:layout_constraintTop_toBottomOf="@+id/patient_name_text" />
+
         <TextView
             android:id="@+id/patient_mrn_fin_text"
             android:layout_width="0dp"

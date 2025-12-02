@@ -3,6 +3,7 @@ package com.cc17.zenith
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -105,36 +106,37 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_layout, Dashboard())
-                .addToBackStack(null)
                 .commit()
             navigationView.setCheckedItem(R.id.home)
         }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
+            // Check if we are interacting with the Chatbot item
+            val isChatbot = item.itemId == R.id.ehr
+
             val switchAction = Runnable {
-                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                if (!isChatbot) {
+                    // Only clear stack and replace fragments if NOT opening Chatbot
+                    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
-                when (item.itemId) {
-                    R.id.home -> replaceFragment(Dashboard())
-                    R.id.disease -> replaceFragment(diseasetrends())
-                    R.id.ehr -> replaceFragment(ehr())
-                    R.id.profile -> replaceFragment(patients()) // This now loads fresh Patients list
-                }
+                    when (item.itemId) {
+                        R.id.home -> replaceFragment(Dashboard())
+                        R.id.disease -> replaceFragment(diseasetrends())
+                        R.id.profile -> replaceFragment(patients())
+                    }
 
-                // Sync Side Nav selection
-                navigationView.menu.setGroupCheckable(0, true, false)
-                for (i in 0 until navigationView.menu.size()) {
-                    navigationView.menu.getItem(i).isChecked = false
+                    navigationView.menu.setGroupCheckable(0, true, true)
+                } else {
+                    toChatbot()
                 }
-                navigationView.menu.setGroupCheckable(0, true, true)
             }
 
             if (!checkUnsavedChanges(switchAction)) {
                 return@setOnItemSelectedListener false
             }
-
-            true
+            !isChatbot
         }
+
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             val switchAction = Runnable {
@@ -142,7 +144,6 @@ class MainActivity : AppCompatActivity() {
 
                 when (menuItem.itemId) {
                     R.id.home -> replaceFragment(Dashboard())
-                    R.id.appointments -> replaceFragment(Appointments())
                     R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
                 }
 

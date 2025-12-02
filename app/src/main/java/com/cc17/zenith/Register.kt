@@ -1,10 +1,8 @@
 package com.cc17.zenith
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.EditText
@@ -13,7 +11,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,15 +23,14 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-class Login : AppCompatActivity() {
+class Register : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -64,18 +60,24 @@ class Login : AppCompatActivity() {
 
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
-        val tvEmailError = findViewById<TextView>(R.id.tvEmailError)
-        val tvPasswordError = findViewById<TextView>(R.id.tvPasswordError)
-        val btnLogin = findViewById<MaterialButton>(R.id.btnLogin)
-        val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
+        val etConfirmPassword = findViewById<EditText>(R.id.etConfirmPassword)
 
-        // General Error Views
-        val layoutGeneralError = findViewById<LinearLayout>(R.id.layoutGeneralError)
-        val tvGeneralErrorText = findViewById<TextView>(R.id.tvGeneralErrorText)
+        // Error Layouts (Containers)
+        val layoutGeneralError = findViewById<LinearLayout>(R.id.layoutGeneralError) // General Error Layout
+        val layoutEmailError = findViewById<LinearLayout>(R.id.layoutEmailError)
+        val layoutPasswordError = findViewById<LinearLayout>(R.id.layoutPasswordError)
+        val layoutConfirmError = findViewById<LinearLayout>(R.id.layoutConfirmError)
+
+        // Error Texts
+        val tvGeneralErrorText = findViewById<TextView>(R.id.tvGeneralErrorText) // General Error Text
+        val tvEmailError = findViewById<TextView>(R.id.tvEmailErrorText)
+
+        val btnRegister = findViewById<MaterialButton>(R.id.btnRegister)
+        val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle) // Changed to ImageButton
 
         // Google Sign In Launcher
         val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == android.app.Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 try {
                     val account = task.getResult(ApiException::class.java)!!
@@ -94,38 +96,47 @@ class Login : AppCompatActivity() {
             googleSignInLauncher.launch(signInIntent)
         }
 
-        // Handle Email Login Click
-        btnLogin.setOnClickListener {
+        btnRegister.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
+            val confirmPassword = etConfirmPassword.text.toString().trim()
 
             // Reset Errors
-            tvEmailError.visibility = View.GONE
-            tvPasswordError.visibility = View.GONE
             layoutGeneralError.visibility = View.GONE
+            layoutEmailError.visibility = View.GONE
+            layoutPasswordError.visibility = View.GONE
+            layoutConfirmError.visibility = View.GONE
 
             var isValid = true
 
+            // 1. Email Validation (Regex based)
             if (!email.isValidEmail()) {
-                tvEmailError.visibility = View.VISIBLE
+                tvEmailError.text = "Invalid email. Must contain a domain"
+                layoutEmailError.visibility = View.VISIBLE
                 isValid = false
             }
 
+            // 2. Password Length Validation (Min 5)
             if (password.length < 5) {
-                tvPasswordError.visibility = View.VISIBLE
+                layoutPasswordError.visibility = View.VISIBLE
+                isValid = false
+            }
+
+            // 3. Confirm Password Validation (Must Match)
+            if (password != confirmPassword) {
+                layoutConfirmError.visibility = View.VISIBLE
                 isValid = false
             }
 
             if (isValid) {
-                // Firebase Login
-                auth.signInWithEmailAndPassword(email, password)
+                // Create user in Firebase
+                auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             navigateToMain()
                         } else {
-                            // Show error in layout instead of Toast
-                            Log.e("Login", "Authentication failed", task.exception)
-                            tvGeneralErrorText.text = "Authentication failed: ${task.exception?.message}"
+                            // Display error in the general error disclaimer at the top
+                            tvGeneralErrorText.text = "Registration failed: ${task.exception?.message}"
                             layoutGeneralError.visibility = View.VISIBLE
                         }
                     }
@@ -164,6 +175,13 @@ class Login : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finishAffinity()
+        applyEnterAnimation()
+    }
+
+    // Extension function for Email Validation
+    private fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+    private fun applyEnterAnimation() {
         if (Build.VERSION.SDK_INT >= 34) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_in_right, R.anim.slide_out_left)
         } else {
@@ -171,8 +189,6 @@ class Login : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
-
-    private fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
     private fun applyExitAnimation() {
         if (Build.VERSION.SDK_INT >= 34) {
