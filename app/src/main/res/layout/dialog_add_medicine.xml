@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_input_field">
+    <!-- Assuming bg_input_field is a white rounded shape. If not, use #FFFFFF background -->
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Medication"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#006064"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Drug Name Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drug Name"
+        android:textColor="#607D8B"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/etDrugName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="e.g. Metformin 500mg"
+        android:paddingHorizontal="12dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Instructions Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructions (SIG)"
+        android:textColor="#607D8B"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/etInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="e.g. 1/d with food"
+        android:paddingHorizontal="12dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Category Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textColor="#607D8B"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/etCategory"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="e.g. Daily, Weekly"
+        android:paddingHorizontal="12dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="#757575"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:backgroundTint="#00ACC1"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+</LinearLayout>

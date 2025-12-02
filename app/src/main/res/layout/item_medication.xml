@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="4dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Drug Name -->
+        <TextView
+            android:id="@+id/tvDrugName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:text="Niacin 500 MG"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/chipCategory"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Category Chip (Daily) -->
+        <TextView
+            android:id="@+id/chipCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_field"
+            android:backgroundTint="#F0F8F8"
+            android:fontFamily="@font/inter"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="Daily"
+            android:textColor="#00897B"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDrugName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvDrugName" />
+
+        <!-- Instructions -->
+        <TextView
+            android:id="@+id/tvInstructions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter"
+            android:text="1/d for Cholesterol"
+            android:textColor="#616161"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDrugName" />
+
+        <!-- Action Buttons (Edit / Delete) -->
+        <LinearLayout
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/tvInstructions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvInstructions">
+
+            <!-- Edit Icon -->
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/moonstone" />
+
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/delete"
+                app:tint="@color/coral" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
