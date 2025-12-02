@@ -36,6 +36,12 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
         holder.profileImage.setImageResource(patient.getProfileImage());
         holder.patientName.setText(String.format("%s, %s %s.", patient.getLastName(), patient.getFirstName(), patient.getMiddleInitial()));
+        holder.patientDetails.setText(String.format("%s, %s\nMRN: %s\n%s: %s",
+                patient.getSex(),
+                patient.getAge(),
+                patient.getMrn(),
+                patient.getPrimaryPhoneLabel(),
+                patient.getPrimaryPhoneNumber()));
         holder.itemView.setOnClickListener(v -> onPatientClickListener.onPatientClick(patient));
     }
 
