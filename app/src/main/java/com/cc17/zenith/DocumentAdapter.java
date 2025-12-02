@@ -42,7 +42,11 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
             holder.thumbnail.setImageResource(document.getThumbnail());
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onDocumentClick(document));
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDocumentClick(document);
+            }
+        });
     }
 
 

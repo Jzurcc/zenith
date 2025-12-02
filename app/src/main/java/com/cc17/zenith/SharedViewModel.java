@@ -62,7 +62,7 @@ public class SharedViewModel extends ViewModel {
         if (current == null || current.isEmpty()) {
             List<Patient> dummyData = new ArrayList<>();
 
-            dummyData.add(new Patient(
+            Patient p1 = new Patient(
                     "Julian", "R", "Alvarez", "Julian",
                     "12/21/1979", "46", "Philippines", "Male",
                     "Baguio City", "Benguet", "1005-63251", "Married",
@@ -75,9 +75,17 @@ public class SharedViewModel extends ViewModel {
                     "Mobile", "(63+) 927 910 7392",
                     "Telephone", "(214) 723-9001",
                     "No known allergies.", resourceToUriString(context, R.drawable.alvarez_profile)
-            ));
+            );
 
-            Patient bautista = new Patient(
+            // Add Documents for Julian
+            // Note: Ensure you have these drawables, or use a placeholder like R.drawable.ic_launcher_background
+            p1.addDocument(new Document(R.drawable.mri_scan_thumbnail, "MRI Scan - Brain", "10/12/2025"));
+            p1.addDocument(new Document(R.drawable.lab_results_thumbnail, "Blood Work Lab Results", "10/10/2025"));
+            p1.addDocument(new Document(R.drawable.visit_note_thumbnail, "Visit Note", "10/09/2025"));
+
+            dummyData.add(p1);
+
+            Patient p2 = new Patient(
                     "Angela", "M", "Bautista", "Ange",
                     "10/15/1984", "41", "Philippines", "Female",
                     "Manila", "Metro Manila", "1000001", "Single",
@@ -93,10 +101,15 @@ public class SharedViewModel extends ViewModel {
             );
             List<String> bautistaAllergies = new ArrayList<>();
             bautistaAllergies.add("Penicillin");
-            bautista.setAllergies(bautistaAllergies);
-            dummyData.add(bautista);
+            p2.setAllergies(bautistaAllergies);
 
-            dummyData.add(new Patient(
+            // Add Documents for Angela
+            p2.addDocument(new Document(R.drawable.prescription_summary_thumbnail, "Prescription", "11/01/2025"));
+            p2.addDocument(new Document(R.drawable.discharge_summary_thumbnail, "Discharge Summary", "08/26/2025"));
+
+            dummyData.add(p2);
+
+            Patient p3 = new Patient(
                     "Michael", "J", "Cruz", "Mike",
                     "05/01/1983", "42", "Philippines", "Male",
                     "Cebu City", "Cebu", "1005-62041", "Married",
@@ -109,9 +122,11 @@ public class SharedViewModel extends ViewModel {
                     "Mobile", "(63+) 995 8457 210",
                     "Telephone", "(032) 567-8901",
                     "Regular checkups requested.", resourceToUriString(context, R.drawable.cruz_profile)
-            ));
+            );
+            // No documents for Michael (Empty state test)
+            dummyData.add(p3);
 
-            dummyData.add(new Patient(
+            Patient p4 = new Patient(
                     "Camille", "A", "Dela Rosa", "Camille",
                     "11/20/1998", "27", "Philippines", "Female",
                     "Davao City", "Davao Del Sur", "1005-62021", "Single",
@@ -124,7 +139,8 @@ public class SharedViewModel extends ViewModel {
                     "Mobile", "(63+) 921 7789 654",
                     "Work", "N/A",
                     "Strict Vegan diet.", resourceToUriString(context, R.drawable.dela_rosa_profile)
-            ));
+            );
+            dummyData.add(p4);
 
             patientList.setValue(dummyData);
         }

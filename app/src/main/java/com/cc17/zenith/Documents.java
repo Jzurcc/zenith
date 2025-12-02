@@ -3,6 +3,8 @@ package com.cc17.zenith;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -434,9 +436,9 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
     }
 
     private void showImageDialog(Document document) {
-        if (document == null) return;
+        if (getContext() == null || document == null) return;
 
-        final Dialog dialog = new Dialog(getContext());
+        Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_image_viewer);
 
         TextView documentTitle = dialog.findViewById(R.id.dialog_document_title);
@@ -454,5 +456,11 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
         closeButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+
+        // force the window to expand to the edges
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
 }

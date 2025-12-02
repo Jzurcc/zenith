@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/dialog_document_title"
@@ -17,10 +19,13 @@
 
     <ImageView
         android:id="@+id/dialog_image_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter" />
+        android:maxHeight="500dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher_background"
+        android:contentDescription="Document Preview"/>
 
     <Button
         android:id="@+id/dialog_close_button"
@@ -31,6 +36,49 @@
         android:clickable="true"
         android:focusable="true"
         android:textColor="@android:color/white"
+        android:backgroundTint="@color/moonstone"
         android:text="Close" />
 
-</LinearLayout>
+</LinearLayout>-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#74000000">
+
+    <ImageView
+    android:id="@+id/dialog_image_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:adjustViewBounds="true"
+    android:scaleType="fitCenter"
+    android:src="@drawable/ic_launcher_background"
+    android:contentDescription="Document Fullscreen" />
+
+    <TextView
+        android:id="@+id/dialog_document_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80000000"
+        android:padding="16dp"
+        android:text="Document Title"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/inter"/>
+
+    <Button
+        android:id="@+id/dialog_close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/moonstone"
+        android:text="Close"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

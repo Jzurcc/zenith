@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:paddingBottom="120dp"
+    android:clipToPadding="false"
     tools:context=".Documents">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:paddingBottom="120dp"> <androidx.cardview.widget.CardView
+        android:padding="16dp">
+
+        <androidx.cardview.widget.CardView
         android:id="@+id/cv_profile"
         android:layout_width="60dp"
         android:layout_height="60dp"

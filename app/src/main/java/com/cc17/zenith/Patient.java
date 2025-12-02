@@ -387,4 +387,11 @@ public class Patient implements Parcelable {
             return new Patient[size];
         }
     };
+
+    public void addDocument(Document doc) {
+        if (this.documents == null) {
+            this.documents = new ArrayList<>();
+        }
+        this.documents.add(doc);
+    }
 }
