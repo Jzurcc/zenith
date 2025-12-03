@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -24,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import androidx.activity.OnBackPressedCallback
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // Force light mode and portrait orientation
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -48,10 +46,8 @@ class MainActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     supportFragmentManager.popBackStack()
-                }
-                else {
+                } else {
                     val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_layout)
-
                     if (currentFragment is Dashboard) {
                         finish()
                     } else {
@@ -72,6 +68,10 @@ class MainActivity : AppCompatActivity() {
         mainSubtitle = findViewById(R.id.toolbar_subtitle)
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
+        // --- FIX: Initialize Data Immediately ---
+        // This ensures the list exists even if you haven't visited the Profile tab yet.
+        sharedViewModel.initializeDefaultPatients(this)
+
         sharedViewModel.title.observe(this) { newTitle ->
             mainTitle.text = newTitle
         }
@@ -80,20 +80,15 @@ class MainActivity : AppCompatActivity() {
             mainSubtitle.text = newSubtitle
         }
 
-        // Handle edge-to-edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // 🔹 Initialize Toolbar + Drawer + NavigationView
         val toolbarIcon: ImageButton = findViewById(R.id.toolbar_icon)
-
-
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
-
 
         toolbarIcon.setOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -111,12 +106,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
-            // Check if we are interacting with the Chatbot item
             val isChatbot = item.itemId == R.id.ehr
 
             val switchAction = Runnable {
                 if (!isChatbot) {
-                    // Only clear stack and replace fragments if NOT opening Chatbot
                     supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
                     when (item.itemId) {
@@ -125,6 +118,10 @@ class MainActivity : AppCompatActivity() {
                         R.id.profile -> replaceFragment(patients())
                     }
 
+                    navigationView.menu.setGroupCheckable(0, true, false)
+                    for (i in 0 until navigationView.menu.size()) {
+                        navigationView.menu.getItem(i).isChecked = false
+                    }
                     navigationView.menu.setGroupCheckable(0, true, true)
                 } else {
                     toChatbot()
@@ -134,9 +131,9 @@ class MainActivity : AppCompatActivity() {
             if (!checkUnsavedChanges(switchAction)) {
                 return@setOnItemSelectedListener false
             }
+
             !isChatbot
         }
-
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             val switchAction = Runnable {
@@ -147,7 +144,6 @@ class MainActivity : AppCompatActivity() {
                     R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
                 }
 
-                // Sync Bottom Nav
                 bottomNavigationView.menu.setGroupCheckable(0, true, false)
                 for (i in 0 until bottomNavigationView.menu.size()) {
                     bottomNavigationView.menu.getItem(i).isChecked = false
@@ -163,10 +159,9 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Handle Intent from QR
         if (intent.hasExtra("scanned_patient_json")) {
             val jsonString = intent.getStringExtra("scanned_patient_json")
-            sharedViewModel.initializeDefaultPatients(this)
+            // Data is already init above, so just open the info
             openPatientInfoWithData(jsonString)
         }
     }
@@ -176,35 +171,34 @@ class MainActivity : AppCompatActivity() {
 
         if (currentFragment is OnUnsavedChangesListener) {
             if (currentFragment.hasUnsavedChanges()) {
-                // Show dialog, passing the action to run if they click "Discard"
                 currentFragment.showUnsavedChangesDialog(onConfirmAction)
-                return false // Don't switch yet
+                return false
             }
         }
-
-        // Safe to switch immediately
         onConfirmAction.run()
         return true
     }
 
-    // if the QR activity was already open in background
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
 
         if (intent.hasExtra("scanned_patient_json")) {
             val jsonString = intent.getStringExtra("scanned_patient_json")
-
-            // load dummy data here too
             sharedViewModel.initializeDefaultPatients(this)
-
             openPatientInfoWithData(jsonString)
         }
     }
 
-
     private fun toChatbot() {
         val intent = Intent(this, Chatbot::class.java)
+
+        // Pass the FULL patient list to the Chatbot
+        val allPatients = sharedViewModel.getPatientList().value
+        if (allPatients != null) {
+            intent.putParcelableArrayListExtra("all_patients", ArrayList(allPatients))
+        }
+
         startActivity(intent)
     }
 
@@ -220,18 +214,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openPatientInfoWithData(jsonString: String?) {
-        // 1. Create the fragment instance
         val patientInfoFragment = PatientInfo()
-
-        // 2. Create the Bundle to pass the data
         val args = Bundle()
         args.putString("qr_json_data", jsonString)
         patientInfoFragment.arguments = args
 
-        // 3. Replace the current fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_layout, patientInfoFragment)
-            .addToBackStack(null) // Optional: Allows user to press Back button to return to Dashboard
+            .addToBackStack(null)
             .commit()
     }
 }

@@ -10,7 +10,6 @@
     <string name="ehr">EHR</string>
     <string name="profile">Profile</string>
     <string name="view"><u>View</u></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="patient_information">Patient Information</string>
     <string name="zenith_ai_assistant">ZENITH AI Assistant</string>
