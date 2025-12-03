@@ -11,12 +11,10 @@ class DiseaseAdapter(
     private val listener: OnDiseaseClickListener?
 ) : RecyclerView.Adapter<DiseaseAdapter.DiseaseViewHolder>() {
 
-    // Interface defined in Kotlin style
     interface OnDiseaseClickListener {
         fun onDiseaseClick(disease: Disease)
     }
 
-    // Function to update the list dynamically
     fun updateList(newList: List<Disease>) {
         this.list = newList
         notifyDataSetChanged()
@@ -31,12 +29,19 @@ class DiseaseAdapter(
     override fun onBindViewHolder(holder: DiseaseViewHolder, position: Int) {
         val item = list[position]
 
-        // Kotlin allows direct property access (item.name instead of item.getName())
         holder.tvName.text = item.name
         holder.tvDate.text = item.date
         holder.tvCount.text = item.activeCases.toString()
 
-        // Set Click Listener
+        // Pass the specific trend data for this disease to the graph
+        if (item.trendData != null && item.trendData.isNotEmpty()) {
+            holder.graphTrend.setData(item.trendData)
+            holder.graphTrend.visibility = View.VISIBLE
+        } else {
+            // Optional: Hide graph if no data exists
+            holder.graphTrend.visibility = View.INVISIBLE
+        }
+
         holder.itemView.setOnClickListener {
             listener?.onDiseaseClick(item)
         }
@@ -48,5 +53,7 @@ class DiseaseAdapter(
         val tvName: TextView = itemView.findViewById(R.id.tvDiseaseName)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvCount: TextView = itemView.findViewById(R.id.tvCaseCount)
+        // Find the custom view instead of the ImageView
+        val graphTrend: SimpleLineGraph = itemView.findViewById(R.id.graphTrend)
     }
 }

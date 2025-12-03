@@ -31,12 +31,21 @@
                 android:textSize="24sp"
                 android:textColor="@color/moonstone"/>
 
+            <!-- Updated Date Dropdown -->
             <TextView
                 android:id="@+id/tvDetailDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="October 31"
-                android:textColor="@color/moonstone"/>
+                android:fontFamily="@font/inter"
+                android:textColor="@color/moonstone"
+                android:textSize="14sp"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:drawableTint="@color/moonstone"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"/>
         </LinearLayout>
 
         <TextView
@@ -47,14 +56,13 @@
             android:layout_marginBottom="12dp"
             android:layout_height="wrap_content" />
 
-        <!-- Stats Grid (Using Table-like Linear Layouts) -->
+        <!-- Stats Grid -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="12dp">
 
-            <!-- Card 1 -->
             <include layout="@layout/item_stat_box"
                 android:id="@+id/statActive"
                 android:layout_width="0dp"
@@ -62,7 +70,6 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"/>
 
-            <!-- Card 2 -->
             <include layout="@layout/item_stat_box"
                 android:id="@+id/statNew"
                 android:layout_width="0dp"
@@ -77,7 +84,6 @@
             android:orientation="horizontal"
             android:layout_marginBottom="24dp">
 
-            <!-- Card 3 -->
             <include layout="@layout/item_stat_box"
                 android:id="@+id/statTotal"
                 android:layout_width="0dp"
@@ -85,7 +91,6 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"/>
 
-            <!-- Card 4 -->
             <include layout="@layout/item_stat_box"
                 android:id="@+id/statRate"
                 android:layout_width="0dp"
@@ -117,18 +122,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <!-- OUR CUSTOM LINE VIEW -->
+                <!-- Custom Line Graph -->
                 <com.cc17.zenith.SimpleLineGraph
                     android:id="@+id/graphTrend"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="180dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Graph 2: Bar Chart -->
+        <!-- Graph 2: Bar Chart with Legend -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="#FFFFFF"
@@ -147,11 +152,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <!-- OUR CUSTOM BAR VIEW -->
+                <!-- Custom Bar Graph -->
                 <com.cc17.zenith.SimpleBarGraph
                     android:id="@+id/graphSeverity"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="150dp"/>
+
+                <!-- Legend Container -->
+                <LinearLayout
+                    android:id="@+id/layoutSeverityLegend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"/>
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -1,5 +1,6 @@
 package com.cc17.zenith;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +20,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class Dashboard extends Fragment {
 
@@ -30,7 +34,6 @@ public class Dashboard extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Make sure your XML file is named fragment_dashboard.xml and contains the graphs/cards
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
@@ -38,7 +41,6 @@ public class Dashboard extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Update the Main Activity Toolbar Title
         try {
             SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             sharedViewModel.setTexts("Dashboard", "Analytics Overview");
@@ -46,35 +48,32 @@ public class Dashboard extends Fragment {
             e.printStackTrace();
         }
 
-        // 2. Setup Top Stats Cards (Populating data)
-        // Note: We use the IDs from the <include> tags in your XML
-        setupStatCard(view.findViewById(R.id.cardInpatients), "Inpatients", "1,034", "+11.6%", R.color.moonstone, android.R.drawable.ic_menu_view);
-        setupStatCard(view.findViewById(R.id.cardOutpatients), "Outpatients", "389", "-2.3%", R.color.coral, android.R.drawable.ic_menu_rotate);
-        setupStatCard(view.findViewById(R.id.cardDiagnoses), "Diagnoses", "58", "+5.6%", R.color.coral, android.R.drawable.ic_menu_edit);
-        setupStatCard(view.findViewById(R.id.cardAppointments), "Appointments", "13", "+7.2%", R.color.moonstone, android.R.drawable.ic_menu_today);
+        // 1. Setup Date Pickers
+        setupDatePickers(view);
+
+        // 2. Setup Top Stats Cards with Custom Icons
+        setupStatCard(view.findViewById(R.id.cardInpatients), "Inpatients", "1,034", "+11.6%", R.color.moonstone, R.drawable.profile2);
+        setupStatCard(view.findViewById(R.id.cardOutpatients), "Outpatients", "389", "-2.3%", R.color.coral, R.drawable.profile);
+        setupStatCard(view.findViewById(R.id.cardDiagnoses), "Diagnoses", "58", "+5.6%", R.color.coral, R.drawable.ehr);
+        // Renamed from Appointments to Diseases, using Virus icon
+        setupStatCard(view.findViewById(R.id.cardAppointments), "Diseases", "13", "+7.2%", R.color.moonstone, R.drawable.virus);
 
         // 3. Setup Graphs with SAMPLE DATA
-
-        // A. Active Cases Line Graph
         SimpleLineGraph graphActive = view.findViewById(R.id.graphActiveCases);
         if (graphActive != null) {
             graphActive.setData(Arrays.asList(20, 35, 15, 45, 30, 60, 40, 55, 35, 25));
         }
 
-        // B. Top Diseases Bar Graph
         SimpleBarGraph graphTop = view.findViewById(R.id.graphTopDiseases);
         if (graphTop != null) {
             graphTop.setData(Arrays.asList(81, 63, 52, 47));
         }
 
-        // C. Patient Distribution Bar Graph (NEW)
         SimpleBarGraph graphDistribution = view.findViewById(R.id.graphPatientDistribution);
         if (graphDistribution != null) {
-            // Sample data representing ER, Inpatient, Outpatient distribution
             graphDistribution.setData(Arrays.asList(45, 30, 25));
         }
 
-        // D. Admissions Line Graph (Bottom)
         SimpleLineGraph graphAdmissions = view.findViewById(R.id.graphAdmissions);
         if (graphAdmissions != null) {
             graphAdmissions.setData(Arrays.asList(10, 20, 15, 30, 25, 40, 35));
@@ -94,7 +93,6 @@ public class Dashboard extends Fragment {
         MaterialButton btnViewMore = view.findViewById(R.id.btnViewMore);
         if (btnViewMore != null) {
             btnViewMore.setOnClickListener(v -> {
-                // Navigate to the detailed Disease Trends Fragment
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_layout, new diseasetrends())
@@ -104,7 +102,36 @@ public class Dashboard extends Fragment {
         }
     }
 
-    // Helper to populate the small stat cards dynamically
+    private void setupDatePickers(View view) {
+        TextView tvStart = view.findViewById(R.id.tvActiveDateStart);
+        TextView tvEnd = view.findViewById(R.id.tvActiveDateEnd);
+        TextView tvTop = view.findViewById(R.id.tvTopDiseasesDate);
+
+        setupDateListener(tvStart);
+        setupDateListener(tvEnd);
+        setupDateListener(tvTop);
+    }
+
+    private void setupDateListener(TextView textView) {
+        if (textView == null) return;
+        textView.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                    (view1, year1, monthOfYear, dayOfMonth) -> {
+                        // Format selected date to "MMM yyyy" (e.g., Oct 2025)
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year1, monthOfYear, dayOfMonth);
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+                        textView.setText(sdf.format(selectedDate.getTime()));
+                    }, year, month, day);
+            datePickerDialog.show();
+        });
+    }
+
     private void setupStatCard(View cardView, String label, String count, String percent, int colorResId, int iconResId) {
         if (cardView == null) return;
 
@@ -123,7 +150,6 @@ public class Dashboard extends Fragment {
         if (ivIcon != null) ivIcon.setImageResource(iconResId);
     }
 
-    // Helper to add rows to the legend
     private void addLegendItem(LinearLayout container, String name, String percent, String colorHex) {
         if (getContext() == null) return;
 

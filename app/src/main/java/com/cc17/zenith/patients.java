@@ -44,7 +44,7 @@ public class patients extends Fragment implements PatientAdapter.OnPatientClickL
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.setTexts("Dashboard", "Overview");
+        sharedViewModel.setTexts("Patients", "Paperless Retrieval");
 
         // runs only once
         sharedViewModel.initializeDefaultPatients(requireContext());

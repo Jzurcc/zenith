@@ -20,7 +20,7 @@ class ChatViewModel : ViewModel() {
     private fun createModel(systemContext: String): GenerativeModel {
         return Firebase.ai(backend = GenerativeBackend.googleAI())
             .generativeModel(
-                "gemini-2.5-flash",
+                "gemini-2.5-flash-lite",
                 systemInstruction = content { text(systemContext)
                 }
             )

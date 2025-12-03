@@ -30,17 +30,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Graph Placeholder area -->
-        <!-- In a real app, a ChartView goes here.
-             For now, we use a View with a background to simulate the chart container -->
-        <ImageView
-            android:id="@+id/ivChartPlaceholder"
+        <!-- REPLACED IMAGEVIEW WITH CUSTOM GRAPH -->
+        <com.cc17.zenith.SimpleLineGraph
+            android:id="@+id/graphTrend"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/chart_placeholder"
-            android:scaleType="fitXY"
-            android:contentDescription="Disease Trend Graph"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDiseaseName" />
@@ -52,7 +47,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivChartPlaceholder">
+            app:layout_constraintTop_toBottomOf="@+id/graphTrend">
 
             <TextView
                 android:layout_width="wrap_content"

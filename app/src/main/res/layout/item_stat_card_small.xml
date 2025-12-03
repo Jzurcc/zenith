@@ -26,9 +26,9 @@
 
         <ImageView
             android:id="@+id/ivIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_menu_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/profile2"
             app:tint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

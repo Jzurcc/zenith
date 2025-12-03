@@ -15,6 +15,17 @@
         android:orientation="vertical"
         android:paddingBottom="80dp">
 
+        <!-- Header Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZENITH Analytics"
+            android:textColor="#00ACC1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter"
+            android:layout_marginBottom="16dp"/>
+
         <!-- Top 4 Stats Cards Grid -->
         <!-- Row 1 -->
         <LinearLayout
@@ -26,14 +37,14 @@
             <include layout="@layout/item_stat_card_small"
                 android:id="@+id/cardInpatients"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"/>
 
             <include layout="@layout/item_stat_card_small"
                 android:id="@+id/cardOutpatients"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
@@ -48,14 +59,14 @@
             <include layout="@layout/item_stat_card_small"
                 android:id="@+id/cardDiagnoses"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"/>
 
             <include layout="@layout/item_stat_card_small"
                 android:id="@+id/cardAppointments"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
@@ -88,6 +99,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Header with Date Range Dropdowns -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,12 +116,55 @@
                         android:textStyle="bold"
                         android:fontFamily="@font/inter"/>
 
-                    <TextView
+                    <!-- Date Selection Area -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="from August 2024 to May 2025"
-                        android:textSize="10sp"
-                        android:textColor="#90A4AE"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="from "
+                            android:textSize="10sp"
+                            android:textColor="#90A4AE"/>
+
+                        <TextView
+                            android:id="@+id/tvActiveDateStart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Aug 2024"
+                            android:textSize="10sp"
+                            android:textColor="#90A4AE"
+                            android:textStyle="bold"
+                            android:padding="4dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:drawableEnd="@android:drawable/arrow_down_float"
+                            android:drawableTint="#90A4AE"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" to "
+                            android:textSize="10sp"
+                            android:textColor="#90A4AE"/>
+
+                        <TextView
+                            android:id="@+id/tvActiveDateEnd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="May 2025"
+                            android:textSize="10sp"
+                            android:textColor="#90A4AE"
+                            android:textStyle="bold"
+                            android:padding="4dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:drawableEnd="@android:drawable/arrow_down_float"
+                            android:drawableTint="#90A4AE"
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Custom Line Graph -->
@@ -156,6 +211,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Header with Single Date Dropdown -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,9 +231,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="for October 2025"
+                        android:text="for "
                         android:textSize="10sp"
                         android:textColor="#90A4AE"/>
+
+                    <TextView
+                        android:id="@+id/tvTopDiseasesDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oct 2025"
+                        android:textSize="10sp"
+                        android:textColor="#90A4AE"
+                        android:textStyle="bold"
+                        android:padding="4dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:drawableEnd="@android:drawable/arrow_down_float"
+                        android:drawableTint="#90A4AE"
+                        android:gravity="center_vertical"/>
                 </LinearLayout>
 
                 <!-- Custom Bar Graph -->
@@ -194,7 +264,6 @@
                     android:orientation="vertical"
                     android:layout_marginTop="16dp">
 
-                    <!-- Items added programmatically via item_legend_row.xml -->
                     <include layout="@layout/item_legend_row"/>
 
                 </LinearLayout>
