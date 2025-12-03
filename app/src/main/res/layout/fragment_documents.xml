@@ -15,24 +15,24 @@
         android:padding="16dp">
 
         <androidx.cardview.widget.CardView
-        android:id="@+id/cv_profile"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/cv_profile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/patient_profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="Patient Profile"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_profile_pic"
-            tools:ignore="HardcodedText" />
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/patient_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Patient Profile"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_profile_pic"
+                tools:ignore="HardcodedText" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/patient_name_text"
@@ -127,6 +127,8 @@
             app:layout_constraintTop_toBottomOf="@+id/patient_mrn_fin_text"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
+        <!-- Duplicate Button placed to the RIGHT of imageButton4 -->
+
         <View
             android:id="@+id/separator"
             android:layout_width="0dp"
@@ -139,11 +141,11 @@
 
         <ImageButton
             android:id="@+id/imageButton8"
-            android:layout_width="133dp"
+            android:layout_width="120dp"
             android:layout_height="34dp"
             android:layout_marginTop="16dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/generate_qr_code"
+            android:background="@drawable/diagnoses"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"

@@ -198,6 +198,5 @@ public class ehr extends Fragment implements MedicationAdapter.OnMedicationActio
     @Override
     public void onDelete(int position) {
         saveMedications();
-        Toast.makeText(getContext(), "Medication Removed", Toast.LENGTH_SHORT).show();
     }
 }

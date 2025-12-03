@@ -42,9 +42,6 @@ import androidx.core.content.ContextCompat;
 
 import static android.app.Activity.RESULT_OK;
 
-// TODO: Redesign the "Add Patient" button; looks so out of place ngl fr fr
-// TODO: Add edit document title functionality
-// TODO: Add QR Sync functionality -- will do later (jeni)
 public class Documents extends Fragment implements DocumentAdapter.OnDocumentClickListener, AllergiesAdapter.OnAllergyDeleteListener {
     private Uri imageUri;
     private DocumentAdapter documentAdapter;
@@ -279,15 +276,19 @@ public class Documents extends Fragment implements DocumentAdapter.OnDocumentCli
             }
         });
 
+        // New Button Listener for EHR
+        ImageButton goToEhrButton = view.findViewById(R.id.imageButton8);
+        goToEhrButton.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_layout, new ehr())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         ImageButton newDocumentButton = view.findViewById(R.id.imageButton6);
         newDocumentButton.setOnClickListener(v -> showSourceSelectionDialog());
 
 
-        // TODO
-        view.findViewById(R.id.imageButton8).setOnClickListener(v -> {
-            // Logic for QR Sync
-            Toast.makeText(getContext(), "Generating QR", Toast.LENGTH_SHORT).show();
-        });
 
         view.findViewById(R.id.patient_allergies_text).setOnClickListener(v -> showAllergiesDialog());
     }
