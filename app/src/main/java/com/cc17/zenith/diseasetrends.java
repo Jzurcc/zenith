@@ -1,13 +1,21 @@
 package com.cc17.zenith;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -16,6 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +43,7 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     private RecyclerView rvList;
     private SearchView searchView;
     private ImageButton btnFilter;
+    private View btnAddDisease;
     private MaterialButton btnComm, btnNonComm, btnChronic, btnAcute;
 
     // State Variables
@@ -39,6 +51,10 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     private String selectedCategory = null; // Null means "Show All"
     private List<Disease> allDiseases;
     private Comparator<Disease> currentComparator = Comparator.comparingInt(Disease::getActiveCases).reversed();
+
+    // Persistence Keys
+    private static final String PREFS_NAME = "ZenithPrefs";
+    private static final String KEY_DISEASES = "SavedDiseases";
 
     public diseasetrends() {
         // Required empty public constructor
@@ -48,7 +64,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout (Make sure your XML file is named fragment_disease_trends)
         return inflater.inflate(R.layout.fragment_diseasetrends, container, false);
     }
 
@@ -56,44 +71,208 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Existing SharedViewModel Logic (Preserved)
         try {
             SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             sharedViewModel.setTexts("Disease Trends", "Track Diseases");
         } catch (Exception e) {
-            // Safety check in case ViewModel isn't ready
+            // Safety check
         }
 
-        // 2. Initialize Mock Data (This replaces your hardcoded buttons)
-        initializeData();
-
-        // 3. Initialize Views
+        // Initialize Views
         rvList = view.findViewById(R.id.rvDiseaseList);
         searchView = view.findViewById(R.id.searchView);
         btnFilter = view.findViewById(R.id.btnFilter);
+        btnAddDisease = view.findViewById(R.id.btnAddDisease);
 
-        // Note: These IDs must match what is in your XML file
         btnComm = view.findViewById(R.id.btnCatCommunicable);
         btnNonComm = view.findViewById(R.id.btnCatNonCommunicable);
         btnChronic = view.findViewById(R.id.btnCatChronic);
         btnAcute = view.findViewById(R.id.btnCatAcute);
 
-        // 4. Setup RecyclerView
+        // Setup RecyclerView
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // LOAD DATA from storage (or defaults if empty)
+        allDiseases = new ArrayList<>();
+        loadDiseases();
+
         diseaseAdapter = new DiseaseAdapter(allDiseases, this);
         rvList.setAdapter(diseaseAdapter);
 
         applyFilters();
 
-        // 5. Setup Listeners
+        // Setup Listeners
         setupSearch();
         setupCategories();
         setupFilterMenu();
+        setupAddButton();
     }
 
-    private void initializeData() {
-        allDiseases = new ArrayList<>();
+    // --- PERSISTENCE LOGIC ---
 
+    private void saveDiseases() {
+        if (getContext() == null) return;
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        JSONArray jsonArray = new JSONArray();
+
+        for (Disease d : allDiseases) {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("id", d.getId());
+                obj.put("name", d.getName());
+                obj.put("category", d.getCategory());
+                obj.put("activeCases", d.getActiveCases());
+                obj.put("date", d.getDate());
+                obj.put("newCases", d.getNewCases());
+                obj.put("totalCases", d.getTotalCases());
+                obj.put("fatalityRate", d.getFatalityRate());
+                obj.put("description", d.getDescription());
+                obj.put("symptoms", d.getSymptoms());
+                obj.put("medication", d.getMedication());
+
+                // Save Trend Data List
+                JSONArray trendArr = new JSONArray();
+                for(int val : d.getTrendData()) trendArr.put(val);
+                obj.put("trendData", trendArr);
+
+                // Save Severity Data List
+                JSONArray sevArr = new JSONArray();
+                for(int val : d.getSeverityData()) sevArr.put(val);
+                obj.put("severityData", sevArr);
+
+                jsonArray.put(obj);
+            } catch (JSONException e) { e.printStackTrace(); }
+        }
+        editor.putString(KEY_DISEASES, jsonArray.toString());
+        editor.apply();
+    }
+
+    private void loadDiseases() {
+        if (getContext() == null) return;
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        String jsonStr = prefs.getString(KEY_DISEASES, null);
+
+        if (jsonStr != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(jsonStr);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+
+                    List<Integer> trend = new ArrayList<>();
+                    JSONArray tArr = obj.getJSONArray("trendData");
+                    for(int j=0; j<tArr.length(); j++) trend.add(tArr.getInt(j));
+
+                    List<Integer> sev = new ArrayList<>();
+                    JSONArray sArr = obj.getJSONArray("severityData");
+                    for(int j=0; j<sArr.length(); j++) sev.add(sArr.getInt(j));
+
+                    Disease d = new Disease(
+                            obj.getString("id"), obj.getString("name"), obj.getString("category"),
+                            obj.getInt("activeCases"), obj.getString("date"),
+                            obj.getInt("newCases"), obj.getInt("totalCases"), obj.getString("fatalityRate"),
+                            obj.getString("description"), obj.getString("symptoms"), obj.getString("medication"),
+                            trend, sev
+                    );
+                    allDiseases.add(d);
+                }
+            } catch (JSONException e) { e.printStackTrace(); }
+        } else {
+            initializeDefaultData(); // Load defaults if nothing saved
+            saveDiseases(); // Save immediately
+        }
+    }
+
+    private void setupAddButton() {
+        btnAddDisease.setOnClickListener(v -> showAddDiseaseDialog());
+    }
+
+    private void showAddDiseaseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_disease, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        // Inputs
+        EditText etName = dialogView.findViewById(R.id.etDiseaseName);
+        EditText etCategory = dialogView.findViewById(R.id.etCategory);
+
+        EditText[] monthInputs = new EditText[] {
+                dialogView.findViewById(R.id.etJan), dialogView.findViewById(R.id.etFeb),
+                dialogView.findViewById(R.id.etMar), dialogView.findViewById(R.id.etApr),
+                dialogView.findViewById(R.id.etMay), dialogView.findViewById(R.id.etJun),
+                dialogView.findViewById(R.id.etJul), dialogView.findViewById(R.id.etAug),
+                dialogView.findViewById(R.id.etSep), dialogView.findViewById(R.id.etOct),
+                dialogView.findViewById(R.id.etNov), dialogView.findViewById(R.id.etDec)
+        };
+
+        Button btnSave = dialogView.findViewById(R.id.btnSave);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(v -> {
+            String name = etName.getText().toString().trim();
+            String category = etCategory.getText().toString().trim();
+            List<Integer> trendData = new ArrayList<>();
+
+            if (name.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter a disease name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            for (EditText et : monthInputs) {
+                String val = et.getText().toString().trim();
+                if (val.isEmpty()) {
+                    trendData.add(0);
+                } else {
+                    try {
+                        trendData.add(Integer.parseInt(val));
+                    } catch (NumberFormatException e) {
+                        trendData.add(0);
+                    }
+                }
+            }
+
+            int activeCases = 0;
+            for(int i=11; i>=0; i--) {
+                if(trendData.get(i) > 0) {
+                    activeCases = trendData.get(i);
+                    break;
+                }
+            }
+
+            String dateStr = new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date());
+
+            Disease newDisease = new Disease(
+                    String.valueOf(System.currentTimeMillis()),
+                    name,
+                    category.isEmpty() ? "Uncategorized" : category,
+                    activeCases,
+                    dateStr,
+                    0, 0, "N/A",
+                    "Description pending.", "Symptoms pending.", "Medication pending.",
+                    trendData,
+                    Arrays.asList(10, 10, 10)
+            );
+
+            allDiseases.add(0, newDisease);
+            applyFilters();
+
+            saveDiseases(); // SAVE TO STORAGE
+
+            Toast.makeText(getContext(), "Disease added successfully", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void initializeDefaultData() {
         String todayStr = new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date());
 
         // --- COMMUNICABLE ---
@@ -120,28 +299,9 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
         allDiseases.add(new Disease(
                 "3", "Tuberculosis", "Communicable", 600, todayStr,
                 12, 612, "6%",
-                "Tuberculosis, also called TB, is a serious illness that mainly affects the lungs. The germs that cause tuberculosis are a type of bacteria.\n" +
-                        "\n" +
-                        "Tuberculosis can spread when a person with the illness coughs, sneezes or sings. This can put tiny droplets with the germs into the air. Another person can then breathe in the droplets, and the germs enter the lungs.\n" +
-                        "\n" +
-                        "Tuberculosis spreads easily where people gather in crowds or where people live in crowded conditions. People with HIV/AIDS and other people with weakened immune systems have a higher risk of catching tuberculosis than people with typical immune systems.",
-                "Common symptoms of TB often include:\n" +
-                        "\n" +
-                        "- Persistent cough (≥2 weeks)\n" +
-                        "- Sputum production or blood-streaked sputum (hemoptysis)\n" +
-                        "- Low-grade fever\n" +
-                        "- Night sweats\n" +
-                        "- Fatigue and weakness\n" +
-                        "- Unintentional weight loss\n" +
-                        "- Loss of appetite\n" +
-                        "- Chest pain\n" +
-                        "- Swollen lymph nodes (extrapulmonary TB)\n" +
-                        "- Back or abdominal pain (extrapulmonary TB)",
-                "Tuberculosis is treated with a combination of antibiotics over at least six months. \n" +
-                        "\n" +
-                        "The standard regimen, called RIPE therapy, includes Rifampicin, Isoniazid, Pyrazinamide, and Ethambutol during the first two months (intensive phase), followed by Rifampicin and Isoniazid for the next four months (continuation phase).  Adherence to the full course is essential to prevent relapse and resistance.\n" +
-                        "\n" +
-                        "Directly Observed Therapy (DOT) is often used to ensure patients complete treatment, supported by good nutrition, rest, and monitoring for side effects like liver or vision problems.",
+                "Tuberculosis, also called TB, is a serious illness that mainly affects the lungs.",
+                "Common symptoms of TB often include: Persistent cough, Sputum production.",
+                "Tuberculosis is treated with a combination of antibiotics over at least six months.",
                 Arrays.asList(300, 320, 350, 400, 380, 500, 600),
                 Arrays.asList(400, 150, 50)
         ));
@@ -166,8 +326,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
                 Arrays.asList(50, 25, 10)
         ));
 
-
-        // --- NON-COMMUNICABLE ---
         allDiseases.add(new Disease(
                 "6", "Diabetes Type 2", "Non-communicable", 120, "Nov 23",
                 2, 5000, "0.1%",
@@ -188,8 +346,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
                 Arrays.asList(60, 30, 8)
         ));
 
-
-        // --- CHRONIC ---
         allDiseases.add(new Disease(
                 "8", "Asthma", "Chronic", 45, todayStr,
                 1, 800, "0.05%",
@@ -210,8 +366,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
                 Arrays.asList(150, 50, 10)
         ));
 
-
-        // --- ACUTE ---
         allDiseases.add(new Disease(
                 "10", "Acute Bronchitis", "Acute", 12, todayStr,
                 4, 150, "0%",
@@ -268,7 +422,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     }
 
     private void setupSearch() {
-        // UX: Click whole bar to expand
         searchView.setOnClickListener(v -> searchView.onActionViewExpanded());
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -287,7 +440,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
     }
 
     private void setupCategories() {
-        // Helper class to map buttons to their category strings
         class ButtonCategoryPair {
             MaterialButton btn;
             String category;
@@ -331,7 +483,6 @@ public class diseasetrends extends Fragment implements DiseaseAdapter.OnDiseaseC
             }
         }
 
-        // apply Sorting
         if (currentComparator != null) {
             Collections.sort(filteredList, currentComparator);
         }

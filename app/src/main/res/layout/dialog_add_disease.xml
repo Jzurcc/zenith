@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:background="@drawable/bg_input_field">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Disease"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#006064"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Name & Category -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disease Name"
+            android:textColor="#607D8B"
+            android:textSize="12sp" />
+        <EditText
+            android:id="@+id/etDiseaseName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="e.g. Malaria"
+            android:paddingHorizontal="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textColor="#607D8B"
+            android:textSize="12sp" />
+        <EditText
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="e.g. Communicable"
+            android:paddingHorizontal="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monthly Cases (Jan - Dec)"
+            android:textStyle="bold"
+            android:textColor="#006064"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Monthly Inputs Grid -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:useDefaultMargins="true">
+
+            <EditText android:id="@+id/etJan" android:hint="Jan" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etFeb" android:hint="Feb" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+
+            <EditText android:id="@+id/etMar" android:hint="Mar" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etApr" android:hint="Apr" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+
+            <EditText android:id="@+id/etMay" android:hint="May" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etJun" android:hint="Jun" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+
+            <EditText android:id="@+id/etJul" android:hint="Jul" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etAug" android:hint="Aug" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+
+            <EditText android:id="@+id/etSep" android:hint="Sep" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etOct" android:hint="Oct" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+
+            <EditText android:id="@+id/etNov" android:hint="Nov" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etDec" android:hint="Dec" android:inputType="number" android:layout_width="0dp" android:layout_columnWeight="1" android:background="@drawable/bg_input_field" android:padding="12dp" android:layout_marginBottom="8dp" android:layout_marginStart="4dp"/>
+        </GridLayout>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="#757575"
+                android:background="@android:color/transparent"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:backgroundTint="#00ACC1"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

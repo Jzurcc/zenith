@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="ZENITH AI Assistant"
                 android:textColor="@color/caribbean"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="AI-Powered Information Retrieval"
                 android:textColor="@color/moonstone"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
