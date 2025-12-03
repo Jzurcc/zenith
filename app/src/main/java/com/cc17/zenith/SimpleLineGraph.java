@@ -3,7 +3,6 @@ package com.cc17.zenith;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.CornerPathEffect;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -14,6 +13,8 @@ import java.util.List;
 public class SimpleLineGraph extends View {
     private Paint linePaint, dotPaint, fillPaint, gridPaint;
     private List<Integer> dataPoints;
+    private Path path = new Path();
+    private Path fillPath = new Path();
 
     public SimpleLineGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -21,33 +22,32 @@ public class SimpleLineGraph extends View {
     }
 
     private void init() {
-        // 1. Line Paint - Added CornerPathEffect for rounded turns
+        // 1. Line Paint
         linePaint = new Paint();
         linePaint.setColor(Color.parseColor("#29B6F6"));
         linePaint.setStrokeWidth(8f);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setAntiAlias(true);
-        // This rounds the sharp corners of the line
-        linePaint.setPathEffect(new CornerPathEffect(60f));
+        // REMOVED CornerPathEffect to prevent the line from missing the points
 
-        // 2. Dot Paint - White center
+        // 2. Dot Paint
         dotPaint = new Paint();
         dotPaint.setColor(Color.WHITE);
         dotPaint.setStyle(Paint.Style.FILL);
         dotPaint.setAntiAlias(true);
 
-        // 3. Fill Paint - Light blue under the line
+        // 3. Fill Paint
         fillPaint = new Paint();
         fillPaint.setColor(Color.parseColor("#E1F5FE"));
         fillPaint.setStyle(Paint.Style.FILL);
-        fillPaint.setPathEffect(new CornerPathEffect(60f));
+        fillPaint.setAntiAlias(true);
+        // REMOVED CornerPathEffect
 
-        // 4. Grid Paint - Dashed gray lines
+        // 4. Grid Paint
         gridPaint = new Paint();
-        gridPaint.setColor(Color.parseColor("#E0E0E0")); // Light Gray
+        gridPaint.setColor(Color.parseColor("#E0E0E0"));
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setStrokeWidth(3f);
-        // 10px on, 10px off dashed pattern
         gridPaint.setPathEffect(new DashPathEffect(new float[]{20f, 20f}, 0));
     }
 
@@ -63,41 +63,50 @@ public class SimpleLineGraph extends View {
         float width = getWidth();
         float height = getHeight();
 
-        // --- STEP 1: Draw Grid Lines (Background) ---
+        // --- STEP 1: Draw Background Grid ---
         int gridLines = 5;
         for (int i = 0; i < gridLines; i++) {
             float y = height - (i * (height / (float)gridLines));
-            // Draw horizontal dashed line
             canvas.drawLine(0, y, width, y, gridPaint);
         }
 
         if (dataPoints == null || dataPoints.isEmpty()) return;
 
-        // --- STEP 2: Calculate Path ---
-        // Prevent divide by zero
         float xStep = dataPoints.size() > 1 ? width / (dataPoints.size() - 1) : 0;
 
         int max = 0;
         for (int val : dataPoints) if (val > max) max = val;
         if (max == 0) max = 1;
 
-        Path path = new Path();
-        Path fillPath = new Path();
+        path.reset();
+        fillPath.reset();
 
         fillPath.moveTo(0, height);
 
-        // We only construct the path here (Don't draw circles yet!)
+        float prevX = 0;
+        float prevY = 0;
+
+        // --- STEP 2: Calculate Smooth Path (Bezier) ---
         for (int i = 0; i < dataPoints.size(); i++) {
             float x = i * xStep;
-            float y = height - ((dataPoints.get(i) / (float) max) * (height * 0.7f)) - 40; // 0.7f to leave room at top
+            float y = height - ((dataPoints.get(i) / (float) max) * (height * 0.7f)) - 40;
 
             if (i == 0) {
                 path.moveTo(x, y);
                 fillPath.lineTo(x, y);
             } else {
-                path.lineTo(x, y);
-                fillPath.lineTo(x, y);
+                // Use Cubic Bezier to curve the line smoothly THROUGH the points
+                // We use the midpoint X as the control point X for a horizontal-ish curve
+                float cp1X = (prevX + x) / 2;
+                float cp1Y = prevY;
+                float cp2X = (prevX + x) / 2;
+                float cp2Y = y;
+
+                path.cubicTo(cp1X, cp1Y, cp2X, cp2Y, x, y);
+                fillPath.cubicTo(cp1X, cp1Y, cp2X, cp2Y, x, y);
             }
+            prevX = x;
+            prevY = y;
         }
 
         fillPath.lineTo(width, height);
@@ -107,16 +116,16 @@ public class SimpleLineGraph extends View {
         canvas.drawPath(fillPath, fillPaint);
         canvas.drawPath(path, linePaint);
 
-        // --- STEP 4: Draw Circles (So they appear ON TOP of the line) ---
+        // --- STEP 4: Draw Circles (On top) ---
         for (int i = 0; i < dataPoints.size(); i++) {
             float x = i * xStep;
             float y = height - ((dataPoints.get(i) / (float) max) * (height * 0.7f)) - 40;
 
-            // Draw Blue Ring (same paint as line)
-            linePaint.setStyle(Paint.Style.FILL); // Switch to fill for the dot backing
+            // Draw Blue Ring
+            linePaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(x, y, 14f, linePaint);
 
-            // Restore line paint to Stroke for next redraw
+            // Restore Style
             linePaint.setStyle(Paint.Style.STROKE);
 
             // Draw White Center

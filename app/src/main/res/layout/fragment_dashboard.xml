@@ -1,85 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp"
     tools:context=".Dashboard"
-    android:paddingStart="10dp">
+    android:scrollbars="none">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="80dp">
 
+        <!-- Top 4 Stats Cards Grid -->
+        <!-- Row 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+            <include layout="@layout/item_stat_card_small"
+                android:id="@+id/cardInpatients"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                android:src="@drawable/calendar" />
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"/>
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
+            <include layout="@layout/item_stat_card_small"
+                android:id="@+id/cardOutpatients"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/stat" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/disease_trends"
-                android:textAppearance="@style/Header"
-                android:textColor="@color/moonstone" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/trends"
-                android:adjustViewBounds="true"/>
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="310dp"
-                android:layout_height="65dp"
-                android:background="@drawable/trends_button"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/none"
-                android:layout_marginVertical="15dp"
-                android:layout_gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="15dp"
-                android:text="Patient Flow"
-                android:textAppearance="@style/Header"
-                android:textColor="@color/moonstone" />
-
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/flow"
-                android:adjustViewBounds="true"
-                android:layout_marginBottom="100dp"/>
-
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
         </LinearLayout>
-    </ScrollView>
 
-</FrameLayout>
+        <!-- Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <include layout="@layout/item_stat_card_small"
+                android:id="@+id/cardDiagnoses"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"/>
+
+            <include layout="@layout/item_stat_card_small"
+                android:id="@+id/cardAppointments"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- Section: Disease Trends -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disease Trends"
+            android:textColor="#00ACC1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- 1. Active Cases Line Graph -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#F0F0F0"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Active cases"
+                        android:textColor="#455A64"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/inter"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="from August 2024 to May 2025"
+                        android:textSize="10sp"
+                        android:textColor="#90A4AE"/>
+                </LinearLayout>
+
+                <!-- Custom Line Graph -->
+                <com.cc17.zenith.SimpleLineGraph
+                    android:id="@+id/graphActiveCases"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"/>
+
+                <!-- X-Axis Labels (Static for UI) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Aug" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Sep" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Oct" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nov" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Dec" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Jan" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Feb" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Mar" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Apr" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="May" android:gravity="center" android:textSize="10sp" android:textColor="#90A4AE"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2. Top Diseases Bar Graph -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#F0F0F0"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Top diseases"
+                        android:textColor="#455A64"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/inter"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="for October 2025"
+                        android:textSize="10sp"
+                        android:textColor="#90A4AE"/>
+                </LinearLayout>
+
+                <!-- Custom Bar Graph -->
+                <com.cc17.zenith.SimpleBarGraph
+                    android:id="@+id/graphTopDiseases"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"/>
+
+                <!-- Legend List (Container) -->
+                <LinearLayout
+                    android:id="@+id/layoutLegend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp">
+
+                    <!-- Items added programmatically via item_legend_row.xml -->
+                    <include layout="@layout/item_legend_row"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- View More Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewMore"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="View More"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:icon="@drawable/open"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
+            app:iconGravity="textEnd"
+            android:backgroundTint="@color/coral"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Section: Patient Flow -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient Flow"
+            android:textColor="#00ACC1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Patient Distribution (BAR GRAPH) & Text Card Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <!-- Distribution Chart Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F0F0F0"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginEnd="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Distribution"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#455A64"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- REPLACED IMAGEVIEW WITH BAR GRAPH -->
+                    <com.cc17.zenith.SimpleBarGraph
+                        android:id="@+id/graphPatientDistribution"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Text Stats Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#00ACC1"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginStart="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Analytics Insight"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#00ACC1"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Antibiotic prescriptions increased by 18%."
+                        android:textSize="12sp"
+                        android:textColor="#607D8B"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Bottom Line Graph (Admissions) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#F0F0F0"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admissions &amp; Discharges"
+                    android:textColor="#455A64"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/inter"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Reusing Line Graph -->
+                <com.cc17.zenith.SimpleLineGraph
+                    android:id="@+id/graphAdmissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>
