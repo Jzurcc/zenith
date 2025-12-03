@@ -34,19 +34,13 @@
                 android:layout_weight="1" />
 
             <ImageButton
+                android:clickable="true"
                 android:id="@+id/imageView36"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
                 android:background="@drawable/round_flash_off_24"
                 android:contentDescription="@string/none" />
 
-            <ImageButton
-                android:id="@+id/imageView37"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/round_grid_on_24"
-                android:contentDescription="@string/none" />
         </LinearLayout>
 
         <LinearLayout

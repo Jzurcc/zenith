@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.camera.core.Camera; // Added Import
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
@@ -56,11 +57,15 @@ public class QRScanner extends AppCompatActivity {
     private PreviewView previewView;
     private ImageButton importImagesBtn;
     private ImageButton fileImportBtn;
+    private ImageButton flashBtn; // Added flash button
     private CameraSelector cameraSelector;
     private ProcessCameraProvider cameraProvider;
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
     private ImageButton shutterBtn;
+    private Camera camera; // Added camera instance to control flash
+    private boolean isFlashOn = false; // Flash state
+
     // Handler for timeout
     private android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
     private Runnable timeoutRunnable;
@@ -112,6 +117,7 @@ public class QRScanner extends AppCompatActivity {
         shutterBtn = findViewById(R.id.shutterBtn);
         importImagesBtn = findViewById(R.id.importImagesBtn);
         fileImportBtn = findViewById(R.id.fileImportBtn);
+        flashBtn = findViewById(R.id.imageView36); // Initialize flash button
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -123,6 +129,7 @@ public class QRScanner extends AppCompatActivity {
         findViewById(R.id.home).setOnClickListener(v -> finish());
         checkCameraPermission();
         shutterBtn.setOnClickListener(v -> toggleScanning());
+        flashBtn.setOnClickListener(v -> toggleFlash()); // Set listener
 
         importImagesBtn.setOnClickListener(v -> {
             // Opens the system photo picker. No extra permission needed for this in modern Android.
@@ -133,6 +140,28 @@ public class QRScanner extends AppCompatActivity {
             // limit to images because ML Kit can only scan images
             fileLauncher.launch(new String[]{"image/*"});
         });
+    }
+
+    private void toggleFlash() {
+        if (camera != null) {
+            if (camera.getCameraInfo().hasFlashUnit()) {
+                isFlashOn = !isFlashOn;
+                camera.getCameraControl().enableTorch(isFlashOn);
+                updateFlashIcon();
+            } else {
+                Toast.makeText(this, "Flash not available on this device", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void updateFlashIcon() {
+        if (isFlashOn) {
+            // You need to create/import a drawable named round_flash_on_24
+            // If you don't have one, standard Android Studio Vector Asset "Flash On" works
+            flashBtn.setBackgroundResource(R.drawable.round_flash_on_24);
+        } else {
+            flashBtn.setBackgroundResource(R.drawable.round_flash_off_24);
+        }
     }
 
     private void scanImageFromUri(Uri uri) {
@@ -263,7 +292,8 @@ public class QRScanner extends AppCompatActivity {
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
 
         try {
-            cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
+            // Capture the camera instance here
+            camera = cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
         } catch (Exception e) {
             Log.e(TAG, "Error when bind preview", e);
             Toast.makeText(this, "Error starting camera.", Toast.LENGTH_SHORT).show();
@@ -288,7 +318,8 @@ public class QRScanner extends AppCompatActivity {
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
 
         try {
-            cameraProvider.bindToLifecycle(this, cameraSelector, analysisUseCase);
+            // Update camera instance when binding new use case
+            camera = cameraProvider.bindToLifecycle(this, cameraSelector, analysisUseCase);
         } catch (Exception e) {
             Log.e(TAG, "Error when bind analysis", e);
         }
